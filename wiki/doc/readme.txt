@@ -1,10 +1,10 @@
 http://www.ibm.com/developerworks/cn/opensource/tutorials/os-arduino1/index.html
-¹¹½¨»ùÓÚ Arduino µÄ¼¤¹âÓÎÏ·
+æ„å»ºåŸºäº Arduino çš„æ¿€å…‰æ¸¸æˆ
 http://code.google.com/p/hcrobot/
 hcrobot 
 Home Care Robot From RoboticFan 
 
 http://hellsing42.javaeye.com/blog/212708
-Javax.comm´®¿ÚÍ¨Ñ¶Àà¼ò½é
-AndroidÏÂµÄWifiÊÇÔõÑùÇı¶¯ÆğÀ´µÄ£¿&  propertyµÄ¹ÜÀí
+Javax.commä¸²å£é€šè®¯ç±»ç®€ä»‹
+Androidä¸‹çš„Wifiæ˜¯æ€æ ·é©±åŠ¨èµ·æ¥çš„ï¼Ÿ&  propertyçš„ç®¡ç†
 http://blog.sina.com.cn/s/blog_3e3fcadd0100nbip.html
