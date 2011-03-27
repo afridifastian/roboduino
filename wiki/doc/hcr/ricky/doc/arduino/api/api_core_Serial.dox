@@ -1,0 +1,16 @@
+
+/**
+\class HardwareSerial
+
+\code
+00027 class HardwareSerial : public Print
+00028 {
+00029   public:
+00030     void begin(long);
+00031     uint8_t available(void);
+00032     int read(void);
+00033     void flush(void);
+00034     virtual void write(uint8_t);
+00035 };
+\endcode
+*/

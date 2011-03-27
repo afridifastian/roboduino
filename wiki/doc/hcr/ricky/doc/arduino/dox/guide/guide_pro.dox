@@ -1,0 +1,47 @@
+
+/**
+\page guide_pro Arduino Pro介绍
+\note 转自: http://www.arduino.com.cn/
+
+Arduino Pro原本是为那些需要便利性和低成本的高级用户设计的。为了降低成本，它尽量精简了
+元器件（板上没有USB接口和引脚排针）。如果你只是想将板子嵌入在某个项目（物品、设备）里面，
+这将是一个很好的选择。必须要注意的是，Arduino Pro 使用的是3.3V的电源（不像其它Arduino板
+使用5V电源），所以在连接其它设备的时候要留心。
+
+\section guide_pro_01 上传程序
+
+Arduino Pro没有内建USB电路，所以必须使用一个外接的USB-to-TTL 串口转换器来上传程序。
+可以用 FTDI TTL-232R-3V3 USB - TTL Level Serial Converter Cable，FTDI Basic Breakout Board，
+或其它任何USB到3.3V TTL 串口的转换器。
+
+如果使用的是FTDI cable，你需要更改一个配置来开启自动重启功能。当板连接着电脑的时候，打开设备
+管理器（控制面板 > 系统 > 硬件），在端口下找到 USB Serial Port。右击它并选择属性，然后
+去到端口设置 > 高级，然后在杂项（Miscellaneous）选项里去掉对Set RTS 的选择。
+
+在 Arduino 0011里面，需要在Tools > Board 菜单里面选择 LilyPad Arduino 来为Arduino Pro 
+编译和上传程序（不要在Arduino 0011 里烧录Arduino Pro 的bootloader ）。 Arduino 0012 则
+已经可以完全支持Arduino Pro了。
+
+\image html ArduinoProFTDICable.jpg
+
+The Arduino Pro connected to (and powered by) an FTDI TTL-232R-3V3 USB - TTL Level Serial Converter Cable. The green and yellow wires align with the words "green" and "yellow" written underneath the pins.
+
+\image html  ArduinoProFTDIBreakout.jpg
+
+The Arduino Pro connected to (and powered by) a SparkFun FTDI Basic Breakout Board (prototype version) and USB Mini-B cable.
+
+
+\section guide_pro_02 Power
+
+The external USB-to-TTL serial convertor will power the Arduino Pro, regardless of the position of the switch. To use the board standalone, with no connection to a computer, it can be be powered by either a battery or external power supply (wall wart). Connect a LiPo battery (with JST connector) to the JST jack, or solder the + and - wires of a battery connector to the corresponding holes on the board. Alternatively, solder a DC power jack into the three large holes on the board, and supply between 4V and 12V (center positive). When the switch is in the "Batt" position, the board will draw power from an attached battery; when it is in the "Ext." position, power comes from an external power supply.
+
+\image html ArduinoProBattery.jpg
+
+The Arduino Pro powered by a 2000 mAh LiPo battery from SparkFun.
+
+
+\section guide_pro_03 Connectors
+
+Any standard 0.1" spaced header can be soldered to the holes on the Arduino Pro. To use every pin requires two 6-pin header and two 8-pin headers. Bare wire can also be soldered directly to the holes. Note that the header spacing is compatible with Arduino shields. The text of the Arduino getting started guide is licensed under a Creative Commons Attribution-ShareAlike 3.0 License. Code samples in the guide are released into the public domain.
+
+*/

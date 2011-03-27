@@ -1,0 +1,18 @@
+
+/**
+\class Servo
+\brief 伺服电机
+
+\fn uint8_t Servo::attach(int)
+\brief 绑定引脚
+\fn uint8_t Servo::attach(int, int, int)
+\brief 绑定引脚
+\fn void Servo::detach()
+\brief 取消绑定
+\fn void Servo::write(int)
+\brief 写
+\fn uint8_t Servo::read()
+\brief 读
+\fn uint8_t Servo::attached()
+\brief 是否已经绑定
+*/

@@ -1,0 +1,83 @@
+
+/**
+\class FirmataClass
+\brief Firmata通信协议
+
+The Firmata library implements the Firmata protocol for communicating with software on the host computer. This allows you to write custom firmware without having to create your own protocol and objects for the programming environment that you are using.
+
+Firmata是一个用于两个系统之间通信的协议. 可以用Firmata协议实现PC和arduino的通讯, 也可以实现
+arduino之间的通讯. Firmata底层基于串口协议实现.
+
+*/
+
+/**
+\fn void FirmataClass::begin()
+\brief 启动通信协议, 默认19200波特率
+
+\fn void FirmataClass::begin(long)
+\brief 启动通信协议, 指定波特率
+
+\fn void FirmataClass::printVersion(void)
+\brief 发送协议版本号到对方
+
+\fn void FirmataClass::blinkVersion(void)
+\brief 13号指示灯显示版本号
+
+\fn void FirmataClass::printFirmwareVersion(void)
+\brief 发送协议名和版本号到对方
+
+\fn void FirmataClass::setFirmwareNameAndVersion(const char *name, byte major, byte minor)
+\brief 设置协议名和版本号
+
+\fn int FirmataClass::available(void)
+\brief 收到信息
+
+\fn void FirmataClass::processInput(void)
+\brief 处理信息
+
+\fn void FirmataClass::sendAnalog(byte pin, int value)
+\brief 发送模拟信号
+
+\fn void FirmataClass::sendDigital(byte pin, int value)
+\brief 发送数字信号
+
+\fn void FirmataClass::sendString(const char* string)
+\brief 发送字符串
+
+\fn void FirmataClass::sendSysex(byte command, byte bytec, byte* bytev)
+\brief 发送二进制数据
+
+*/
+
+/**
+
+\fn void FirmataClass::attach(byte command, callbackFunction newFunction)
+\brief 设置信号回调函数
+
+*/
+
+/**
+
+\fn void FirmataClass::attach(byte command, systemResetCallbackFunction newFunction)
+\brief 设置系统重启回调函数
+
+*/
+
+/**
+
+\fn void FirmataClass::attach(byte command, stringCallbackFunction newFunction)
+\brief 设置字符串处理回调函数
+
+\fn void FirmataClass::attach(byte command, sysexCallbackFunction newFunction)
+\brief 设置二进制数据处理回调函数
+
+\fn void FirmataClass::detach(byte command)
+\brief 取消回调函数
+
+*/
+
+/**
+\relates FirmataClass
+\var FirmataClass Firmata
+\brief 待完善
+*/

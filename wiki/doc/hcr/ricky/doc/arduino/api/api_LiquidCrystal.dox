@@ -1,0 +1,17 @@
+
+/**
+\class LiquidCrystal
+\brief LCD控制
+
+\fn void LiquidCrystal::clear()
+\brief 清空
+\fn void LiquidCrystal::home()
+\brief 原点
+\fn void LiquidCrystal::setCursor(int, int)
+\brief 设置坐标
+\fn virtual void LiquidCrystal::write(uint8_t)
+\brief 写
+\fn void LiquidCrystal::command(uint8_t)
+\brief 指令
+
+*/

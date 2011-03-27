@@ -1,0 +1,60 @@
+
+/**
+\class EEPROMClass
+\headerfile EEPROM.h
+\brief EEPROM读写
+
+The microcontroller on the Arduino board has 512 bytes of EEPROM: memory whose values are kept when the board is turned off (like a tiny hard drive). This library enables you to read and write those bytes. 
+
+清空:
+
+\include eeprom_clear.pde
+
+说明
+
+\fn uint8_t EEPROMClass::read(int)
+\brief 读
+\include eeprom_read.pde
+
+Description
+
+Reads a byte from the EEPROM. Locations that have never been written to have the value of 255.
+
+Parameters
+
+address: the location to read from, from 0 to 511 (int)
+
+Returns
+
+the value stored in that location (byte) 
+
+
+\fn void EEPROMClass::write(int, uint8_t)
+\brief 写
+\include eeprom_write.pde
+
+Write a byte to the EEPROM.
+
+Parameters
+
+address: the location to write to, from 0 to 511 (int)
+
+value: the value to write, from 0 to 255 (byte)
+
+Returns
+
+none
+
+The Atmega 168 datasheet says that EEPROM memory has a specified life of 100000 write/erase cycles, so there is a limit to how many times you can write information to that memory space. Keep this in mind for long-lived projects or fast-moving data.
+
+The datasheet also specifies that a write cycle takes 3.3 ms to complete. Other EEPROM write and read requests will fail if executed in this time period. This delay appears to be built into the EEPROM library as a casual test shows each cycle taking 3.33 ms to execute.
+
+Hence, you do not specifically need to add a delay to an EEPROM write, just be aware of the built-in time delay. 
+*/
+
+
+/**
+\relates EEPROMClass
+\var EEPROMClass EEPROM
+\brief 操作实体
+*/

@@ -1,0 +1,70 @@
+
+/**
+\page guide_mini Arduino Mini使用向导
+\note 转自: http://www.arduino.com.cn/
+
+要开始使用Arduino Mini，除了下文列出的一些不同点外，其余请根据你的操作系统，
+安照普通Arduino板的入门指南进行操作（Windows, Mac OS X, Linux）：
+
+ - 连接Arduino Mini 到电脑比起普通的Arduino板要稍微复杂一点（具体请看下文的说明和相应的图片）。
+ - 你需要在Arduino软件的Tools | Board 菜单中选择Arduino Mini 。
+ - 要上传新程序到Arduino Mini，在你按下Arduino软件的上传（upload）按键之前，
+   你需要迅速地按一下板子上的重启（reset）键。
+
+
+\section guide_mini_01 关于Arduino Mini的一些信息
+
+Arduino Mini 板上的单片机（ATmega168）比起普通USB的Arduino板上的单片机，
+物理上要小一些。并且有下面一些微小的不同点：
+
+ - Arduino Mini上有额外的两个模拟输入（Mini上总共有8个）。其中四个是没有
+   连接到引脚上的，如果你要使用它们请直接焊线到它们的小洞（焊点）上。
+   其中另外两个由Wire library (I2C)使用，如果你需要使用它们也需要另外焊接。
+
+另外，比起普通的Arduino板，Arduino Mini相对比较脆弱较容易损坏。
+
+ - 不要连接超过9伏的电源到板上，并且不要将电源的正负极弄反，否则你
+   可能会将Arduino Mini板上的ATmega168 芯片烧毁。
+ - 你无法替换板上的ATmega168芯片，如果你把它烧了，你就只能再要一块新的Arduino Mini了。
+
+\section guide_mini_02 连接Arduino Mini到电脑
+
+下面是Arduino Mini的管脚分布图：
+
+\image html arduino_mini_pinout.jpg
+
+要想使用Arduino Mini，你需要做下面这些连接：
+
+ - 电源：用一个+5V 的电源（例如：Mini USB 适配器或Arduino NG的+5V pin）
+   连接到Arduino Mini板的+5V 引脚（pin）。或者用一个+9V的电源（例如：一个9伏的电池）
+   连接到 rduino Mini板的+9V 引脚（pin）。
+ - 地：Arduino Mini板中的其中任意一个地（Ground）脚必须连接到电源的地（负极）。
+ - TX/RX：这两个脚用来更新板子里的程序，或是和电脑或其它设备进行通讯。
+ - 重启（Reset）：不管什么时候，只要 重启（Reset）pin 连接到地，Arduino Mini 
+   就会重启。你可以将其连接到一个按键，或为了防止它重启（断电的情况除外）将
+   其连接到+5V 。如果你将重启（Reset）pin留空，不连接，Arduino Mini 可能会随机的自动重启。
+ - 一个LED灯。从技术上来讲这并不是必须的，但连接一个LED灯到Arduino Mini能够让你更容易
+   观察到它是否正处于工作状态。Pin 13 已经自带了一个1 KB 的电阻，所以你可以直接在
+   它和地直接连接一个LED灯。如果你使用其它引脚（pin）时，你需要另外再连接一个电阻。
+
+连接到Arduino Mini板你可以有很多选择，你可以用：Mini USB 适配器，一块常规
+的Arduino 板，或是你自己电源和USB/串口 适配器。
+
+\section guide_mini_03 连接 Arduino Mini 和Mini USB 适配器
+
+下面是一张显示Arduino Mini 和Mini USB 适配器连接的图片。注意：重启（reset）pin 
+没有连接按键，直接连接到了+5V （橙色的线）。所以，如果要重启Arduino Mini，
+你需要拔插一下连接到Mini USB 适配器的USB数据线，或者手动将那根橙色的线和+5V断开
+并将其接地一下，然后再接回到+5V。
+
+\image html ArduinoMiniBreadboardPhoto.jpg
+
+\section guide_mini_04 连接 Arduino Mini 和一个常规的 Arduino板
+
+下面是一张Arduino Mini 同Arduino NG相连接的图片。Arduino NG板的ATmega8 芯片被移除了，
+我们用到的是它的USB 连接，电源和重启键。因此，你可以通过按下Arduino NG板上的按钮来
+重启Arduino Mini。
+
+\image html ArduinoMiniAndNGBreadboardPhoto.jpg
+
+*/

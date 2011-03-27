@@ -1,0 +1,38 @@
+
+/**
+\page guide_bt Arduino BT介绍
+\note 转自: http://www.arduino.com.cn/
+
+Arduino BT 是一块内建了蓝牙模块的Arduino板，使Arduino具有无线通讯功能。要开始
+使用Arduino BT，除了下文列出的一些不同点外，其余请根据你的操作系统，安照Arduino NG板
+的入门指南进行操作（Windows, Mac OS X, Linux）：
+
+ - 首先，将Arduino BT板同电脑配对，并为其创建一个虚拟串口。搜索并找到名为ARDUINOBT 的
+   蓝牙设备，其密匙为：12345。
+ - 在Arduino软件的Tools | Board 菜单里选择 Arduino BT 。
+
+\section guide_bt_01 关于 Arduino BT的信息
+
+总体上，Arduino BT和Arduino Diecimila类似。 下面是Arduino BT主要的不同点（除了它是
+通过蓝牙而不是USB和电脑通讯外）：
+
+ - 比起普通的Arduino板，Arduino BT 相对比较脆弱，较容易损坏。
+ - 不要连接超过5.5伏的电源到板上，并且不要将电源的正负极弄反，否则你可能会将Arduino BT板
+   上的ATmega168 芯片烧毁。. Arduino BT能够运行的最小电压为1.2 伏，所以它很适合使用电池供电。
+ - Arduino BT板上的单片机（ATmega168）比起普通USB的Arduino板上的单片机，物理上要小一些。
+   你无法替换板上的ATmega168芯片，如果你把它烧了，你就只能再要一块新的Arduino BT了。
+ - Arduino BT上有额外的两个模拟输入（BT上总共有8个）。其中两个，没有连接到板子的排针上，
+   如要使用它们，你需要直接焊线到数字“6”和“7”旁边的焊点上。
+ - 板子的Pin 7连接着蓝牙模块的重启pin。 除了用于重启蓝牙模块，不要将这个引脚用于其它的用途。
+
+要想了解更多关于Arduino BT的信息，请查看：Arduino BT 硬件页面。
+
+\section guide_bt_02 使用Arduino BT
+
+Arduino BT上的蓝牙模块和Arduino BT上运行的程序（运行在ATmega168上）进行串行通讯的波特率
+为：115200 bps（例如，你可以在setup() 函数里调用Serial.begin(115200) ）。蓝牙模块和电脑通讯
+的波特率则没有限定，可以是任何波特率。
+
+蓝牙模块和电脑之间的通讯会比较多变。重启板子后，你有可能需要好几秒之后才能打开串口监视器。
+
+*/

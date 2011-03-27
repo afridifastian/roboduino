@@ -1,0 +1,349 @@
+
+/**
+\mainpage Arduino开发文档
+\author <a href="http://sites.google.com/site/chaishushan/">柴树杉</a>[翻译整理] (chaishushan@gmail.com)
+\note 该文档根据 <a href="http://arduino.cc/">http://arduino.cc/</a> 翻译，依照
+ <a href="http://www.creativecommons.cn/licenses/by-nd-nc/1.0/">
+创作公用约定</a> 发布。文档的doxygen源文件可以从
+ <a href="http://hcrobot.googlecode.com/svn/trunk/doc/arduino/">HCRobot</a> 下载。
+\note 该文档依托<a href="http://wiki.roboticfan.com/hcr.ashx">HCR开源机器人项目</a>.
+
+************************************************************************************************
+
+<table  width='100%' border='0' cellpadding='5' cellspacing='0'>
+<tr>
+
+<td width='67%' valign='top'>
+<h2>介绍</h2>
+
+Arduino是源自意大利的一个开放源代码的硬件项目，该平台包括一片具备简单I/O功效的
+电路板以及一套程式开发环境软体。Arduino可以用来开发可独立运作、并具互动性的
+电子用品，或者也可以开发出与PC相连的週边装置，同时能在运作时与PC上的软体进行沟通。
+Arduino的硬体电路板可以自行焊接组装成，也可以购买已经组装好的，而整合开发环境的软体
+则可以自网路上免费下载与使用。目前Arduino的硬体部分支援Atmel的ATmega8与ATmega168等
+微控器。 此外，Arduino专案获得2006年Prix Art Electronica在电子通讯类方面的荣誉奖。
+Arduino的硬体电路参考设计部分是以创用（Creative Commons；CC）形式提供授权。
+相应的原理图和电路图都可以从Arduino网站上获得。
+
+<h2>相关图书</h2>
+
+ -# <a href="http://oreilly.com/catalog/9780596155513/"><b>Getting Started with Arduino</b></a> By Massimo Banzi
+ -# <a href="http://oreilly.com/catalog/9780596510510/"><b>Making Things Talk</b></a> By Tom Igoe
+
+<h2>相关链接</h2>
+
+ - Arduino主页: http://www.arduino.cc/
+ - Arduino源码: http://code.google.com/p/arduino/
+ - Arduino中国: http://www.arduino.com.cn/
+ - Arduino台湾: http://www.arduino.tw/
+ - Liquidware : http://www.liquidware.com/
+
+</td>
+
+<td width='33%' valign='top' align='center'>
+\image html arduino316.jpg
+
+<i>Photo by Nicholas Zambetti</i>
+</td>
+
+</tr>
+</table>
+
+************************************************************************************************
+
+<hr>
+<h1>Arduino使用向导</h1>
+
+<table  width='100%' border='0' cellpadding='5' cellspacing='0'>
+<tr>
+
+<td width='33%' valign='top'>
+<h2>安装</h2>
+
+该部分讲述了如何安装Arduino软件工具, 以及如何连接到Arduino Diecimila开发板.
+
+ - \ref guide_win "Windows"
+ - \ref guide_mac "Mac OS X"
+ - <a href="http://www.arduino.cc/playground/Learning/Linux"><b>Linux</b><sup style="color:#FF0000">online~</sup></a>
+
+</td>
+
+<td width='33%' valign='top'>
+<h2>硬件型号</h2>
+
+目前Arduino主要有以下几款型号:
+
+ - \ref guide_nano "Arduino Nano"
+ - \ref guide_mini "Arduino Mini"
+ - \ref guide_bt "Arduino BT"
+ - \ref guide_lilypad "LilyPad Arduino"
+ - \ref guide_pro "Arduino Pro"
+ - \ref guide_pro_mini "Arduino Pro Mini"
+
+ - \ref guide_xbee_shield "Xbee shield"
+ - \ref guide_ethernet_shield "Ethernet shield"
+
+</td>
+
+<td width='33%' valign='top'>
+<h2>其他</h2>
+
+\ref guide_introduction "介绍": Arduino是什么以及可以用它做什么.
+
+<a href="http://arduino.cc/en/Guide/Troubleshooting"><b>常见问题</b><sup style="color:#FF0000">online~</sup></a>
+: 刚接触Arduino时, 比较常见的问题.
+
+<a href="http://arduino.cc/en/Guide/Environment"><b>开发环境</b><sup style="color:#FF0000">online~</sup></a>
+: 深入了解Arduino开发环境. 
+
+</td>
+
+</tr>
+</table>
+
+************************************************************************************************
+
+<hr>
+<h1>Arduino参考手册</h1>
+
+<b>Arduino</b>开发语言提供全部的C语言特性和C++语言的部分特性. 通过链接到
+<a href="http://www.nongnu.org/avr-libc/"><b>AVR的libc库</b></a>, 
+可以使用库中提供的函数. 具体的应用细节请参考相关文档.
+
+<table  width='100%' border='0' cellpadding='5' cellspacing='0'>
+<tr>
+
+<td width='50%' valign='top'>
+<h2>程序结构</h2>
+
+在Arduino中, 标准的程序入口main函数在内部被定义, 用户只需要关心以下两个函数:
+
+ - \ref setup "void setup()"
+ - \ref loop "void loop()"
+
+setup() 函数用于初始化, loop() 函数用于执行. 初始化函数一般放在程序开头,
+用于设置一些引脚的输出/输入模式, 初始化串口通讯等类似工作.  loop() 函数中
+的代码将被循环执行, 例如: 读入引脚状态, 设置引脚输出状态等.
+
+<h3>控制语句</h3>
+
+ - \ref ref_control_structures_If "if"
+ - \ref ref_control_structures_IfElse "if...else"
+ - \ref ref_control_structures_For "for"
+ - \ref ref_control_structures_Switch "switch"
+ - \ref ref_control_structures_While "while"
+ - \ref ref_control_structures_DoWhile "do...while"
+ - \ref ref_control_structures_Break "break"
+ - \ref ref_control_structures_Continue "continue"
+ - \ref ref_control_structures_Return "return"
+ - \ref ref_control_structures_Goto "goto"
+ 
+<h3>相关语法</h3>
+
+ - \ref ref_further_syntax_SemiColon "; (分号)"
+ - \ref ref_further_syntax_Braces "{} (大括号)"
+ - \ref ref_further_syntax_Comments "// (单行注释)"
+ - \ref ref_further_syntax_Comments "/* * / (多行注释)"
+ - \ref ref_further_syntax_Define "\#define"
+ - \ref ref_further_syntax_Include "\#include"
+ 
+<h3> 算术运算符 </h3>
+
+ - \ref Assignment
+ - <a href="Arithmetic.html"> <b>+ (加)</b></a>
+ - <a href="Arithmetic.html"> <b>- (减)</b></a>
+ - <a href="Arithmetic.html"> <b>* (乘)</b></a>
+ - <a href="Arithmetic.html"> <b>/ (除)</b></a>
+ - \ref Modulo
+ 
+<h3>比较运算符</h3>
+ 
+ - <a href="If.html"> <b>== (等于)</b></a>
+ - <a href="If.html"> <b>!= (不等于)</b></a>
+ - <a href="If.html"> <b>< (小于)</b></a>
+ - <a href="If.html"> <b>> (大于)</b></a>
+ - <a href="If.html"> <b><= (小于等于)</b></a>
+ - <a href="If.html"> <b>>= (大于等于)</b></a>
+
+<h3>布尔运算符</h3> 
+
+ - <a href="Boolean.html"> <b>&& (逻辑与)</b></a>
+ - <a href="Boolean.html"> <b>|| (逻辑或)</b></a>
+ - <a href="Boolean.html"> <b>! (逻辑非)</b></a>
+ 
+<h3>指针运算符</h3>
+
+ - <a href="Pointer.html"> <b>* 指针运算符</b></a>
+ - <a href="Pointer.html"> <b>& 地址运算符</b></a>
+
+<h3>位运算</h3>
+
+ - <a href="BitwiseAnd.html"> <b>& (位与)</b></a>
+ - <a href="BitwiseAnd.html"> <b>| (位或)</b></a>
+ - <a href="BitwiseAnd.html"> <b>^ (位异或)</b></a>
+ - <a href="BitwiseXorNot.html"> <b>~ (位非)</b></a>
+ - <a href="Bitshift.html"> <b><< (左移)</b></a>
+ - <a href="Bitshift.html"> <b>>> (右移)</b></a>
+ 
+ - Port Manipulation
+
+<h3>复合运算符</h3>
+
+ - <a href="Increment.html"> <b>++ </b></a>
+ - <a href="Increment.html"> <b>-- </b></a>
+ - <a href="IncrementCompound.html"> <b>+= </b></a>
+ - <a href="IncrementCompound.html"> <b>-= </b></a>
+ - <a href="IncrementCompound.html"> <b>*= </b></a>
+ - <a href="IncrementCompound.html"> <b>/= </b></a>
+
+<h2>变量</h2>
+
+<h3>常量</h3>
+
+ - \ref HIGH "HIGH" | \ref LOW "LOW"
+ - \ref INPUT "INPUT" | \ref OUTPUT "OUTPUT"
+ - \ref true "true" | \ref false "false"
+ - \ref ref_variables_constants "整数常量"
+ - \ref ref_variables_fpconstants "浮点数常量"
+ 
+<h3>数据类型</h3>
+
+ - \ref DataTypes "void(无类型)"
+ - \ref DataTypes "boolean(布尔型)"
+ - \ref DataTypes "char(字符型)"
+ - \ref DataTypes "unsigned char(无符号字符型)"
+ - \ref DataTypes "byte(字节型)"
+ - \ref DataTypes "int(整形)"
+ - \ref DataTypes "unsigned int(无符号整型)"
+ - \ref DataTypes "long(长整型)"
+ - \ref DataTypes "unsigned long(无符号长整型)"
+ - \ref DataTypes "float(单精度)"
+ - \ref DataTypes "double(双精度)"
+ - \ref DataTypes "string(字符串)"
+ - \ref DataTypes "array(数组)"
+
+<h3> 变量作用域&修饰符 </h3>
+
+ - \ref VariableScopeQualifiers "变量作用域"
+ - \ref VariableScopeQualifiers "static (静态变量)"
+ - \ref VariableScopeQualifiers "volatile (易变变量)"
+ - \ref VariableScopeQualifiers "const (不可改变变量)"
+
+<h3>辅助工具</h3>
+
+ - \ref Utilities "sizeof()" (sizeof运算符)
+
+</td>
+
+<td width='50%' valign='top'>
+<h2>基本函数</h2>
+
+<h3>数字I/O</h3>
+
+ - \ref pinMode "pinMode(pin, mode)"
+ - \ref digitalWrite "digitalWrite(pin, value)"
+ - \ref digitalRead "digitalRead(pin)"
+
+<h3>模拟I/O</h3>
+
+ - \ref analogReference "analogReference(type)"
+ - \ref analogRead "analogRead(pin)"
+ - \ref analogWrite "analogWrite(pin, value)" - PWM
+
+<h3>高级I/O</h3>
+
+ - \ref shiftOut "shiftOut(dataPin, clockPin, bitOrder, val)"
+ - \ref pulseIn "pulseIn(pin, state, timeout)"
+
+<h3>时间</h3>
+
+ - \ref millis "millis()"
+ - \ref delay "delay(ms)"
+ - \ref delayMicroseconds "delayMicroseconds(us)"
+
+<h3>数学库</h3>
+
+ - min(x, y)
+ - max(x, y)
+ - abs(x)
+ - constrain(x, a, b)
+ - \ref map "map(x, in_min, in_max, out_min, out_max)"
+ - \ref pow "pow(base, exponent)"
+ - \ref sqrt "sqrt(x)"
+
+<h3>三角函数</h3>
+
+ - \ref sin "sin(rad)"
+ - \ref cos "cos(rad)"
+ - \ref tan "tan(rad)"
+
+<h3>随机数</h3>
+
+ - \ref randomSeed "randomSeed(seed)"
+ - \ref random(long) "random(howbig)"
+ - \ref random(long,long) "random(howsmall, howbig)"
+
+<h3>设置中断</h3>
+
+ - \ref attachInterrupt "attachInterrupt(interrupt, function, mode)"
+ - \ref detachInterrupt "detachInterrupt(interrupt)"
+
+<h3>中断</h3>
+
+ - interrupts()
+ - noInterrupts()
+
+<h3>串口通讯</h3>
+
+ - \ref HardwareSerial::begin "Serial.begin(speed)"
+ - \ref HardwareSerial::available "Serial.available()"
+ - \ref HardwareSerial::read "Serial.read()"
+ - \ref HardwareSerial::flush "Serial.flush()"
+ - \ref HardwareSerial::print "Serial.print(data)"
+ - \ref HardwareSerial::println "Serial.println(data)"
+</td>
+
+<hr>
+
+<h2>扩展库</h2>
+
+如果要使用一些已有的库, 可以选择菜单"Sketch->Import Library", 然后选择
+相应的库. Sketch工具会自己在代码的开头包含库的头文件(<c>\#include</c>).
+
+在引入库之后, 程序的体积也将会增大(因为包含了库的代码). 对于不是必要的库,
+直接删除对应的<c>\#include</c>语句就可以了.
+
+<h3>官方扩展库</h3>
+
+以下是Arduino官方提供的扩展库, 被默认包含在开发工具中.
+
+ - \ref EEPROMClass "EEPROM" - 读写EEPROM存储区.
+ - \ref EthernetClass "Ethernet" - 以太网支持.
+ - \ref FirmataClass "Firmata" - 基于串口的通讯协议.
+ - \ref LiquidCrystal "LiquidCrystal" - LCD液晶显示.
+ - \ref Servo "Servo" - 伺服电机.
+ - \ref SoftwareSerial "SoftwareSerial" - 软件实现的串口, 可以选择任意引脚.
+ - \ref Stepper "Stepper" - 步进电机.
+ - \ref TwoWire "Wire" - I2C协议支持.
+
+ - \ref Matrix "Matrix" - LED显示阵列控制.
+ - \ref Sprite "Sprite" - LED显示阵列中子块控制.
+
+<h3>第三方扩展库</h3>
+
+这里只包含了Roboduino扩展板的相关库, 其他的库信息请访问: 
+<a href="http://arduino.cc/en/Reference/Libraries"><b>Arduino在线文档</b>
+<sup style="color:#FF0000">online~</sup></a>.
+
+Roboduino扩展板:
+
+ - \ref RoboduinoMotorClass "RoboduinoMotor" - Roboduino电机扩展板驱动.
+
+如果需要设计自己的库, 请参考<c>"arduino\hardware\libraries"</c>目录中相关库的代码.
+
+
+</tr>
+</table>
+
+*/
+

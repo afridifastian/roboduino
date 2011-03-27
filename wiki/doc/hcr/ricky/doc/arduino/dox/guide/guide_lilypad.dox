@@ -1,0 +1,85 @@
+
+/**
+\page guide_lilypad Arduino LilyPad使用向导
+\note 转自: http://www.arduino.com.cn/
+
+要开始使用LilyPad Arduino，除了下文列出的一些不同点外，其余请根据你的操作系统，
+安照Arduino NG板的入门指南进行操作（Windows, Mac OS X, Linux）。连接LilyPad Arduino到
+电脑比起普通的Arduino板要稍微复杂一点（具体请看下文的说明和相应的图片）。
+
+比起普通的Arduino板，LilyPad Arduino 相对比较脆弱，较容易损坏。不要连接超过5.5伏
+的电源到板上（+ tab），并且不要将电源的正负极弄反，否则你可能会将LilyPad Arduino 板
+上的ATmega168 芯片烧毁。你无法替换板上的ATmega168芯片，如果你把它烧了，你就只能再要
+一块新的LilyPad Arduino 了。
+
+\note 要想了解更多关于LilyPad Arduino 的信息，请查看：这里。
+
+\section guide_lilypad_01 连接LilyPad Arduino
+
+你需要将LilyPad Arduino连接到电脑才能更新其程序。要将LilyPad Arduino连接到电脑，
+你需要做下面的连接：
+
+ - 电源。电源必须连接到LilyPad Arduino的+ tab 脚上。它可以是一个常规的+5V 电源
+   （例如，Mini USB Adapter 的+5V pin 或 LilyPad 电源的+ tab）或其它2.7-5.5V 电源
+   （例如，3.7V 的可充电电池或 2个AA电池串接）。
+ - 地。LilyPad Arduino 的地脚（tab）必须和电源的地相连。
+ - TX/RX。这两个脚用来更新板子里的程序，或是和电脑或其它设备进行通讯。
+
+要想将LilyPad Arduino 连接到你的电脑，你可以有很多的选择：SparkFun FTDI Basic Breakout，
+一根 FTDI USB-TTL Serial cable， SparkFun LilyPad USB Link，Mini USB 适配器，一块
+常规Arduino board 或是你自己的电源和USB/Serial 适配器。
+
+\section guide_lilypad_02 使用 SparkFun FTDI Basic Breakout
+
+SparkFun FTDI Basic Breakout 可以插入到最新版本LilyPad上的6-pin公排针上。
+用一根 USB MiniB 数据线连接FTDI basic breakout 到你的电脑。你也可以选择使用
+一根FTDI USB-TTL Serial cable。
+
+\image html lilypad_basicbreakout.jpg
+
+\section guide_lilypad_03 使用SparkFun LilyPad USB Link
+
+SparkFun LilyPad USB Link可以插入到较旧版本LilyPad上的4-pin插头上。如果你
+的LilyPad不带引脚排针，你可以在LilyPad正面标有 -，tx，rx，5v 的焊孔处 焊上直角方
+排针用作连接。你可以在这里 找到LilyPad USB Link ，在这里找到直角方排针。
+
+\image html lilypad_miniUSB.jpg
+
+\section guide_lilypad_04 改装Mini USB 适配器来连接LilyPad Arduino
+
+在Arduino mini USB 适配器上焊接好直角方排针，然后用母对母的排线 连接好两板相对应
+的+，-，TX和RX 引脚。直角方排针可以在这里 找到，母对母排线可以在这里找到。
+对于version 3 的Arduino mini USB 适配器，你要将tx连接到 tx，rx连接到rx。如
+下图所示，在我们的连接中，红色的线为+，黑色的线为-，绿色的线为TX，黄色的线为RX。
+
+\image html miniusb-clips.jpg
+
+下图是Arduino mini USB 适配器端的放大连接图：
+
+\image html miniusb-clips_close.jpg
+
+下图为LilyPad 端的放大连接图：
+
+\image html miniusb-lily_close.jpg
+
+\section guide_lilypad_05  用一块常规的Arduino板连接LilyPad Arduino
+
+你也可以使用一个Arduino NG 来将LilyPad Arduino 连接到你的电脑，
+此时常规的Arduino 板为LilyPad Arduino 提供电源并作为USB/Serial的转接。
+首先将常规Arduino板上的ATmega8或ATmega168移除，然后用跳线和鳄鱼夹连接LilyPad Arduino 
+和Arduino NG 上对应的TX，RX，+ 和 - tabs。下面是连接的图片：
+
+\image html lilypad-ng-connect.jpg
+
+\section guide_lilypad_06 缝纫 LilyPad Arduino
+
+LilyPad 每个引脚上的小洞都已经足够大，缝纫针可以轻松的穿过。用导电线材缝纫的话，
+既可以起到固定的作用，又可以起到传到的作用。导电线材多穿过几次小洞，能够保证更好
+的连接。下面是一张缝纫好了的LilyPad图：
+
+\image html lilypad_sewn.jpg
+
+你可以在Leah’s 网站上的LilyPad Arduino 入门向导 中查看到更多关于建造可穿戴物件的信息。
+在SparkFun 上你可以找到更多可以和LilyPad Arduino进行缝合的模块。
+
+*/

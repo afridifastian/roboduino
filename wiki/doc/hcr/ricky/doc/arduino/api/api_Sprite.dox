@@ -1,0 +1,16 @@
+
+/**
+\class Sprite
+\brief LED像素控制
+
+\fn uint8_t Sprite::width() const
+\brief 宽度
+\fn uint8_t Sprite::height() const
+\brief 高度
+\fn void Sprite::write(uint8_t x, uint8_t y, uint8_t value)
+\brief 写
+\fn uint8_t Sprite::read(uint8_t x, uint8_t y) const
+\brief 读
+
+
+*/

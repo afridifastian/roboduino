@@ -1,0 +1,291 @@
+/**
+\page ip_arp_udp_tcp ENC28J60Çý¶¯ÓÃ·¨
+
+\code
+//====================================================================
+// vim:sw=8:ts=8:si:et
+// To use the above modeline in vim you must have "set modeline" in your .vimrc
+// Author: Guido Socher
+// Copyright: GPL V2
+//
+// Ethernet remote device and sensor
+//
+// http://tuxgraphics.org/electronics/
+// Chip type           : ATMEGA88 with ENC28J60
+//====================================================================
+
+#include <stdlib.h>
+#include <avr/io.h>
+#include <string.h>
+#include <avr/interrupt.h>
+#include "ip_arp_udp_tcp.h"
+#include "enc28j60.h"
+#include "timeout.h"
+#include "avr_compat.h"
+#include "net.h"
+
+// please modify the following two lines. mac and ip have to be unique
+// in your local area network. You can not have the same numbers in
+// two devices:
+static uint8_t mymac[6] = {'T','u','x','A','V','R'};
+// how did I get the mac addr? Translate the first 3 numbers into ascii is: TUX
+static uint8_t myip[4] = {192,168,0,5};
+static uint16_t mywwwport =80; // listen port for tcp/www (max range 1-254)
+
+#define BUFFER_SIZE 350
+static uint8_t buf[BUFFER_SIZE+1];
+
+// data is transmitted with 22 'blinks'
+#define DATA_LENGTH 22
+// pause lasts for 21 'blinks'
+#define PAUSE_LENGTH 21
+
+uint8_t power[] =       { 0xbf,0xb5,0xd6,0xfe,0xd5,0x56 };
+uint8_t temp_down[] =   { 0xbf,0xb5,0xd7,0x6f,0x5b,0x56 };
+uint8_t temp_up[] =     { 0xbf,0xb5,0xd6,0xdf,0x6d,0x56 };
+uint8_t fan_speed[] =   { 0xbf,0xb5,0xd6,0xeb,0xb5,0xd6 };
+uint8_t timer[] =       { 0xbf,0xb5,0xd6,0xaa,0xef,0xd6 };
+uint8_t mode[] =        { 0xbf,0xb5,0xd6,0xb5,0xdd,0xd6 };
+uint8_t energy_save[] = { 0xbf,0xb5,0xd7,0x7e,0xb5,0x56 };
+
+uint8_t *command = NULL;
+
+uint8_t prescalar = 0;
+uint8_t phase = 0;
+uint8_t next_value = 0;
+uint8_t current_byte = 0;
+uint8_t current_bit = 0;
+
+// get the next bit of the command currently being transmitted
+uint8_t getNextDataBit() {
+	uint8_t result = command
+		? (*(command+current_byte) << current_bit) & 0x80
+		: 0 ;
+	if( command ) {
+		current_bit += 1;
+		if( current_bit >= 8 ) {
+			current_bit = 0;
+			current_byte += 1;
+			if( current_byte >= 6 ) {
+				current_byte = 0;
+				current_bit = 0;
+				command = NULL;
+				TCCR0B &= ~(_BV(CS00) | _BV(CS01) | _BV(CS02));
+			}
+		}
+	}
+	return result;
+}
+
+// external int 0 causes a power command to be sent
+int send_cmd( uint8_t* newcmd ) {
+	cli();
+	if( command == NULL ) {
+		command = newcmd;
+		next_value = 1;
+		prescalar = 0;
+		phase = 0;
+		TCNT0 = 0;
+		TCCR0B |= _BV(CS00);
+	}
+	sei();
+	return 0;
+}
+
+// set the temp
+int set_temp( uint8_t temp ) {
+	uint8_t n;
+	if( temp >= 60 && temp <= 86 ) {
+		for( n=60 ; n<86 ; n++ ) {
+			send_cmd( temp_up );
+			delay_ms(70);
+		}
+		for( n=86 ; n>temp ; n-- ) {
+			send_cmd( temp_down );
+			delay_ms(70);
+		}
+	}
+	return 0;
+}
+
+
+ISR( TIMER0_OVF_vect ) {
+	if( !next_value ) {
+		PORTD |= _BV(PIN6);
+	} else {
+		PORTD &= ~_BV(PIN6);
+	}
+	
+	prescalar ++;
+	switch( phase ) {
+    case 0:
+		// initial high
+		if( prescalar == 172 ) { phase = 1; prescalar = 0; next_value=1; }
+		break;
+    case 1:
+		// high for 89 more
+		if( prescalar == 172 ) { phase = 2; prescalar = 0; next_value=0;}
+		break;
+    case 2:
+		// low for 172
+		if( prescalar == 172 ) { phase = 3; prescalar = 0; next_value=getNextDataBit(); }
+		break;
+    case 3:
+		// transmit the data
+		if( prescalar == DATA_LENGTH ) { phase = 4; prescalar = 0; next_value=0; }
+		break;
+    case 4:
+		// pause
+		if( prescalar == PAUSE_LENGTH ) { phase = 3; prescalar = 0; next_value=getNextDataBit(); }
+		break;
+	}
+}
+
+int initPWM() {
+	
+	// Enable the output pin for data
+	DDRD |= _BV(PIN6);
+	PORTD |= _BV(PIN6);
+	
+	// Calibrate the interal oscilator
+	// 90 is prefectly calibrated, +/- 0.5%
+	OSCCAL=0x91;
+	
+	// Enable fast PWM, with OCR0A as top
+	TCCR0A |= _BV(WGM01) | _BV(WGM00);
+	TCCR0B |= _BV(WGM02);
+	// Enable OCR0B output
+	TCCR0A |= _BV(COM0B0) | _BV(COM0B1);
+	DDRD |= _BV(PIN5);
+	// Set the PWM to a frequency of 38khz
+	OCR0A = 210;
+	// Set the duty cyle to 48.5%
+	OCR0B = 115;
+	
+	// Enable the interrupt on timer
+	TIMSK0 |= _BV(TOIE0);
+	
+	sei();
+	
+	return 0;
+}
+int main(void){
+	uint16_t plen;
+	uint16_t dat_p;
+	uint8_t i=0;
+	
+	initPWM();
+	delay_ms(20);
+	
+	// initialize enc28j60 
+	enc28j60Init(mymac);
+	enc28j60clkout(2); // change clkout from 6.25MHz to 12.5MHz
+	delay_ms(10);
+	
+	// Magjack leds configuration, see enc28j60 datasheet, page 11  
+	// LEDB=yellow LEDA=green
+	//
+	// 0x476 is PHLCON LEDA=links status, LEDB=receive/transmit
+	// enc28j60PhyWrite(PHLCON,0b0000 0100 0111 01 10);
+	enc28j60PhyWrite(PHLCON,0x476);
+	delay_ms(20);
+	
+	// set output to GND, red LED on  
+	PORTB &= ~(1<<PB1);
+	i=1;
+	
+	//init the ethernet/ip layer:
+	init_ip_arp_udp_tcp(mymac,myip,80);
+	
+	while(1){
+		// get the next new packet:
+		plen = enc28j60PacketReceive(BUFFER_SIZE, buf);
+		
+		// plen will ne unequal to zero if there is a valid packet (without crc error) 
+		if(plen==0){
+			continue;
+		}
+		// arp is broadcast if unknown but a host may also
+		// verify the mac address by sending it to 
+		// a unicast address.
+		if(eth_type_is_arp_and_my_ip(buf,plen)){
+			make_arp_answer_from_request(buf);
+			continue;
+		}
+		// check if ip packets (icmp or udp) are for us:
+		if(eth_type_is_ip_and_my_ip(buf,plen)==0){
+			continue;
+		}
+		
+		
+		if(buf[IP_PROTO_P]==IP_PROTO_ICMP_V && buf[ICMP_TYPE_P]==ICMP_TYPE_ECHOREQUEST_V){
+			// a ping packet, let's send pong
+			make_echo_reply_from_request(buf,plen);
+			continue;
+		}
+		// tcp port www start, compare only the lower byte
+		if (buf[IP_PROTO_P]==IP_PROTO_TCP_V&&buf[TCP_DST_PORT_H_P]==0&&buf[TCP_DST_PORT_L_P]==mywwwport){
+			if (buf[TCP_FLAGS_P] & TCP_FLAGS_SYN_V){
+				make_tcp_synack_from_syn(buf);
+				// make_tcp_synack_from_syn does already send the syn,ack
+				continue;
+			}
+			if (buf[TCP_FLAGS_P] & TCP_FLAGS_ACK_V){
+				init_len_info(buf); // init some data structures
+				// we can possibly have no data, just ack:
+				dat_p=get_tcp_data_pointer();
+				if (dat_p==0){
+					if (buf[TCP_FLAGS_P] & TCP_FLAGS_FIN_V){
+						// finack, answer with ack
+						make_tcp_ack_from_any(buf);
+					}
+					// just an ack with no data, wait for next packet
+					continue;
+				}
+				if (strncmp("power",(char *)&(buf[dat_p+8]),5)==0) {
+					send_cmd(power);
+				} else if (strncmp("temp/up",(char *)&(buf[dat_p+8]),7)==0) {
+					send_cmd(temp_up);
+				} else if (strncmp("temp/down",(char *)&(buf[dat_p+8]),9)==0) {
+					send_cmd(temp_down);
+				} else if (strncmp("temp/",(char *)&(buf[dat_p+8]),5)==0) {
+					char *temp_str = (char *)&(buf[dat_p+13]);
+					buf[dat_p+15] = 0;
+					uint8_t temp = atoi( temp_str );
+					set_temp( temp );
+				} else if (strncmp("speed",(char *)&(buf[dat_p+8]),5)==0) {
+					send_cmd(fan_speed);
+				} else if (strncmp("mode",(char *)&(buf[dat_p+8]),4)==0) {
+					send_cmd(mode);
+				} else if (strncmp("energy",(char *)&(buf[dat_p+8]),6)==0) {
+					send_cmd(energy_save);
+				} else if (strncmp("timer",(char *)&(buf[dat_p+8]),5)==0) {
+					send_cmd(timer);
+				} else if (strncmp(("/ H"),(char *)&(buf[dat_p+4]),3)==0) {
+					plen=fill_tcp_data_p( buf, 0, PSTR("<html><head><style type='text/css'>#i{display:none;} button{position:absolute;width:10em} #b2{top:1em;} #b0{top:4em;width:2.5em;} #b1{top:4em;left:8em;width:2.5em;} #t{top:3.5em;left:3em;position:absolute;} #b6{top:7em;} #b3{top:16em;} #b4{top:10em;} #b5{top:13em;}</style><script language='javascript'>z=['temp/down','-','temp/up','+','power','Power','energy','Energy Save','mode','Mode','timer','Timer','speed','Fan Speed'];function ol(){d=document;b=d.getElementById('b');i=d.getElementById('i');for(var n=0;n<z.length;n+=2){k=z[n];t=z[n+1];s=d.createElement('button');s.innerHTML=t;s.k=k;s.id='b'+n/2;s.onclick=function(e){i.src='http://avr/ac/'+e.target.k};b.appendChild(s);}}</script></head><body onload='ol()' id='b'><div id='t'>Temp</div><iframe id='i'></iframe></body></html>") );
+					make_tcp_ack_from_any(buf); // send ack for http get
+					make_tcp_ack_with_data(buf,plen); // send data
+					continue;
+				} else {
+					plen=fill_tcp_data_p( buf, 0, 
+						PSTR( "HTTP/1.0 403 OK\r\nContent-Type: text/html\r\n\r\nERROR"));
+					make_tcp_ack_from_any(buf); // send ack for http get
+					make_tcp_ack_with_data(buf,plen); // send data
+					continue;
+					
+				}
+				
+				plen=fill_tcp_data_p( buf, 0, 
+					PSTR( "HTTP/1.0 200 OK\r\nContent-Type: text/html\r\n\r\nOK"));
+				make_tcp_ack_from_any(buf); // send ack for http get
+				make_tcp_ack_with_data(buf,plen); // send data
+				continue;
+			}
+			
+		}
+		
+	}
+	return (0);
+}
+\endcode
+*/

@@ -1,0 +1,187 @@
+
+/**
+\page arduino_example ArduinorÀý³Ì
+
+See the foundations page for in-depth description of core concepts of the Arduino 
+hardware and software; the hacking page for information on extending and modifying 
+the Arduino hardware and software; and the links page for other documentation.
+
+<table width='100%' border='0' cellpadding='5' cellspacing='0'><tr>
+
+<td width='33%' valign='top'>
+<h2>Basics</h2>
+
+Simple programs that demonstrate basic Arduino commands. These are included with 
+the Arduino environment; to open them, click the Open button on the toolbar and 
+look in the examples folder.
+
+<h3>Digital I/O</h3>
+
+ - Blink: turn an LED on and off.
+ - Blink Without Delay: blinking an LED without using the delay() function.
+ - Button: use a pushbutton to control an LED.
+ - Debounce: read a pushbutton, filtering noise.
+ - Loop: controlling multiple LEDs with a loop and an array.
+ - Melody: play melodies with a Piezo speaker. 
+
+<h3>Analog I/O</h3>
+
+ - Analog Input: use a potentiometer to control the blinking of an LED.
+ - Calibration: for analog sensor readings
+ - Fading: uses an analog output (PWM pin) to fade an LED.
+ - Smoothing: smooth multiple readings of an analog input. 
+
+<h3>Sensors</h3>
+
+ - ADXL3xx: Read an ADXL3xx accelerometer.
+ - Knock: detect knocks with a piezo element.
+ - Memsic2125 : two-axis acceleromoter
+ - Ping: detecting objects with an ultrasonic range finder 
+
+<h3>Communication</h3>
+
+These examples include code that allows the Arduino to talk to Processing sketches running on the computer. For more information or to download Processing, see processing.org.
+
+ - ASCII Table: demonstrates Arduino's advanced serial output functions.
+ - Dimmer: move the mouse to change the brightness of an LED.
+ - Graph: sending data to the computer and graphing it in Processing.
+ - Physical Pixel: turning on and off an LED by sending data from Processing.
+ - Virtual Color Mixer: sending multiple variables from Arduino to the computer and reading them in Processing. 
+
+</td>
+
+<td width='50%' valign='top'>
+Libraries
+
+Examples from the libraries that are included in the Arduino software.
+
+EEPROM Library
+
+ - EEPROM Clear: clear the bytes in the EEPROM.
+ - EEPROM Read: read the EEPROM and send its values to the computer.
+ - EEPROM Write: stores values from an analog input to the EEPROM. 
+
+Servo Library
+
+ - Knob: control the shaft of a servo motor by turning a potentiometer.
+ - Sweep: sweeps the shaft of a servo motor back and forth. 
+
+Stepper Library
+
+ - Motor Knob: control a stepper motor with a potentiometer. 
+
+<h2>More</h2>
+
+For a huge list of examples from the Arduino community, see the interfacing with 
+hardware page on the playground wiki. Also see the list of old examples. 
+</td>
+
+</tr></table>
+*/
+
+/**
+\example Blink.pde 
+
+In most programming languages, the first program you write prints "hello world" to the screen. Since an Arduino board doesn't have a screen, we blink an LED instead.
+
+The boards are designed to make it easy to blink an LED using digital pin 13. Some (like the Diecimila and LilyPad) have the LED built-in to the board. On most others (like the Mini and BT), there is a 1 KB resistor on the pin, allowing you to connect an LED directly. (To connect an LED to another digital pin, you should use an external resistor.)
+
+LEDs have polarity, which means they will only light up if you orient the legs properly. The long leg is typically positive, and should connect to pin 13. The short leg connects to GND; the bulb of the LED will also typically have a flat edge on this side. If the LED doesn't light up, trying reversing the legs (you won't hurt the LED if you plug it in backwards for a short period of time).
+
+\image html LedOnPin13.jpg
+*/
+
+/**
+\example AnalogInput.pde
+*/
+
+/**
+\example Calibration.pde
+*/
+
+/**
+\example Fading.pde
+*/
+
+/**
+\example Smoothing.pde
+*/
+
+/**
+\example ASCIITable.pde
+*/
+
+/**
+\example Dimmer.pde
+*/
+
+/**
+\example Graph.pde
+*/
+
+/**
+\example PhysicalPixel.pde
+*/
+
+/**
+\example VirtualColorMixer.pde
+*/
+
+/**
+\example Blink.pde
+*/
+
+/**
+\example BlinkWithoutDelay.pde
+*/
+
+/**
+\example Button.pde
+*/
+
+/**
+\example Debounce.pde
+*/
+
+/**
+\example Loop.pde
+*/
+
+/**
+\example Melody.pde
+*/
+
+/**
+\example ADXL3xx.pde
+*/
+
+/**
+\example Knock.pde
+*/
+
+/**
+\example Memsic2125.pde
+*/
+
+
+/**
+\example Ping.pde
+*/
+
+
+
+// 
+
+
+
+
+
+
+
+
+
+
+
+
+
+

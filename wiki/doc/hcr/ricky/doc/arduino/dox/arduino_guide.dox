@@ -1,0 +1,111 @@
+/**
+\page arduino_guide_win 使用入门
+\author 柴树杉[翻译] (chaishushan@gmail.com)
+\note 该版本针对Windows平台.
+
+该文档简要描述了如果通过电脑链接Arduino控制板, 然后将控制程序下载到Arduino中.
+主要有以下步骤:
+
+ - \ref arduino_guide_win_01
+ - \ref arduino_guide_win_02
+ - \ref arduino_guide_win_03
+ - \ref arduino_guide_win_04
+ - \ref arduino_guide_win_05
+ - \ref arduino_guide_win_06
+ - \ref arduino_guide_win_07
+ - \ref arduino_guide_win_08
+ - \ref arduino_guide_win_09
+
+\section arduino_guide_win_01 1. 获取控制板
+
+在这个入门教程中, 我们假设读者使用的是Arduino Diecimila型号控制板. 如果使用的不是这个型号,
+你们请参考相关的入门教程.
+
+Arduino Diecimila是一个建议的控制板, 包含了一些基本的控制功能. 下面是Arduino Diecimila说明
+图片:
+
+\image html ArduinoDiecimilaComponents.jpg
+
+此外还需要一个USB连接线, 用于链接Arduino和个人电脑.
+
+\section arduino_guide_win_02 2. 下载Arduino开发环境
+
+为Arduino编写程序需要先安装开发环境, 可以从<a href="http://arduino.cc/en/Main/Software">这里</a>下载.
+
+下载完成后将下载的压缩文件解压到一个目录(压缩文件的内部目录结构保持不变).
+
+\section arduino_guide_win_03 3. 安装USB驱动
+
+使用USB链接Arduino前需要为FTDI设备安装驱动, 驱动文件在drivers/FTDI目录. 驱动的安装细节在
+下一节说明.
+
+最新的驱动可以从 <a href="http://www.ftdichip.com/Drivers/VCP.htm">FTDI</a>下载.
+
+\section arduino_guide_win_04 4. 链接Arduino控制板
+
+Arduino控制板可以选择从USB供电, 也可以选择由电源供电. 如果要从USB供电, 只需要将靠近USB接口
+的跳线连通就可以了. 如果是用外部电源供电(6-12V), 则将靠近电源接口的2个跳线连通. 用户可以任意
+选择一种供电方式. 
+
+连接电源后, 电源LED指示灯亮.
+
+\image html PluggedIn.jpg
+
+提示安装驱动. 选择手动安装模式, 然后下一步.
+
+\image html wizard1-step1.png
+
+选择从指定目录安装, 然后下一步.
+
+\image html wizard1-step2.png
+
+指定驱动的搜索路径. 然后下一步.
+
+\image html wizard1-step3.png
+
+安装完成, OK.
+
+\image html wizard1-step4.png
+
+安装驱动提示窗口会出现两次, 安装步骤和上面相同. 完成后将提示找到USB串口设备.
+
+\section arduino_guide_win_05 5. Connect an LED (if you're using an older board)
+
+The first sketch you will upload to the Arduino board blinks an LED. The Arduino Diecimila (and the original Arduino NG) has a built-in resistor and LED on pin 13. On Arduino NG Rev. C and pre-NG Arduino boards, however, pin 13 does not have a built-in LED. On these boards, you'll need to connect the positive (longer) leg of an LED to pin 13 and the negative (shorter) leg to ground (marked "GND"). The LED will typically be flat on the side with the negative leg. Normally, you also need to use a resistor with the LED, but these boards have a resistor built-in on pin 13.
+
+\section arduino_guide_win_06 6. Run the Arduino environment
+
+Open the Arduino folder and double-click the Arduino application.
+
+\section arduino_guide_win_07 7. Upload a program
+
+Open the LED blink example sketch: File > Sketchbook > Examples > Digital > Blink.
+
+Here's what the code for the LED blink example looks like.
+
+\image html ArduinoEnvironment.png
+
+Select the serial device of the Arduino board from the Tools | Serial Port menu. On Windows, this should be COM1 or COM2 for a serial Arduino board, or COM3, COM4, or COM5 for a USB board. To find out, open the Windows Device Mananger (in the Hardware tab of System control panel). Look for a "USB Serial Port" in the Ports section; that's the Arduino board.
+
+\image html device-manager.png
+
+Make sure that "Arduino Diecimila" is selected in the Tools > Board menu.
+
+\image html ArduinoBoardMenuDiecimila.jpg
+
+Now, simply click the "Upload" button in the environment. Wait a few seconds - you should see the RX and TX leds on the board flashing. If the upload is successful, the message "Done uploading." will appear in the status bar. (Note: If you have an Arduino Mini, NG, or other board, you'll need to physically present the reset button on the board immediately before pressing the upload button.)
+
+\image html UploadButton.png
+
+\section arduino_guide_win_08 8. Look for the blinking LED
+
+A few seconds after the upload finishes, you should see the amber (yellow) LED on the board start to blink. If it does, congratulations! You've gotten Arduino up-and-running.
+
+If you have problems, please see the troubleshooting suggestions.
+
+\section arduino_guide_win_09 9. Learn to use Arduino
+
+Tutorials: try these example programs.
+Reference: read the reference for the Arduino language.
+The text of the Arduino getting started guide is licensed under a <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-ShareAlike 3.0 License</a>. Code samples in the guide are released into the public domain.
+*/

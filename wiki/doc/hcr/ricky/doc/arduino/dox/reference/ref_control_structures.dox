@@ -1,0 +1,479 @@
+
+/**
+\page ref_control_structures_If ¿ØÖÆÓï¾ä: if
+
+if (conditional) and ==, !=, <, > (comparison operators)
+
+if, which is used in conjunction with a comparison operator, tests whether a certain 
+condition has been reached, such as an input being above a certain number. The format 
+for an if test is:
+
+\code
+if (someVariable > 50)
+{
+  // do something here
+}
+\endcode
+
+The program tests to see if someVariable is greater than 50. If it is, the program takes 
+a particular action. Put another way, if the statement in parentheses is true, the 
+statements inside the brackets are run. If not, the program skips over the code.
+
+The brackets may be omitted after an if statement. If this is done, the next line 
+(defined by the semicolon) becomes the only conditional statement.
+
+\code
+if (x > 120)  digitalWrite(LEDpin, HIGH); 
+
+if (x > 120)
+digitalWrite(LEDpin, HIGH); 
+
+if (x > 120){ digitalWrite(LEDpin, HIGH); }   // all are correct
+\endcode
+
+The statements being evaluated inside the parentheses require the use of one or 
+more operators:
+
+Comparison Operators:
+
+\code
+ x == y (x is equal to y)
+ x != y (x is not equal to y)
+ x <  y (x is less than y)  
+ x >  y (x is greater than y) 
+ x <= y (x is less than or equal to y) 
+ x >= y (x is greater than or equal to y)
+\endcode
+
+Warning:
+
+Beware of accidentally using the single equal sign (e.g. if (x = 10) ). The single 
+equal sign is the assignment operator, and sets x to 10 (puts the value 10 into 
+the variable x). Instead use the double equal sign (e.g. if (x == 10) ), which is 
+the comparison operator, and tests whether x is equal to 10 or not. The latter 
+statement is only true if x equals 10, but the former statement will always be true.
+
+This is because C evaluates the statement if (x=10) as follows: 10 is assigned to x 
+(remember that the single equal sign is the assignment operator), so x now contains 10. 
+Then the 'if' conditional evaluates 10, which always evaluates to TRUE, since any 
+non-zero number evaluates to TRUE. Consequently, if (x = 10) will always evaluate to 
+TRUE, which is not the desired result when using an 'if' statement. Additionally, 
+the variable x will be set to 10, which is also not a desired action.
+
+if can also be part of a branching control structure using the if...else] construction.
+
+Reference Home
+
+Corrections, suggestions, and new documentation should be posted to the Forum.
+
+The text of the Arduino reference is licensed under a Creative Commons Attribution-ShareAlike 
+3.0 License. Code samples in the reference are released into the public domain.
+*/
+
+
+//=====================================================================================
+//=====================================================================================
+
+/**
+\page ref_control_structures_IfElse ¿ØÖÆÓï¾ä: if...else
+
+if / else
+
+if/else allows greater control over the flow of code than the basic if statement, by allowing multiple tests to be grouped together. For example, an analog input could be tested and one action taken if the input was less than 500, and another action taken if the input was 500 or greater. The code would look like this:
+
+\code
+if (pinFiveInput < 500)
+{
+  // action A
+}
+else
+{
+  // action B
+}
+\endcode
+
+else can proceed another if test, so that multiple, mutually exclusive tests can be run at the same time.
+
+Each test will proceed to the next one until a true test is encountered. When a true test is found, its associated block of code is run, and the program then skips to the line following the entire if/else construction. If no test proves to be true, the default else block is executed, if one is present, and sets the default behavior.
+
+Note that an else if block may be used with or without a terminating else block and vice versa. An unlimited number of such else if branches is allowed.
+
+\code
+if (pinFiveInput < 500)
+{
+  // do Thing A
+}
+else if (pinFiveInput >= 1000)
+{
+  // do Thing B
+}
+else
+{
+  // do Thing C
+}
+\endcode
+
+Another way to express branching, mutually exclusive tests, is with the switch case statement.
+
+See also:
+
+switch case
+
+Reference Home
+
+Corrections, suggestions, and new documentation should be posted to the Forum.
+
+The text of the Arduino reference is licensed under a Creative Commons Attribution-ShareAlike 3.0 License. Code samples in the reference are released into the public domain.
+
+*/
+
+//=====================================================================================
+//=====================================================================================
+
+/**
+\page ref_control_structures_For ¿ØÖÆÓï¾ä: for
+
+for statements
+
+Desciption
+
+The for statement is used to repeat a block of statements enclosed in curly braces. An increment counter is usually used to increment and terminate the loop. The for statement is useful for any repetitive operation, and is often used in combination with arrays to operate on collections of data/pins.
+
+There are three parts to the for loop header:
+
+\code
+for (initialization; condition; increment) {
+
+//statement(s);
+
+}
+\endcode
+
+The initialization happens first and exactly once. Each time through the loop, the condition is tested; if it's true, the statement block, and the increment is executed, then the condition is tested again. When the condition becomes false, the loop ends.
+
+Example
+
+\code
+// Dim an LED using a PWM pin
+int PWMpin = 10; // LED in series with 1k resistor on pin 10
+
+void setup()
+{
+  // no setup needed
+}
+
+void loop()
+{
+   for (int i=0; i <= 255; i++){
+      analogWrite(PWMpin, i);
+      delay(10);
+   } 
+}
+\endcode
+
+Coding Tip
+
+The C for loop is much more flexible than for loops found in some other computer languages, including BASIC. Any or all of the three header elements may be omitted, although the semicolons are required. Also the statements for initialization, condition, and increment can be any valid C statements with unrelated variables. These types of unusual for statements may provide solutions to some rare programming problems.
+
+See also
+
+while
+Reference Home
+
+Corrections, suggestions, and new documentation should be posted to the Forum.
+
+The text of the Arduino reference is licensed under a Creative Commons Attribution-ShareAlike 3.0 License. Code samples in the reference are released into the public domain.
+*/
+
+
+//=====================================================================================
+//=====================================================================================
+/**
+\page ref_control_structures_Switch ¿ØÖÆÓï¾ä: switch
+
+switch / case statements
+
+Just like if statements, switch / case statements control the flow of programs. Switch/case allows the programmer to build a list of "cases" inside a switch curly bracket. The program checks each case for a match with the test variable, and runs the code if a match is found.
+
+Switch / case is slightly more flexible than than an if/else structure in that the programmer can determine if the switch structure should continue checking for matches in the case list, after finding a match. If the break statement is not found after running the code for a matched case, the program will continue to check for more matches among the other cases. If a break statement is encountered, case exits the structure, in the same manner as the if/else if construction.
+
+Parameters
+
+var - variable you wish to match with case statements
+default - if no other conditions are met, default will run
+break - without break, the switch statement will continue checking through the case statements for any other possible matches. If one is found, it will run that as well, which may not be your intent. Break tells the switch statement to stop looking for matches, and exit the switch statement.
+Example
+
+\code
+  switch (var) {
+    case 1:
+      //do something when var == 1
+      break;
+      // break is optional
+    case 2:
+      //do something when var == 2
+      break;
+    default: 
+      // if nothing else matches, do the default
+      // default is optional
+  }
+\endcode
+
+Reference Home
+
+Corrections, suggestions, and new documentation should be posted to the Forum.
+
+The text of the Arduino reference is licensed under a Creative Commons Attribution-ShareAlike 3.0 License. Code samples in the reference are released into the public domain.
+*/
+
+
+//=====================================================================================
+//=====================================================================================
+/**
+\page ref_control_structures_While ¿ØÖÆÓï¾ä: while
+
+while loops
+
+Description
+
+while loops will loop continuously, and infinitely, until the expression inside the parenthesis, () becomes false. Something must change the tested variable, or the while loop will never exit. This could be in your code, such as an incremented variable, or an external condition, such as testing a sensor.
+
+Syntax
+
+\code
+while(expression){
+  // statement(s)
+}
+\endcode
+
+Parameters
+
+expression - a (boolean) C statement that evaluates to true or false
+
+Example
+
+\code
+var = 0;
+while(var < 200){
+  // do something repetitive 200 times
+  var++;
+}
+\endcode
+
+Reference Home
+
+Corrections, suggestions, and new documentation should be posted to the Forum.
+
+The text of the Arduino reference is licensed under a Creative Commons Attribution-ShareAlike 3.0 License. Code samples in the reference are released into the public domain.
+*/
+
+
+//=====================================================================================
+//=====================================================================================
+/**
+\page ref_control_structures_DoWhile ¿ØÖÆÓï¾ä: do... while
+
+do - while
+
+The do loop works in the same manner as the while loop, with the exception that the condition is tested at the end of the loop, so the do loop will always run at least once.
+
+\code
+do
+{
+    // statement block
+} while (test condition);
+\endcode
+
+Example
+
+\code
+do
+{
+  delay(50);          // wait for sensors to stabilize
+  x = readSensors();  // check the sensors
+
+} while (x < 100);
+\endcode
+
+Reference Home
+
+Corrections, suggestions, and new documentation should be posted to the Forum.
+
+The text of the Arduino reference is licensed under a Creative Commons Attribution-ShareAlike 3.0 License. Code samples in the reference are released into the public domain.
+*/
+
+
+//=====================================================================================
+//=====================================================================================
+/**
+\page ref_control_structures_Break ¿ØÖÆÓï¾ä: break
+
+break
+
+break is used to exit from a do, for, or while loop, bypassing the normal loop condition. It is also used to exit from a switch statement.
+
+Example
+
+\code
+for (x = 0; x < 255; x ++)
+{
+    digitalWrite(PWMpin, x);
+    sens = analogRead(sensorPin);  
+    if (sens > threshold){      // bail out on sensor detect
+       x = 0;
+       break;
+    }  
+    delay(50);
+}
+\endcode
+
+
+Reference Home
+
+Corrections, suggestions, and new documentation should be posted to the Forum.
+
+The text of the Arduino reference is licensed under a Creative Commons Attribution-ShareAlike 3.0 License. Code samples in the reference are released into the public domain.
+*/
+
+
+//=====================================================================================
+//=====================================================================================
+
+/**
+\page ref_control_structures_Continue ¿ØÖÆÓï¾ä: continue
+
+continue
+
+continue is used to bypass portions of code in a do, for, or while loop. It forces the conditional expression to be evaluated, without terminating the loop.
+
+Example
+
+\code
+for (x = 0; x < 255; x ++)
+{
+    if (x > 40 && x < 120){      // create jump in values
+        continue;
+    }
+
+    digitalWrite(PWMpin, x);
+    delay(50);
+}
+\endcode
+
+Reference Home
+
+Corrections, suggestions, and new documentation should be posted to the Forum.
+
+The text of the Arduino reference is licensed under a Creative Commons Attribution-ShareAlike 3.0 License. Code samples in the reference are released into the public domain.
+*/
+
+
+//=====================================================================================
+//=====================================================================================
+/**
+\page ref_control_structures_Return ¿ØÖÆÓï¾ä: return
+
+return
+
+Terminate a function and return a value from a function to the calling function, if desired.
+
+Syntax:
+
+\code
+return;
+
+return value; // both forms are valid
+\endcode
+
+Parameters
+
+value: any variable or constant type
+
+Examples:
+
+A function to compare a sensor input to a threshold
+
+\code
+ int checkSensor(){       
+    if (analogRead(0) > 400) {
+        return 1;
+    else{
+        return 0;
+    }
+}
+\endcode
+
+The return keyword is handy to test a section of code without having to "comment out" large sections of possibly buggy code.
+
+\code
+void loop(){
+
+// brilliant code idea to test here
+
+return;
+
+// the rest of a dysfunctional sketch here
+// this code will never be executed
+}
+\endcode
+
+See also
+
+comments
+
+Reference Home
+
+Corrections, suggestions, and new documentation should be posted to the Forum.
+
+The text of the Arduino reference is licensed under a Creative Commons Attribution-ShareAlike 3.0 License. Code samples in the reference are released into the public domain.
+*/
+
+//=====================================================================================
+//=====================================================================================
+
+/**
+\page ref_control_structures_Goto ¿ØÖÆÓï¾ä: goto
+
+goto
+
+Transfers program flow to a labeled point in the program
+
+Syntax
+
+label:
+
+goto label; // sends program flow to the label
+
+Tip
+
+The use of goto is discouraged in C programming, and some authors of C programming books claim that the goto statement is never necessary, but used judiciously, it can simplify certain programs. The reason that many programmers frown upon the use of goto is that with the unrestrained use of goto statements, it is easy to create a program with undefined program flow, which can never be debugged.
+
+With that said, there are instances where a goto statement can come in handy, and simplify coding. One of these situations is to break out of deeply nested for loops, or if logic blocks, on a certain condition.
+
+Example
+
+\code
+for(byte r = 0; r < 255; r++){
+    for(byte g = 255; g > -1; g--){
+        for(byte b = 0; b < 255; b++){
+            if (analogRead(0) > 250){ goto bailout;}
+            // more statements ... 
+        }
+    }
+}
+\endcode
+
+bailout:
+
+Reference Home
+
+Corrections, suggestions, and new documentation should be posted to the Forum.
+
+The text of the Arduino reference is licensed under a Creative Commons Attribution-ShareAlike 3.0 License. Code samples in the reference are released into the public domain.
+*/
+
+
+//=====================================================================================
+//=====================================================================================
+
+

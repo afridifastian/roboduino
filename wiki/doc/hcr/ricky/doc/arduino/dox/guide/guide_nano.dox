@@ -1,0 +1,23 @@
+
+/**
+\page guide_nano Arduino Nano介绍
+
+本文现在还只是一份关于Arduino Nano介绍的原始版本，我们会在以后对本文更新和扩充。
+
+\image html Nano.jpg
+
+上面Arduino Nano的截图.
+
+\image html ArduinoNanoUSBCable.jpg
+
+要想连接Arduino Nano到你的电脑，你需要一根 Mini-B USB 数据线。USB线同时会供电
+给板子，可以从电源的蓝色LED指示灯来判断供电是否正常。
+
+要想将程序上传到Arduino Nano，你需要在Arduino软件的 Tools > Board 菜单上
+选择Arduino Diecimila，并且在Tools > Serial 菜单上选取正确的的串口端口。
+然后只需简单的按下上传（upload）按钮就可以了。就如同 Arduino Diecimila板一样，
+程序上传成功后，Arduino Nano板也会自动重启，更新并启用刚刚上传的程序。如果你有
+任何的问题，请参考: \ref guide_troubleshooting .
+
+*/
+

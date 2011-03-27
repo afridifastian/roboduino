@@ -1,0 +1,75 @@
+
+/**
+\page arduino_core 语言基础
+
+See the extended reference for more advanced features of the Arduino languages and the libraries page for interfacing with particular types of hardware.
+
+Arduino programs can be divided in three main parts: structure, values (variables and constants), and functions. The Arduino language is based on C/C++.
+
+\section arduino_core_01 程序结构
+
+ - void setup() 初始化
+ - void loop() 程序主体
+
+\section arduino_core_02 常量
+
+Constants are particular values with specific meanings.
+
+ - HIGH | LOW
+ - INPUT | OUTPUT
+ - true | false
+ - Integer Constants
+
+Functions
+
+Digital I/O
+
+pinMode(pin, mode)
+digitalWrite(pin, value)
+int digitalRead(pin)
+Analog I/O
+
+int analogRead(pin)
+analogWrite(pin, value) - PWM
+Advanced I/O
+
+shiftOut(dataPin, clockPin, bitOrder, value)
+unsigned long pulseIn(pin, value)
+Time
+
+unsigned long millis()
+unsigned long micros()
+delay(ms)
+delayMicroseconds(us)
+Math
+
+min(x, y)
+max(x, y)
+abs(x)
+constrain(x, a, b)
+map(value, fromLow, fromHigh, toLow, toHigh)
+pow(base, exponent)
+sq(x)
+sqrt(x)
+Trigonometry
+
+sin(rad)
+cos(rad)
+tan(rad)
+Random Numbers
+
+randomSeed(seed)
+long random(max)
+long random(min, max)
+Serial Communication
+
+Used for communication between the Arduino board and a computer or other devices. This communication happens via the Arduino board's serial or USB connection and on digital pins 0 (RX) and 1 (TX). Thus, if you use these functions, you cannot also use pins 0 and 1 for digital i/o.
+
+Serial.begin(speed)
+int Serial.available()
+int Serial.read()
+Serial.flush()
+Serial.print(data)
+Serial.println(data)
+
+*/

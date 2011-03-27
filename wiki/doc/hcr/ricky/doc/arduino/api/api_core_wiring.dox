@@ -1,0 +1,888 @@
+
+/**
+\file wiring.h
+
+该文件包含许多Arduino的基本函数, 以及相关的常量定义. 它们属于Arduino的
+核心功能, 在使用这些函数或常量的时候不需要指定头文件.
+*/
+
+//====================================================================
+//====================================================================
+
+/**
+\def HIGH 
+\brief 高电平
+\def LOW
+\brief 低电平
+
+\def INPUT
+\brief 输入
+\def OUTPUT
+\brief 输出
+
+\def true
+\brief 真
+\def false
+\brief 假
+
+\def PI
+\brief PI
+\def HALF_PI
+\brief 二分之一PI
+\def TWO_PI
+\brief 二倍PI
+
+\def DEG_TO_RAD
+\brief 弧度转角度
+\def RAD_TO_DEG
+\brief 角度转弧度
+
+\def SERIAL
+\brief 待完善
+\def DISPLAY
+\brief 待完善
+\def LSBFIRST
+\brief 待完善
+\def MSBFIRST
+\brief 待完善
+\def CHANGE
+\brief 待完善
+\def FALLING
+\brief 待完善
+\def RISING
+\brief 待完善
+\def INTERNAL
+\brief 待完善
+\def DEFAULT
+\brief 待完善
+\def EXTERNAL
+\brief 待完善
+
+*/
+
+/**
+\def min(a, b) ((a)<(b)?(a):(b))
+\brief 最小值
+
+Calculates the minimum of two numbers.
+
+Parameters
+
+x: the first number, any data type
+
+y: the second number, any data type
+
+Returns
+
+The smaller of the two numbers.
+
+Examples
+
+\code
+sensVal = min(sensVal, 100); // assigns sensVal to the smaller of sensVal or 100
+                             // ensuring that it never gets above 100.
+
+\endcode
+
+Note
+
+Perhaps counter-intuitively, max() is often used to constrain the lower end of a variable's range, while min() is used to constrain the upper end of the range.
+*/
+
+/**
+\def max(a, b) ((a)>(b)?(a):(b))
+\brief 最大值
+
+Calculates the maximum of two numbers.
+
+Parameters
+
+x: the first number, any data type
+
+y: the second number, any data type
+
+Returns
+
+The larger of the two parameter values.
+
+Example
+
+\code
+sensVal = max(senVal, 20); // assigns sensVal to the larger of sensVal or 20
+                           // (effectively ensuring that it is at least 20)
+\endcode
+
+Note
+
+Perhaps counter-intuitively, max() is often used to constrain the lower 
+end of a variable's range, while min() is used to constrain the upper 
+end of the range.
+*/
+
+/**
+\def abs(x) ((x)>0?(x):-(x))
+\brief 绝对值
+
+Computes the absolute value of a number.
+
+Parameters
+
+x: the number
+
+Returns
+
+x: if x is greater than or equal to 0.
+
+-x: if x is less than 0.
+*/
+
+/**
+\def constrain(amt,low,high)
+\brief 是否在区间
+
+Constrains a number to be within a range.
+
+Parameters
+
+x: the number to constrain, all data types
+
+a: the lower end of the range, all data types
+
+b: the upper end of the range, all data types
+
+Returns
+
+x: if x is between a and b
+
+a: if x is less than a
+
+b: if x is greater than b
+
+Example
+
+\code
+sensVal = constrain(sensVal, 10, 150);
+// limits range of sensor values to between 10 and 150 
+\endcode
+*/
+
+/**
+\def round(x) ((x)>=0?(long)((x)+0.5):(long)((x)-0.5))
+\brief 四舍五入
+\def radians(deg) ((deg)*DEG_TO_RAD)
+\brief 角度转弧度
+\def degrees(rad) ((rad)*RAD_TO_DEG)
+\brief 弧度转角度
+
+\def sq(x) ((x)*(x))
+\brief 平方
+
+\def interrupts()
+\brief 开中断
+\def noInterrupts()
+\brief 关中断
+
+\def clockCyclesPerMicrosecond()   ( F_CPU / 1000000L )
+\brief 没毫秒时钟周期
+\def clockCyclesToMicroseconds(a)   ( (a) / clockCyclesPerMicrosecond() )
+\brief 时钟周期转毫秒
+\def microsecondsToClockCycles(a)   ( (a) * clockCyclesPerMicrosecond() )
+\brief 毫秒转时钟周期
+
+\def bitRead(value, bit)  (((value) >> (bit)) & 0x01)
+\brief 读一个bit
+\def bitSet(value, bit)   ((value) |= (1UL << (bit)))
+\brief 设置一个bit
+\def bitClear(value, bit) ((value) &= ~(1UL << (bit)))
+\brief 清空一个bit
+\def bitWrite(value, bit, bitvalue)   (bitvalue ? bitSet(value, bit) : bitClear(value, bit))
+\brief 写一个bit
+\def bit(b)   (1 << (b))
+\brief 生成相应bit
+
+\def lowByte(w)
+\brief 低字节
+\def highByte(w)
+\brief 高字节
+*/
+
+//====================================================================
+//====================================================================
+
+/**
+\typedef unsigned int 	word
+\brief 字(2字节)
+*/
+
+/**
+\typedef  uint8_t 	boolean
+\brief 布尔(1字节)
+*/
+
+/**
+\typedef uint8_t 	byte
+\brief 字节
+*/
+
+//====================================================================
+//====================================================================
+
+/**
+\fn void init(void);
+\brief 内部函数
+*/
+
+//====================================================================
+//====================================================================
+
+/**
+\fn void pinMode(uint8_t pin, uint8_t mode);
+\brief 设置引脚模式
+
+配置引脚为输出或输出模式.
+
+\param pin  引脚编号
+\param mode INPUT或OUTPUT
+
+例子:
+
+\code
+int ledPin = 13;                 // LED connected to digital pin 13
+
+void setup()
+{
+  pinMode(ledPin, OUTPUT);      // sets the digital pin as output
+}
+
+void loop()
+{
+  digitalWrite(ledPin, HIGH);   // sets the LED on
+  delay(1000);                  // waits for a second
+  digitalWrite(ledPin, LOW);    // sets the LED off
+  delay(1000);                  // waits for a second
+}
+\endcode
+
+\note 模拟引脚也可以当作数字引脚使用, 编号为14(对应模拟引脚0)到19(对应模拟引脚5).
+*/
+
+/**
+\fn void digitalWrite(uint8_t pin, uint8_t value);
+\brief 写数字引脚
+
+写数字引脚, 对应引脚的高低电平. 在写引脚之前, 需要将引脚设置为OUTPUT模式.
+
+\param pin   引脚编号
+\param value HIGH 或 LOW
+
+用法:
+
+\code
+int ledPin = 13;                 // LED connected to digital pin 13
+
+void setup()
+{
+  pinMode(ledPin, OUTPUT);      // sets the digital pin as output
+}
+
+void loop()
+{
+  digitalWrite(ledPin, HIGH);   // sets the LED on
+  delay(1000);                  // waits for a second
+  digitalWrite(ledPin, LOW);    // sets the LED off
+  delay(1000);                  // waits for a second
+}
+\endcode
+
+\note 模拟引脚也可以当作数字引脚使用, 编号为14(对应模拟引脚0)到19(对应模拟引脚5).
+*/
+
+/**
+\fn int digitalRead(uint8_t pin);
+\brief 读数字引脚
+
+读数字引脚, 返回引脚的高低电平. 在读引脚之前, 需要将引脚设置为INPUT模式.
+
+\param pin   引脚编号
+\return      HIGH或LOW
+
+\code
+int ledPin = 13; // LED connected to digital pin 13
+int inPin = 7;   // pushbutton connected to digital pin 7
+int val = 0;     // variable to store the read value
+
+void setup()
+{
+  pinMode(ledPin, OUTPUT);      // sets the digital pin 13 as output
+  pinMode(inPin, INPUT);      // sets the digital pin 7 as input
+}
+
+void loop()
+{
+  val = digitalRead(inPin);   // read the input pin
+  digitalWrite(ledPin, val);    // sets the LED to the button's value
+}
+\endcode
+
+\note 如果引脚没有链接到任何地方, 那么将随机返回 HIGH 或 LOW.
+*/
+
+/**
+\fn int analogRead(uint8_t pin);
+\brief 读模拟引脚
+
+读模拟引脚, 返回[0-1023]之间的值. 每读一次需要花1微妙的时间.
+
+\param pin   引脚编号
+\return      0到1023之间的值
+
+例子:
+
+\code
+int analogPin = 3;     // potentiometer wiper (middle terminal) connected to analog pin 3
+                       // outside leads to ground and +5V
+int val = 0;           // variable to store the value read
+
+void setup()
+{
+  Serial.begin(9600);          //  setup serial
+}
+
+void loop()
+{
+  val = analogRead(analogPin);    // read the input pin
+  Serial.println(val);             // debug value
+}
+\endcode
+*/
+
+/**
+\fn void analogReference(uint8_t type);
+\brief 参考电压
+
+Configures the reference voltage used for analog input. The analogRead() 
+function will return 1023 for an input equal to the reference voltage. 
+The options are:
+
+ - DEFAULT : the default analog reference of 5 volts.
+ - INTERNAL: an built-in reference, equal to 1.1 volts on the ATmega168 and 2.56 volts on the ATmega8.
+ - EXTERNAL: the voltage applied to the AREF pin is used as the reference.
+             Parameters
+
+\param type 参考类型(DEFAULT/INTERNAL/EXTERNAL)
+
+\warning
+It is a good idea to connect external voltages to the AREF pin through a 
+5K resistor. This will prevent possible internal damage to the Atmega chip 
+if analogReference() software settings are incompatible with the current 
+hardware setup. Connecting external voltages through a resistor also make 
+it possible to switch the AREF voltage on the fly, say from the 5 volt DEFAULT 
+setting, to a 3.3 volt EXTERNAL setting (and applied voltage), without the 
+hardware setup affecting either ADC configuration.
+
+Use of the AREF pin
+
+The voltage applied to the AREF pin directly governs the ADC and sets the 
+voltage at which the ADC will report its highest reading, 1023. Lower voltages 
+applied to ADC (analog) pins will be scaled proportionally, so at the DEFAULT 
+setting (5 volt internal connection), 2.5 volts on an analog pin will report 
+approximately 512.
+
+The default configuration on all Arduino implementations is to have nothing 
+connected externally to the AREF pin (Atmega pin 21). In this case the DEFAULT 
+analogReference software setting connects the AVCC voltage, internally, to the 
+AREF pin. This appears to be a low impedance connection (high current) and 
+voltages, other than AVCC, applied (erroneously) to the AREF pin in the DEFAULT 
+setting could damage the ATMEGA chip. For this reason, connecting external 
+voltages to the AREF pin through a 5K resistor is a good idea.
+
+The AREF pin may also be connected internally to an (internal) 1.1 volt source 
+with analogReference(INTERNAL). With this setting voltages applied to the 
+ADC (analog) pins that are 1.1 volts (or higher) will report 1023, when read 
+with analogRead. Lower voltages will report proportional values, so .55 volts 
+will report about 512.
+
+The connection between the 1.1 volt source and the AREF pin is a very high 
+impedance (low current) connection, so that reading the 1.1 
+(internally supplied) voltage at the AREF pin may only be done with a more 
+expensive, high-impedance multimeter. An external voltage applied (erroneously) 
+to AREF pin while using the INTERNAL setting will not damage the chip, 
+but will totally override the 1.1 volt source, and ADC readings will be 
+governed by the external voltage. It is still desirable to connect any 
+external voltage to the AREF pin however, through a 5K resistor to avoid 
+the problem cited above.
+
+The correct software setting for using the AREF pin with an external voltage 
+is analogReference(EXTERNAL). This disconnects both of the internal references 
+and the voltage applied externally to the AREF pin sets the reference voltage 
+for the ADC.
+*/
+
+/**
+\fn void analogWrite(uint8_t pin, int value);
+\brief 写模拟引脚
+
+写一个模拟值(PWM)到引脚. 可以用来控制LED的亮度, 或者控制电机的转速. 在执行该操作后,
+应该等待一定时间后才能对该引脚进行下一次的读或写操作. PWM的频率大约为490Hz.
+
+在一些基于ATmega168的新的Arduino控制板(如Mini 和BT)中, 该函数支持以下引脚: 3, 5, 6, 9, 10, 11.
+在基于ATmega8的型号中支持9, 10, 11引脚.
+
+例子:
+
+\code
+int ledPin = 9;      // LED connected to digital pin 9
+int analogPin = 3;   // potentiometer connected to analog pin 3
+int val = 0;         // variable to store the read value
+
+void setup()
+{
+  pinMode(ledPin, OUTPUT);   // sets the pin as output
+}
+
+void loop()
+{
+  val = analogRead(analogPin);   // read the input pin
+  analogWrite(ledPin, val / 4);  // analogRead values go from 0 to 1023, analogWrite values from 0 to 255
+}
+\endcode
+
+\param pin   引脚编号
+\param value 0到255之间的值, 0对应off, 255对应on
+*/
+
+//====================================================================
+//====================================================================
+
+/**
+
+\fn void beginSerial(long);
+\brief 打开串口
+\fn void serialWrite(unsigned char);
+\brief 写串口
+\fn int serialAvailable(void);
+\brief 串口可读数据数目
+\fn int serialRead(void);
+\brief 读串口
+\fn void serialFlush(void);
+\brief 刷新串口数据
+*/
+
+//====================================================================
+//====================================================================
+
+/**
+
+\fn unsigned long millis(void);
+\brief 毫秒
+
+Returns the number of milliseconds since the Arduino board began running the current program.
+
+Parameters
+
+None
+
+Returns
+
+The number of milliseconds since the current program started running, as an unsigned long. This number will overflow (go back to zero), after approximately 9 hours and 32 minutes.
+
+Examples
+
+\code
+long time;
+
+void setup(){
+  Serial.begin(9600);
+}
+void loop(){
+  Serial.print("Time: ");
+  time = millis();
+  //prints time since program started
+  Serial.println(time);
+  // wait a second so as not to send massive amounts of data
+  delay(1000);
+}
+\endcode
+
+\code
+// Frequency Test
+// Paul Badger 2007
+// Program to empirically determine the time delay to generate the 
+// proper frequency for a an  Infrared (IR) Remote Control Receiver module
+// These modules typically require 36 - 52 khz communication frequency
+// depending on specific device.
+
+int tdelay;
+unsigned long i, hz;
+unsigned long time;
+int outPin = 11;
+
+void setup(){
+  pinMode(outPin, OUTPUT);
+  Serial.begin(9600);
+}
+
+void loop() { 
+  for (tdelay = 1; tdelay < 12; tdelay++){      // scan across a range of time delays to find the right frequency
+    time = millis();               // get start time of inner loop
+    for (i = 0; i < 100000; i++){  // time 100,000 cycles through the loop 
+      digitalWrite(outPin, HIGH);
+      delayMicroseconds(tdelay);
+      digitalWrite(outPin, LOW);
+      delayMicroseconds(tdelay);
+    }
+    time = millis() - time;      // compute time through inner loop in milliseconds 
+    hz = (1 /((float)time / 100000000.0));   // divide by 100,000 cycles and 1000 milliseconds per second
+    // to determine period, then take inverse to convert to hertz
+    Serial.print(tdelay, DEC);
+    Serial.print("   ");
+    Serial.println(hz, DEC);
+  }
+}
+\endcode
+
+\warning:
+
+Note that the parameter for millis is an unsigned long, errors may be generated if a programmer, tries to do math with other datatypes such as ints.
+
+Example:
+
+\code
+int startTime;             // should be "unsigned long startTime;"
+
+// ...
+
+startTime = millis();     // datatype not large enough to hold data, will generate errors
+\endcode
+*/
+
+/**
+\fn unsigned long micros(void);
+\brief 微秒
+*/
+
+/**
+\fn void delay(unsigned long);
+\brief 延时(毫秒)
+
+Pauses your program for the amount of time (in miliseconds) specified as parameter.
+
+Parameters
+
+unsigned long ms - the number of milliseconds to pause (there are 1000 milliseconds in a second)
+
+Returns
+
+nothing
+
+Warning:
+
+The parameter for delay is an unsigned long. When using an integer constant larger than about 32767 as a parameter for delay, append an "UL" suffix to the end. e.g. delay(60000UL); Similarly, casting variables to unsigned longs will insure that they are handled correctly by the compiler. e.g. delay((unsigned long)tdelay * 100UL);
+
+Example
+
+\code
+int ledPin = 13;                 // LED connected to digital pin 13
+
+void setup()
+{
+  pinMode(ledPin, OUTPUT);      // sets the digital pin as output
+}
+
+void loop()
+{
+  digitalWrite(ledPin, HIGH);   // sets the LED on
+  delay(1000);                  // waits for a second
+  digitalWrite(ledPin, LOW);    // sets the LED off
+  delay(1000);                  // waits for a second
+}
+\endcode
+
+configures pin number 13 to work as an output pin. It sets the pin to HIGH, waits for 1000 miliseconds (1 second), sets it back to LOW and waits for 1000 miliseconds.
+*/
+
+/**
+\fn void delayMicroseconds(unsigned int us);
+\brief 延时(微秒)
+
+Pauses the program for the amount of time (in microseconds) specified as parameter. For delays longer than a few thousand microseconds, you should use delay() instead.
+
+Currently, the largest value that will produce an accurate delay is 16383. This could change in future Arduino releases.
+
+Parameters
+
+us: the number of microseconds to pause. (There are a thousand microseconds in a millisecond, and a million microseconds in a second.)
+
+Returns
+
+None
+
+Example
+
+\code 
+int outPin = 8;                 // digital pin 8
+
+void setup()
+{
+  pinMode(outPin, OUTPUT);      // sets the digital pin as output
+}
+
+void loop()
+{
+  digitalWrite(outPin, HIGH);   // sets the pin on
+  delayMicroseconds(50);        // pauses for 50 microseconds      
+  digitalWrite(outPin, LOW);    // sets the pin off
+  delayMicroseconds(50);        // pauses for 50 microseconds      
+}
+\endcode
+
+configures pin number 8 to work as an output pin. It sends a train of pulses with 100 microseconds period.
+
+Caveats and Known Issues
+
+This function works very accurately in the range 3 microseconds and up. We cannot assure that delayMicroseconds will perform precisely for smaller delay-times.
+
+To ensure more accurate delays, this functions disables interrupts during its operation, meaning that some things (like receiving serial data, or incrementing the value returned by millis()) will not happen during the delay. Thus, you should only use this function for short delays, and use delay() for longer ones.
+
+delayMicroseconds(0) will generate a much longer delay than expected (~1020 us) as will negative numbers.
+
+*/
+
+/**
+\fn unsigned long pulseIn(uint8_t pin, uint8_t state, unsigned long timeout);
+\brief 引脚脉冲
+
+Reads a pulse (either HIGH or LOW) on a pin. For example, if value is HIGH, pulseIn() waits for the pin to go HIGH, starts timing, then waits for the pin to go LOW and stops timing. Returns the length of the pulse in microseconds. Gives up and returns 0 if no pulse starts within a specified time out.
+
+The timing of this function has been determined empirically and will probably show errors in longer pulses. Works on pulses from 10 microseconds to 3 minutes in length.
+
+Parameters
+
+pin: the number of the pin on which you want to read the pulse. (int)
+
+value: type type of pulse to read: either HIGH or LOW. (int)
+
+timeout (optional): the number of microseconds to wait for the pulse to start; default is one second (unsigned long)
+
+Returns
+
+the length of the pulse (in microseconds) or 0 if no pulse started before the timeout
+
+Example
+
+\code
+int pin = 7;
+unsigned long duration;
+
+void setup()
+{
+  pinMode(pin, INPUT);
+}
+
+void loop()
+{
+  duration = pulseIn(pin, HIGH);
+}
+\endcode
+*/
+
+//====================================================================
+//====================================================================
+
+/**
+
+\fn void shiftOut(uint8_t dataPin, uint8_t clockPin, uint8_t bitOrder, byte val);
+\brief 待完善
+
+Shifts out a byte of data one bit at a time. Starts from either the most (i.e. the leftmost) or least (rightmost) significant bit. Each bit is written in turn to the dataPin, after which the clockPin is toggled to indicate that the bit is available.
+
+This is known as synchronous serial protocol and is a common way that microcontrollers communicate with sensors, and with other microcontrollers. The two devices always stay synchronized, and communicate at close to maximum speeds, since they both share the same clock line.
+
+Parameters
+
+dataPin: the pin on which to output each bit (int)
+
+clockPin: the pin to toggle once the dataPin has been set to the correct value (int)
+
+bitOrder: which order to shift out the bits; either MSBFIRST or LSBFIRST.
+(Most Significant Bit First, or, Least Significant Bit First)
+
+value: the data to shift out. (byte)
+
+Returns
+
+None
+
+Note
+
+The dataPin and clockPin must already be configured as outputs by a call to pinMode.
+
+Example
+
+For accompanying circuit, see the tutorial on controlling a 74HC595 shift register.
+
+\code
+//================================================================
+//  Name    : shiftOutCode, Hello World                         //
+//  Author  : Carlyn Maw,Tom Igoe                               //
+//  Date    : 25 Oct, 2006                                      //
+//  Version : 1.0                                               //
+//  Notes   : Code for using a 74HC595 Shift Register           //
+//          : to count from 0 to 255                            //
+//================================================================
+
+//Pin connected to ST_CP of 74HC595
+int latchPin = 8;
+//Pin connected to SH_CP of 74HC595
+int clockPin = 12;
+////Pin connected to DS of 74HC595
+int dataPin = 11;
+
+void setup() {
+  //set pins to output because they are addressed in the main loop
+  pinMode(latchPin, OUTPUT);
+  pinMode(clockPin, OUTPUT);
+  pinMode(dataPin, OUTPUT);
+}
+
+void loop() {
+  //count up routine
+  for (int j = 0; j < 256; j++) {
+    //ground latchPin and hold low for as long as you are transmitting
+    digitalWrite(latchPin, LOW);
+    shiftOut(dataPin, clockPin, LSBFIRST, j);   
+    //return the latch pin high to signal chip that it 
+    //no longer needs to listen for information
+    digitalWrite(latchPin, HIGH);
+    delay(1000);
+  }
+} 
+\endcode
+
+\note
+Note that this function, as it is currently written, is hard-wired to output 8 bits at a time. An int holds two bytes (16 bits), so outputting an int with shiftout requires a two-step operation:
+
+Example:
+
+\code
+int data;
+int clock;
+int cs;
+...
+
+digitalWrite(cs, LOW);
+data = 500;
+shiftOut(data, clock, MSBFIRST, data)
+digitalWrite(cs, HIGH);
+
+// this will actually only output 244 because 
+// 500 % 256 = 244
+// since only the low 8 bits are output
+
+// Instead do this for MSBFIRST serial
+data = 500;
+// shift out highbyte
+// " >> " is bitshift operator - moves top 8 bits (high byte) into low byte 
+shiftOut(data, clock, MSBFIRST, (data >> 8));  
+
+// shift out lowbyte
+shiftOut(data, clock, MSBFIRST, data);
+
+
+
+// And do this for LSBFIRST serial
+data = 500;
+// shift out lowbyte
+shiftOut(data, clock, LSBFIRST, data);  
+
+// shift out highbyte 
+shiftOut(data, clock, LSBFIRST, (data >> 8));
+\endcode
+*/
+
+//====================================================================
+//====================================================================
+
+/**
+\fn void attachInterrupt(uint8_t pin, void (*fun)(void), int mode);
+\brief 设置中断
+
+给引脚设置中断函数.
+
+\param pin   引脚编号
+\param fun   中断函数
+\param mode  中断模式
+*/
+
+/**
+\fn void detachInterrupt(uint8_t pin);
+\brief 取消中断
+
+取消指定引脚的中断函数.
+
+\param pin   引脚编号
+*/
+
+//====================================================================
+//====================================================================
+
+/**
+\fn void setup(void)
+\brief 初始化
+
+setup() 函数在程序刚启动的时候被调用. 我们可以在函数中初始化相关变量,
+设置引脚的输入/输出模式, 打开串口网络等操作. 该函数只在上电或从启时执行
+一次.
+
+具体的用法如下:
+
+\code
+int buttonPin = 3;
+
+void setup()
+{
+  beginSerial(9600);
+  pinMode(buttonPin, INPUT);
+}
+
+void loop()
+{
+  // ...
+}
+\endcode
+*/
+
+/**
+\fn void loop(void)
+\brief 主体程序
+
+在 setup() 函数初始化完成后, 将会循环执行 loop() 函数. 我们一般可以在
+loop() 函数中控制Arduino板.
+
+\code
+int buttonPin = 3;
+
+// setup initializes serial and the button pin
+void setup()
+{
+  beginSerial(9600);
+  pinMode(buttonPin, INPUT);
+}
+
+// loop checks the button pin each time,
+// and will send serial if it is pressed
+void loop()
+{
+  if (digitalRead(buttonPin) == HIGH)
+    serialWrite('H');
+  else
+    serialWrite('L');
+
+  delay(1000);
+}
+\endcode
+*/
+
+//====================================================================
+//====================================================================
+

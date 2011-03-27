@@ -1,0 +1,118 @@
+
+//========================================================================
+
+/**
+\class EthernetClass
+\brief 网络
+
+详细内容.
+
+*/
+
+
+/**
+\var uint8_t EthernetClass::_state[MAX_SOCK_NUM]
+\brief 每个链接的状态
+
+*/
+
+/**
+\var uint16_t EthernetClass::_server_port[MAX_SOCK_NUM]
+\brief 每个链接的端口
+
+*/
+
+
+/**
+\fn void EthernetClass::begin(uint8_t *mac, uint8_t *ip)
+\brief 开启网络
+\fn void EthernetClass::begin(uint8_t *mac, uint8_t *ip, uint8_t *gateway)
+\brief 开启网络
+\fn void EthernetClass::begin(uint8_t *mac, uint8_t *ip, uint8_t *gateway, uint8_t *subnet)
+\brief 开启网络
+
+\param mac     网卡地址
+\param ip      IP地址
+\param gateway 网关地址, 默认对应IP地址最低为1
+\param subnet  子网掩码
+
+使用方式:
+
+\code
+#include <Ethernet.h>
+
+byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
+byte ip[] = { 10, 0, 0, 177 };
+
+void setup()
+{
+  Ethernet.begin(mac, ip);
+}
+
+void loop () {}
+\endcode
+*/
+
+/**
+\relates EthernetClass
+\var EthernetClass Ethernet
+\brief 网络对象
+*/
+
+//========================================================================
+
+/**
+\class Server
+\brief 网络服务端
+
+例子:
+\include WebServer.pde
+
+\fn Server::Server(uint16_t)
+\brief 构造函数
+\fn void Server::begin()
+\brief 开发网络服务
+\fn Client Server::available()
+\brief 当前有效链接
+\fn void Server::write(uint8_t c)
+\brief 向网络输出字符
+
+*/
+
+//========================================================================
+
+/**
+\class Client
+\brief 网络客户端
+
+\include WebClient.pde
+
+\fn Client::Client(uint8_t)
+\brief 构造函数
+\fn Client::Client(uint8_t *, uint16_t)
+\brief 构造函数
+\fn uint8_t Client::status()
+\brief 链接状态
+\fn uint8_t Client::connect()
+\brief 连接
+\fn void Client::write(uint8_t)
+\brief 写字符
+\fn int Client::available()
+\brief 有可用数据
+\fn int Client::read()
+\brief 读
+\fn void Client::flush()
+\brief 刷新数据
+\fn void Client::stop()
+\brief 停止
+\fn uint8_t Client::connected()
+\brief 是否链接
+\fn uint8_t Client::operator==(int)
+\brief 比较
+\fn uint8_t Client::operator!=(int)
+\brief 比较
+\fn Client::operator bool()
+\brief 转为bool类型
+
+*/
+//========================================================================

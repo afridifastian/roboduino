@@ -1,0 +1,36 @@
+
+/**
+\page guide_ethernet_shield Arduino ¹Ù·½ÍøÂçÀ©Õ¹°å
+
+The Arduino Ethernet shield allows an Arduino board to connect to the internet 
+using the Ethernet library.
+
+\section guide_ethernet_shield_01 Connecting the Shield
+
+\image html ArduinoWithEthernetShield.jpg
+
+To use the shield, mount it on top of an Arduino board (e.g. the Diecimila). 
+To upload sketches to the board, connect it to your computer with a USB cable 
+as you normally would. Once the sketch has been uploaded, you can disconnect 
+the board from your computer and power it with an external power supply.
+
+Connect the shield to your computer or a network hub or router using a standard 
+ethernet cable (CAT5 or CAT6 with RJ45 connectors). Connecting to a computer 
+may require the use of a cross-over cable (although many computers, including 
+all recent Macs can do the cross-over internally).
+
+\section guide_ethernet_shield_02 Network Settings
+
+The shield must be assigned a MAC address and a fixed IP address using the 
+Ethernet.begin() function. A MAC address is a globally unique identifier for a 
+particular device; inventing a random one should work, but don't use the same 
+one for multiple boards. Valid IP addresses depend on the configuration of 
+your network. (It is possible to use DHCP to dynamically assign an IP to 
+the shield, but this is not yet implemented.) Optionally, you can also specify 
+a network gateway and subnet.
+
+The text of the Arduino getting started guide is licensed under a Creative 
+Commons Attribution-ShareAlike 3.0 License. Code samples in the guide are 
+released into the public domain.
+
+*/

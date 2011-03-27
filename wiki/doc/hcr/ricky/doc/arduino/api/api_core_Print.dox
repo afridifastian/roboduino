@@ -1,0 +1,67 @@
+/**
+\class Print
+\brief 打印基类
+
+\fn void Print::write(uint8_t b)
+\brief 向设备写数据
+
+虚函数, 可以在派生的子类中从新实现, 将打印的字符输出到各种设备.
+
+\fn void Print::print(char)
+\brief 打印字符
+
+\fn void Print::print(const char[])
+\brief 打印字符串
+
+\fn void Print::print(uint8_t)
+\brief 打印整数
+
+\fn void Print::print(int)
+\brief 打印整数
+
+\fn void Print::print(unsigned int)
+\brief 打印整数
+
+\fn void Print::print(long)
+\brief 打印整数
+
+\fn void Print::print(unsigned long)
+\brief 打印整数
+
+\fn void Print::print(long, int)
+\brief 打印整数
+
+\fn void Print::print(double)
+\brief 打印浮点数
+
+\fn void Print::println(void)
+\brief 打印换行
+
+\fn void Print::println(char)
+\brief 打印字符, 换行
+
+\fn void Print::println(const char[])
+\brief 打印整数, 换行
+
+\fn void Print::println(uint8_t)
+\brief 打印整数, 换行
+
+\fn void Print::println(int)
+\brief 打印整数, 换行
+
+\fn void Print::println(unsigned int)
+\brief 打印整数, 换行
+
+\fn void Print::println(long)
+\brief 打印整数, 换行
+
+\fn void Print::println(unsigned long)
+\brief 打印整数, 换行
+
+\fn void Print::println(long, int)
+\brief 打印整数, 换行
+
+\fn void Print::println(double)
+\brief 打印浮点数, 换行
+
+*/

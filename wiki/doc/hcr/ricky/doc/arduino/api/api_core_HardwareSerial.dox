@@ -1,0 +1,41 @@
+
+/**
+\class HardwareSerial
+\brief 串口(硬件实现)
+
+*/
+
+/**
+\fn void HardwareSerial::begin(long speed)
+\brief 打开串口
+
+\param speed 波特率
+*/
+
+/**
+\fn uint8_t HardwareSerial::available(void)
+\brief 有串口数据
+*/
+
+/**
+\fn int HardwareSerial::read(void)
+\brief 读串口
+*/
+
+/**
+\fn void HardwareSerial::flush(void)
+\brief 刷新串口数据
+*/
+
+/**
+\fn virtual void HardwareSerial::write(uint8_t)
+\brief 写串口
+*/
+
+/**
+\relates HardwareSerial
+\var HardwareSerial Serial
+\brief 串口
+
+ddd
+*/

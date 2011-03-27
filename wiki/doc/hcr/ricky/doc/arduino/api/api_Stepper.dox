@@ -1,0 +1,13 @@
+
+/**
+\class Stepper
+\brief 步进电机
+
+\fn void Stepper::setSpeed(long whatSpeed)
+\brief 设置速度
+\fn void Stepper::step(int number_of_steps)
+\brief 设置步长
+\fn int Stepper::version(void)
+\brief 版本号
+
+*/

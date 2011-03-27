@@ -1,0 +1,32 @@
+#######################################
+# Syntax Coloring Map
+#######################################
+
+#keyword2.style=#993333,bold
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+RoboduinoMotor	    KEYWORD1
+RoboduinoIO	        KEYWORD1
+RoboduinoEthernet	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+instance	KEYWORD2
+motorRead   KEYWORD2
+motorWrite  KEYWORD2
+mapMotor    KEYWORD2
+start       KEYWORD2
+stop        KEYWORD2
+leftSpeed   KEYWORD2
+rightSpeed  KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+
+# MAX_DATA_BYTES	LITERAL1

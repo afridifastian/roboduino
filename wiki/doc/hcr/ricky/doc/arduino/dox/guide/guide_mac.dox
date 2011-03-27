@@ -1,0 +1,100 @@
+
+/**
+\page guide_mac 使用入门(Mac平台)
+\author 柴树杉[翻译] (chaishushan@gmail.com)
+\note 该版本针对Mac平台.
+
+该文档简要描述了如果通过电脑链接Arduino控制板, 然后将控制程序下载到Arduino中.
+主要有以下步骤:
+
+ - \ref guide_mac_01
+ - \ref guide_mac_02
+ - \ref guide_mac_03
+ - \ref guide_mac_04
+ - \ref guide_mac_05
+ - \ref guide_mac_06
+ - \ref guide_mac_07
+ - \ref guide_mac_08
+ - \ref guide_mac_09
+
+\section guide_mac_01 1. 获取控制板
+
+在这个入门教程中, 我们假设读者使用的是Arduino Diecimila型号控制板. 如果使用的不是这个型号,
+你们请参考相关的入门教程.
+
+Arduino Diecimila是一个建议的控制板, 包含了一些基本的控制功能. 下面是Arduino Diecimila说明
+图片:
+
+\image html ArduinoDiecimilaComponents.jpg
+
+此外还需要一个USB连接线, 用于链接Arduino和个人电脑.
+
+\section guide_mac_02 2. 下载Arduino开发环境
+
+为Arduino编写程序需要先安装开发环境, 可以从<a href="http://arduino.cc/en/Main/Software">这里</a>下载.
+
+下载完成后将下载的压缩文件解压到一个目录(压缩文件的内部目录结构保持不变).
+
+\section guide_mac_03 3. 安装USB驱动
+
+使用USB链接Arduino前需要为FTDI设备安装驱动, 驱动文件在drivers/FTDI目录.
+
+如果使用的是比较老的Mac系统(如Powerbook/iBook/G4/G5等), 则需要安装PPC驱动:
+FTDIUSBSerialDriver_v2_1_9.dmg. 如果是比较新的Mac系统(如MacBook/MacBook Pro/Mac Pro),
+则需要安装Intel驱动: FTDIUSBSerialDriver_v2_2_9_Intel.dmg. 双击安装FTDIUSBSerialDriver.pkg.
+
+\image html USBDriversMac.png
+
+最新的驱动可以从 <a href="http://www.ftdichip.com/Drivers/VCP.htm">FTDI</a>下载.
+
+\section guide_mac_04 4. 链接Arduino控制板
+
+Arduino控制板可以选择从USB供电, 也可以选择由电源供电. 如果要从USB供电, 只需要将靠近USB接口
+的跳线连通就可以了. 如果是用外部电源供电(6-12V), 则将靠近电源接口的2个跳线连通. 用户可以任意
+选择一种供电方式. 
+
+连接电源后, 电源LED指示灯亮.
+
+\image html PluggedIn.jpg
+
+\section guide_mac_05 5. 连接LED灯(如果是新板则不需要)
+
+第一个程序是用来控制LED灯. 如果是Arduino Diecimila(以及Arduino NG)系列的开发板, 
+已经带了一个LED灯(对于13号引脚). 对于Arduino NG以及之前的型号, 需要自己将LED灯
+连接到13号引脚. 在连接LED灯的时候, 一般还需要串联一个电阻, 不过Arduino本身已经带了.
+
+\section guide_mac_06 6. 打开开发环境
+
+切换到Arduino目录, 双击打开Arduino程序.
+
+\section guide_mac_07 7. 上传程序
+
+打开LED blink例程: File > Sketchbook > Examples > Digital > Blink.
+
+如图:
+
+\image html ArduinoEnvironment.png
+
+通过菜单: Tools -> Serial Port 选择串口. 对于Mac系统, 串口一般对应/dev/tty.usbserial类似
+的名字.
+
+\image html SerialPortSelection.png
+
+开发板类型选择"Arduino Diecimila", 对应菜单: Tools -> Board.
+
+\image html ArduinoBoardMenuDiecimila.jpg
+
+现在点击上传图标. 上传一般需要几秒钟时间, 在上传的时候串口的指示灯(RX和TX)会不停的
+闪烁. 如果上传完成, 状态栏会有上传成功的提示: "Done uploading.". (提示: 对于Arduino Mini, NG
+等型号的Arduino板, 程序上传完成后需要手动复位开发板).
+
+\section guide_mac_08 8. 观看LED灯闪烁
+
+等待几秒种后, 会发现LED灯会不停的闪烁. 如果你已经实现了这个功能, 那么恭喜你已经初步
+会使用Arduino了! 如果需要了问题, 那么请参考: \ref guide_troubleshooting
+
+\section guide_mac_09 9. 进阶学习
+
+ - 例程: 参考Arduino自带的例子.
+ - 参考: 查阅相关函数的文档说明.
+*/

@@ -1,0 +1,45 @@
+
+/**
+\class TwoWire
+\brief I2C接口
+
+\fn void TwoWire::begin()
+\brief 开始, 默认为主机
+\fn void TwoWire::begin(uint8_t)
+\brief 开始, 设置从机地址
+\fn void TwoWire::begin(int)
+\brief 开始, 设置从机地址
+\fn void TwoWire::beginTransmission(uint8_t)
+\brief 开始和指定地址通信
+\fn void TwoWire::beginTransmission(int)
+\brief 开始和指定地址通信
+\fn uint8_t TwoWire::endTransmission(void)
+\brief 结束通信
+\fn uint8_t TwoWire::requestFrom(uint8_t, uint8_t)
+\brief 请求
+\fn uint8_t TwoWire::requestFrom(int, int)
+\brief 请求
+\fn void TwoWire::send(uint8_t)
+\brief 发送
+\fn void TwoWire::send(uint8_t*, uint8_t)
+\brief 发送
+\fn void TwoWire::send(int)
+\brief 发送
+\fn void TwoWire::send(char*)
+\brief 发送
+\fn uint8_t TwoWire::available(void)
+\brief 可以读数据数目
+\fn uint8_t TwoWire::receive(void)
+\brief 接收数据
+\fn void TwoWire::onReceive( void (*)(int) )
+\brief 设置接收回调函数
+\fn void TwoWire::onRequest( void (*)(void) )
+\brief 设置请求回调函数
+
+*/
+
+/**
+\relates TwoWire
+\var TwoWire Wire
+\brief I2C对象
+*/

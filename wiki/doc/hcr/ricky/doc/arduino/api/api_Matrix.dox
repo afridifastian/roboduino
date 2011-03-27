@@ -1,0 +1,15 @@
+
+/**
+\class Matrix
+\brief LED点阵控制
+
+\fn void Matrix::setBrightness(uint8_t)
+\brief 带完善
+\fn void Matrix::write(uint8_t, uint8_t, uint8_t)
+\brief 写
+\fn void Matrix::write(uint8_t, uint8_t, Sprite)
+\brief 写
+\fn void Matrix::clear(void)
+\brief 清空
+
+*/

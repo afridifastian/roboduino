@@ -1,0 +1,137 @@
+
+/**
+\class SoftwareSerial
+\brief 串口(软件实现)
+
+The Arduino hardware has built-in support for serial communication on pins 0 and 1 (which also goes to the computer via the USB connection). The native serial support happens via a piece of hardware (built into the chip) called a UART. This hardware allows the Atmega chip to receive serial communication even while working on other tasks, as long as there room in the 64 byte serial buffer.
+
+The SoftwareSerial library has been developed to allow serial communication on other digital pins of the Arduino, using software to replicate the functionality (hence the name "SoftwareSerial").
+
+因为是基于软件模拟, 所以有一下限制:
+
+ -# Only speeds up to 9600 baud work
+ -# Serial.available() doesn't work
+ -# Serial.read() will wait until data arrives
+ -# Only data received while Serial.read() is being called will be received. Data received at     other times will be lost, since the chip is not "listening". 
+
+SoftwareSerial appears to have some timing issues and/or software issues. Check this forum thread for discussion. Software Serial Discussion. In particular, if you are having problems using SoftwareSerial with an Atmega168 chip delete SoftwareSerial.o in your Arduino directory. 
+
+例子:
+
+\code
+/*
+  SoftwareSerial example
+
+  Sample of the SoftwareSerial library.  Listens for serial in on pin 2
+  and sends it out again on pin 3.
+
+  by Tom Igoe
+  based on examples by David Mellis and Heather Dewey-Hagborg
+  written: 6 Jan 2007
+
+
+*/
+
+// include the SoftwareSerial library so you can use its functions:
+#include <SoftwareSerial.h>
+
+#define rxPin 2
+#define txPin 3
+#define ledPin 13
+
+// set up a new serial port
+SoftwareSerial mySerial =  SoftwareSerial(rxPin, txPin);
+byte pinState = 0;
+
+void setup()  {
+  // define pin modes for tx, rx, led pins:
+  pinMode(rxPin, INPUT);
+  pinMode(txPin, OUTPUT);
+  pinMode(ledPin, OUTPUT);
+  // set the data rate for the SoftwareSerial port
+  mySerial.begin(9600);
+}
+
+void loop() {
+  // listen for new serial coming in:
+  char someChar = mySerial.read();
+  // print out the character:
+  mySerial.print(someChar);
+  // toggle an LED just so you see the thing's alive.  
+  // this LED will go on with every OTHER character received:
+  toggle(13);
+
+}
+
+
+void toggle(int pinNum) {
+  // set the LED pin using the pinState variable:
+  digitalWrite(pinNum, pinState); 
+  // if pinState = 0, set it to 1, and vice versa:
+  pinState = !pinState;
+}
+\endcode
+*/
+
+/**
+\fn void SoftwareSerial::SoftwareSerial(uint8_t receivePin, uint8_t transmitPin);
+\brief 定义模拟串口
+
+\fn void SoftwareSerial::begin(long);
+\brief 打开模拟串口
+
+\fn int SoftwareSerial::read();
+\brief 从串口读数据
+
+\fn void SoftwareSerial::print(char)
+\brief 打印字符
+
+\fn void SoftwareSerial::print(const char[])
+\brief 打印字符串
+
+\fn void SoftwareSerial::print(uint8_t)
+\brief 打印整数
+
+\fn void SoftwareSerial::print(int)
+\brief 打印整数
+
+\fn void SoftwareSerial::print(unsigned int)
+\brief 打印整数
+
+\fn void SoftwareSerial::print(long)
+\brief 打印整数
+
+\fn void SoftwareSerial::print(unsigned long)
+\brief 打印整数
+
+\fn void SoftwareSerial::print(long, int)
+\brief 打印整数
+
+\fn void SoftwareSerial::println(void)
+\brief 打印换行
+
+\fn void SoftwareSerial::println(char)
+\brief 打印字符, 换行
+
+\fn void SoftwareSerial::println(const char[])
+\brief 打印整数, 换行
+
+\fn void SoftwareSerial::println(uint8_t)
+\brief 打印整数, 换行
+
+\fn void SoftwareSerial::println(int)
+\brief 打印整数, 换行
+
+\fn void SoftwareSerial::println(unsigned int)
+\brief 打印整数, 换行
+
+\fn void SoftwareSerial::println(long)
+\brief 打印整数, 换行
+
+\fn void SoftwareSerial::println(unsigned long)
+\brief 打印整数, 换行
+
+\fn void SoftwareSerial::println(long, int)
+\brief 打印整数, 换行
+
+*/
