@@ -4,11 +4,10 @@ import net.roboduino.commons.constant.ProtocolConstant;
 import net.roboduino.commons.util.ProtocolUtils;
 
 import org.apache.mina.core.buffer.IoBuffer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-public abstract class BaseMsg {
-	private static final Logger logger = LoggerFactory.getLogger(BaseMsg.class);
+public class BaseMsg {
+	// private static final Logger logger =
+	// LoggerFactory.getLogger(BaseMsg.class);
 	private byte[] header = new byte[2];
 	private byte deviceAddress;
 	private byte frameLen;
@@ -16,6 +15,10 @@ public abstract class BaseMsg {
 	private byte[] content = {};
 	private byte sum;
 	private byte end;
+
+	public BaseMsg(IoBuffer buffer) {
+		this.deserialize(buffer);
+	}
 
 	public BaseMsg(byte cmdType, Class<? extends BaseMsg> clazz) {
 		this.cmdType = cmdType;
@@ -28,26 +31,24 @@ public abstract class BaseMsg {
 
 	/***/
 	public void serialize(IoBuffer buffer) {
-		buffer.put(ProtocolConstant.MSG_HEADER);
-		buffer.put(ProtocolConstant.MSG_DEVICEADDRESS);
-		buffer.put(this.getLength());
+		header = ProtocolConstant.MSG_HEADER;
+		buffer.put(header);
+		deviceAddress = ProtocolConstant.MSG_DEVICEADDRESS;
+		buffer.put(deviceAddress);
+		frameLen = this.getLength();
+		buffer.put(frameLen);
 		buffer.put(cmdType);
 		buffer.put(content);
-		short temp = 0;
-		for (byte e : content) {
-			temp += e & 0xff;
-		}
-
-		sum = ProtocolUtils.buildChecksum(ProtocolConstant.MSG_DEVICEADDRESS
-				+ this.getLength() + cmdType + temp);
+		sum = ProtocolUtils.buildChecksum(this);
 		// buffer.getUnsigned()
-
 		buffer.put(sum);
-		buffer.put(ProtocolConstant.MSG_STOP);
+		end = ProtocolConstant.MSG_STOP;
+		buffer.put(end);
+
 	}
 
-	public BaseMsg deserialize(IoBuffer buffer) {
-		//logger.info("");
+	private BaseMsg deserialize(IoBuffer buffer) {
+		// logger.info("");
 		header[0] = buffer.get();
 		header[1] = buffer.get();
 		deviceAddress = buffer.get();
