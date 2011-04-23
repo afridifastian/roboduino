@@ -4,8 +4,5 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     >
-    <ToggleButton android:text="ToggleButton" android:id="@+id/toggleButton4Enable" android:layout_width="wrap_content" 
-    android:layout_height="wrap_content" android:onClick="onEnableButtonClicked"></ToggleButton>
-    <Spinner android:layout_height="wrap_content" android:layout_width="match_parent" android:id="@+id/spinner1"></Spinner>
-    <EditText android:layout_height="wrap_content" android:layout_width="match_parent" android:id="@+id/editText1" android:text="EditText"></EditText>
+    <CheckBox android:text="CheckBox" android:id="@+id/checkBox1" android:layout_width="wrap_content" android:layout_height="wrap_content"></CheckBox>
 </LinearLayout>
