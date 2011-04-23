@@ -12,11 +12,11 @@ import android.view.View;
 public class AgentActivity extends Activity {
 	private static final Logger logger = LoggerFactory
 			.getLogger(AgentActivity.class);
-	/* È¡µÃÄ¬ÈÏµÄÀ¶ÑÀÊÊÅäÆ÷ */
+	/* å–å¾—é»˜è®¤çš„è“ç‰™é€‚é…å™¨ */
 	private BluetoothAdapter bluetooth = BluetoothAdapter.getDefaultAdapter();
-	/* ÇëÇó´ò¿ªÀ¶ÑÀ */
+	/* è¯·æ±‚æ‰“å¼€è“ç‰™ */
 	private static final int REQUEST_ENABLE = 0x1;
-	/* ÇëÇóÄÜ¹»±»ËÑË÷ */
+	/* è¯·æ±‚èƒ½å¤Ÿè¢«æœç´¢ */
 	private static final int REQUEST_DISCOVERABLE = 0x2;
 
 	/** Called when the activity is first created. */
@@ -27,41 +27,41 @@ public class AgentActivity extends Activity {
 		setContentView(R.layout.main);
 	}
 
-	/* ¿ªÆôÀ¶ÑÀ */
+	/* å¼€å¯è“ç‰™ */
 	public void onEnableButtonClicked(View view) {
-		// ´ò¿ªÀ¶ÑÀ
+		// æ‰“å¼€è“ç‰™
 		if (bluetooth.isEnabled()) {
 			bluetooth.disable();
-			logger.info("¹Ø±ÕÀ¶ÑÀÉè±¸");
+			logger.info("å…³é—­è“ç‰™è®¾å¤‡");
 
 		} else {
 			bluetooth.enable();
-			logger.info("¿ªÆôÀ¶ÑÀÉè±¸");
+			logger.info("å¼€å¯è“ç‰™è®¾å¤‡");
 		}
 
 	}
 
-	/* ¹Ø±ÕÀ¶ÑÀ */
+	/* å…³é—­è“ç‰™ */
 	public void onDisableButtonClicked(View view) {
 
 		bluetooth.disable();
-		logger.info("¹Ø±ÕÀ¶ÑÀÉè±¸");
+		logger.info("å…³é—­è“ç‰™è®¾å¤‡");
 	}
 
-	/* Ê¹Éè±¸ÄÜ¹»±»ËÑË÷ */
+	/* ä½¿è®¾å¤‡èƒ½å¤Ÿè¢«æœç´¢ */
 	public void onMakeDiscoverableButtonClicked(View view) {
 
 		Intent enabler = new Intent(
 				BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
 		startActivityForResult(enabler, REQUEST_DISCOVERABLE);
-		logger.info("Ê¹À¶ÑÀÉè±¸¿É¼û");
+		logger.info("ä½¿è“ç‰™è®¾å¤‡å¯è§");
 	}
 
-	/* ¿ªÊ¼ËÑË÷ÆäËûÀ¶ÑÀÉè±¸ */
+	/* å¼€å§‹æœç´¢å…¶ä»–è“ç‰™è®¾å¤‡ */
 	public void onStartDiscoveryButtonClicked(View view) {
 
 		// Intent enabler = new Intent(this, DiscoveryActivity.class);
 		// startActivity(enabler);
-		// Log.i("AgentActivity.onStartDiscoveryButtonClicked", "ËÑË÷ÆäËûÀ¶ÑÀÉè±¸");
+		// Log.i("AgentActivity.onStartDiscoveryButtonClicked", "æœç´¢å…¶ä»–è“ç‰™è®¾å¤‡");
 	}
 }

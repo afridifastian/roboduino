@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Robot Agent</string>
+	<string name="app_name">Robot Agent</string>
+	<string name="setting">设置</string>
+	<string name="bluetooth_setting">蓝牙设置</string>
+	<string name="apply_bluetooth">蓝牙</string>
+	<string name="apply_bluetooth_summary">打开蓝牙</string>
+	<string name="bluetooth_name">设备名称</string>
+	<string name="bluetooth_discoverable">可检测性</string>
+	<string name="bluetooth_discoverable_summary">可以检测到设备</string>
+	<string name="bluetooth_scan">扫描查找设备</string>
 </resources>

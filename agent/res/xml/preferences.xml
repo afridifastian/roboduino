@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+  xmlns:android="http://schemas.android.com/apk/res/android" android:title="@string/setting">
+    <PreferenceCategory android:title="@string/bluetooth_setting">
+        <PreferenceScreen android:title="@string/bluetooth_setting"><CheckBoxPreference android:key="apply_bluetooth" android:title="@string/apply_bluetooth" android:summary="@string/apply_bluetooth_summary"></CheckBoxPreference>
+        <Preference android:dependency="apply_bluetooth" android:title="@string/bluetooth_name" android:key="bluetooth_name"></Preference>
+        <CheckBoxPreference android:summary="@string/bluetooth_discoverable_summary" android:dependency="apply_bluetooth" android:title="@string/bluetooth_discoverable"></CheckBoxPreference>
+</PreferenceScreen>
+        <PreferenceScreen android:title="Wi-Fi"></PreferenceScreen>
+    </PreferenceCategory>
+</PreferenceScreen>
