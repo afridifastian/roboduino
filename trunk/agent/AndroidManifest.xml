@@ -16,7 +16,7 @@
 		</activity>
 		<activity android:label="@string/setting" android:name="PreferencesActivity"
 			android:configChanges="keyboardHidden|orientation"
-			android:background="@android:drawable/screen_background_light">
+			android:exported="true" android:background="@android:drawable/screen_background_light">
 			<intent-filter>
 				<action android:name="android.intent.action.VIEW" />
 			</intent-filter>

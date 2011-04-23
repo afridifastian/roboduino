@@ -7,6 +7,8 @@ import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 public class AgentActivity extends Activity {
@@ -64,4 +66,35 @@ public class AgentActivity extends Activity {
 		// startActivity(enabler);
 		// Log.i("AgentActivity.onStartDiscoveryButtonClicked", "搜索其他蓝牙设备");
 	}
+
+	/**
+	 * Invoked when a menu item has been selected
+	 */
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    switch (item.getItemId()) {
+
+	        // Case: Bring up the Preferences Screen
+	        case R.id.SETTING: // Preferences
+	            // Launch the Preference Activity
+	            Intent intent = new Intent(this, PreferencesActivity.class);
+	            startActivity(intent);
+//	            startActivityForResult(intent, REQUEST_CODE_SET);
+
+	            break;
+
+	        case R.id.UPDATE:
+	            
+	            break;
+
+	    }
+	    return true;
+	}
+
+	public boolean onCreateOptionsMenu(Menu menu) {
+		menu.add(0, R.id.SETTING, 0,R.string.setting);
+		menu.add(0, R.id.UPDATE, 0, R.string.update);
+		return true;
+	}
+
 }
