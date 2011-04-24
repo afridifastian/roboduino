@@ -15,11 +15,13 @@
 			</intent-filter>
 		</activity>
 		<activity android:label="@string/setting" android:name="PreferencesActivity"
-			android:configChanges="keyboardHidden|orientation"
-			android:exported="true" android:background="@android:drawable/screen_background_light">
+			android:configChanges="keyboardHidden|orientation" android:exported="true"
+			android:background="@android:drawable/screen_background_light">
 			<intent-filter>
 				<action android:name="android.intent.action.VIEW" />
 			</intent-filter>
 		</activity>
+		<service android:name=".BlueToothService">
+		</service>
 	</application>
 </manifest>

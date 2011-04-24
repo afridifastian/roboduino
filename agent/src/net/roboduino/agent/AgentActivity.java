@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -32,30 +33,33 @@ public class AgentActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		// Log.i("AgentActivity.onCreate", "applia");
 		setContentView(R.layout.main);
-		Button btn=(Button)this.findViewById(R.id.button_send);
-		btn.setOnClickListener(new Button.OnClickListener() {
-			
-			public void onClick(View v) {
-				EditText input=(EditText)findViewById(R.id.input);
-				TextView display=(TextView)findViewById(R.id.display_windows);
-				display.append(input.getText()+"\n");
-				input.setText("");
-				
-				
-			}
-		});
+		Button btn = (Button) this.findViewById(R.id.button_send);
+		btn.setOnClickListener(send);
 	}
-	  public void onStart() {
-		  super.onStart();
-		  logger.info("Agent start....");
-		  if(!bluetooth.isEnabled()){
-			  bluetooth.enable();
-			  logger.info("开启蓝牙设备");
-		  }else{
-			  
-		  }
-		  
-	  }
+
+	// 发送按钮
+	private OnClickListener send = new OnClickListener() {
+		public void onClick(View v) {
+			EditText input = (EditText) findViewById(R.id.input);
+			TextView display = (TextView) findViewById(R.id.display_windows);
+			display.append(input.getText() + "\n");
+			input.setText("");
+		}
+	};
+
+	public void onStart() {
+		super.onStart();
+		logger.info("Agent start....");
+		this.startService(new Intent(this, BlueToothService.class));
+
+	}
+
+	public void onDestroy() {
+		logger.info("Agent stop....");
+		super.onDestroy();
+		this.stopService(new Intent(this, BlueToothService.class));
+	}
+
 	/* 开启蓝牙 */
 	public void onEnableButtonClicked(View view) {
 		// 打开蓝牙
@@ -120,7 +124,7 @@ public class AgentActivity extends Activity {
 
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = this.getMenuInflater();
-		inflater.inflate(R.menu.option_menu, menu);       
+		inflater.inflate(R.menu.option_menu, menu);
 		return true;
 		//
 		// menu.add(0, R.id.SETTING, 0,R.string.setting);
