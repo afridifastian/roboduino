@@ -8,6 +8,7 @@ import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -72,29 +73,33 @@ public class AgentActivity extends Activity {
 	 */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-	    switch (item.getItemId()) {
+		switch (item.getItemId()) {
 
-	        // Case: Bring up the Preferences Screen
-	        case R.id.SETTING: // Preferences
-	            // Launch the Preference Activity
-	            Intent intent = new Intent(this, PreferencesActivity.class);
-	            startActivity(intent);
-//	            startActivityForResult(intent, REQUEST_CODE_SET);
+		// Case: Bring up the Preferences Screen
+		case R.id.menu_setting: // Preferences
+			// Launch the Preference Activity
+			Intent intent = new Intent(this, PreferencesActivity.class);
+			startActivity(intent);
+			// startActivityForResult(intent, REQUEST_CODE_SET);
 
-	            break;
+			break;
 
-	        case R.id.UPDATE:
-	            
-	            break;
+		case R.id.menu_update:
 
-	    }
-	    return true;
+			break;
+
+		}
+		return super.onOptionsItemSelected(item);
 	}
 
 	public boolean onCreateOptionsMenu(Menu menu) {
-		menu.add(0, R.id.SETTING, 0,R.string.setting);
-		menu.add(0, R.id.UPDATE, 0, R.string.update);
+		MenuInflater inflater = this.getMenuInflater();
+		inflater.inflate(R.menu.option_menu, menu);       
 		return true;
+		//
+		// menu.add(0, R.id.SETTING, 0,R.string.setting);
+		// menu.add(0, R.id.UPDATE, 0, R.string.update);
+		// return true;
 	}
 
 }
