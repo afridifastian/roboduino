@@ -7,10 +7,14 @@ import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
 public class AgentActivity extends Activity {
 	private static final Logger logger = LoggerFactory
@@ -28,8 +32,30 @@ public class AgentActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		// Log.i("AgentActivity.onCreate", "applia");
 		setContentView(R.layout.main);
+		Button btn=(Button)this.findViewById(R.id.button_send);
+		btn.setOnClickListener(new Button.OnClickListener() {
+			
+			public void onClick(View v) {
+				EditText input=(EditText)findViewById(R.id.input);
+				TextView display=(TextView)findViewById(R.id.display_windows);
+				display.append(input.getText()+"\n");
+				input.setText("");
+				
+				
+			}
+		});
 	}
-
+	  public void onStart() {
+		  super.onStart();
+		  logger.info("Agent start....");
+		  if(!bluetooth.isEnabled()){
+			  bluetooth.enable();
+			  logger.info("开启蓝牙设备");
+		  }else{
+			  
+		  }
+		  
+	  }
 	/* 开启蓝牙 */
 	public void onEnableButtonClicked(View view) {
 		// 打开蓝牙

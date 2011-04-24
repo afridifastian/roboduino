@@ -4,6 +4,8 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import android.bluetooth.BluetoothAdapter;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
@@ -18,6 +20,8 @@ public class PreferencesActivity extends PreferenceActivity implements
 	private static final Logger logger = LoggerFactory
 			.getLogger(PreferencesActivity.class);
 	private BlueToothManager blueToothManager = BlueToothManager.getInstance();
+	/* 请求能够被搜索 */
+	private static final int	REQUEST_DISCOVERABLE	= 0x2;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -98,7 +102,9 @@ public class PreferencesActivity extends PreferenceActivity implements
 		} else if (StringUtils.equals(key, "bluetooth_discoverable")) {
 			CheckBoxPreference checkBoxPreference = (CheckBoxPreference) preference;
 			if (checkBoxPreference.isChecked()) {
-				blueToothManager.getBluetooth().startDiscovery();
+				//blueToothManager.getBluetooth().startDiscovery();
+				Intent enabler = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
+				startActivityForResult(enabler, REQUEST_DISCOVERABLE);
 				logger.info("开启蓝牙可见");
 
 			} else {
