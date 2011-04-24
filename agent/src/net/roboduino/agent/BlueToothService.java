@@ -3,25 +3,28 @@ package net.roboduino.agent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import android.app.Service;
 import android.bluetooth.BluetoothAdapter;
-import android.content.Intent;
-import android.os.IBinder;
+import android.bluetooth.BluetoothDevice;
+import android.os.Handler;
+import android.os.Message;
 
-public class BlueToothService extends Service {
+public class BlueToothService {
 	private static final Logger logger = LoggerFactory
 			.getLogger(BlueToothService.class);
 	/* 取得默认的蓝牙适配器 */
-	private BluetoothAdapter bluetooth = BluetoothAdapter.getDefaultAdapter();
+	private BluetoothAdapter bluetooth;
+	private Handler handler;
+	private int state;
+	private ConnectingThread connectingThread;
 
-	@Override
-	public IBinder onBind(Intent intent) {
-		return null;
+	public BlueToothService(Handler handler) {
+		this.handler = handler;
+		bluetooth = BluetoothAdapter.getDefaultAdapter();
+		state = BlueToothConstant.STATE_NONE;
 
 	}
 
-	public void onStart(Intent intent, int startId) {
-		super.onStart(intent, startId);
+	public void onStart() {
 		if (!bluetooth.isEnabled()) {
 			bluetooth.enable();
 			logger.info("开启蓝牙设备");
@@ -30,8 +33,19 @@ public class BlueToothService extends Service {
 		}
 	}
 
+	public void onResume() {
+		this.setState(BlueToothConstant.STATE_LISTEN);
+
+	}
+
+	public void connect(BluetoothDevice device) {
+		logger.info("connect to: {}", device.getName());
+		connectingThread = new ConnectingThread(device);
+		connectingThread.start();
+		this.setState(BlueToothConstant.STATE_CONNECTING);
+	}
+
 	public void onDestroy() {
-		super.onDestroy();
 		if (bluetooth.isEnabled()) {
 			bluetooth.disable();
 			logger.info("蓝牙设备关闭");
@@ -41,19 +55,18 @@ public class BlueToothService extends Service {
 
 	}
 
-	private class ClientThread implements Runnable {
-		private Thread thread = null;
+	public int getState() {
+		return state;
+	}
 
-		public ClientThread() {
-			thread = new Thread(this);
-			thread.setDaemon(true);
-			thread.start();
-		}
-
-		public void run() {
-			// TODO Auto-generated method stub
-
-		}
+	public void setState(int state) {
+		this.state = state;
+		logger.info("状态值调整 state={}", state);
+		// handler.o
+		Message msg = handler
+				.obtainMessage(BlueToothConstant.MESSAGE_STATE_CHANGE);
+		msg.arg1 = state;
+		handler.sendMessage(msg);
 
 	}
 }
