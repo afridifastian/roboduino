@@ -12,9 +12,6 @@
 	<string name="bluetooth_scan">扫描查找设备</string>
 	<string name="bluetooth_device_list">蓝牙设备</string>
 	<string name="wifi_setting">Wi-Fi</string>
-	
-	<item format="integer" type="id" name="SETTING">1</item>
-	<item format="integer" type="id" name="UPDATE">2</item>
 	<string name="opening">正在打开...</string>
 	<string name="closing">正在关闭...</string>
 </resources>

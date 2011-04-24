@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 	package="net.roboduino.agent" android:versionCode="1"
 	android:versionName="1.0">
-	<uses-sdk android:minSdkVersion="5"></uses-sdk>
+	<uses-sdk android:minSdkVersion="6"></uses-sdk>
 	<uses-permission android:name="android.permission.BLUETOOTH"></uses-permission>
 	<uses-permission android:name="android.permission.BLUETOOTH_ADMIN"></uses-permission>
 
