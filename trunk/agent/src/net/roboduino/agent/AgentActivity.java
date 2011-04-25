@@ -185,7 +185,7 @@ public class AgentActivity extends Activity {
 		case R.id.menu_setting: // Preferences
 			// Launch the Preference Activity
 			Intent intent = new Intent(this, PreferencesActivity.class);
-			startActivity(intent);
+			startActivity(intent); 
 			// startActivityForResult(intent, REQUEST_CODE_SET);
 
 			break;
