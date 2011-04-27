@@ -1,5 +1,7 @@
 package net.roboduino.agent;
 
+import java.io.IOException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,16 +13,22 @@ import android.os.Message;
 public class BlueToothService {
 	private static final Logger logger = LoggerFactory
 			.getLogger(BlueToothService.class);
+	private static BlueToothService instance;
 	/* 取得默认的蓝牙适配器 */
 	private BluetoothAdapter bluetooth;
 	private Handler handler;
 	private int state;
 	private ConnectingThread connectingThread;
 
+	public static BlueToothService getInstance() {
+		return instance;
+	}
+
 	public BlueToothService(Handler handler) {
 		this.handler = handler;
 		bluetooth = BluetoothAdapter.getDefaultAdapter();
 		state = BlueToothConstant.STATE_NONE;
+		instance=this;
 
 	}
 
@@ -38,9 +46,9 @@ public class BlueToothService {
 
 	}
 
-	public void connect(BluetoothDevice device) {
+	public void connect(BluetoothDevice device) throws IOException {
 		logger.info("connect to: {}", device.getName());
-		connectingThread = new ConnectingThread(device);
+		connectingThread = new ConnectingThread(bluetooth,device);
 		connectingThread.start();
 		this.setState(BlueToothConstant.STATE_CONNECTING);
 	}

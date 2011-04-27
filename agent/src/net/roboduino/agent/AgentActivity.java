@@ -24,8 +24,6 @@ public class AgentActivity extends Activity {
 			.getLogger(AgentActivity.class);
 	/* 取得默认的蓝牙适配器 */
 	private BluetoothAdapter bluetooth = BluetoothAdapter.getDefaultAdapter();
-	/* 请求打开蓝牙 */
-	private static final int REQUEST_ENABLE = 0x1;
 	/* 请求能够被搜索 */
 	private static final int REQUEST_DISCOVERABLE = 0x2;
 	private TextView display;

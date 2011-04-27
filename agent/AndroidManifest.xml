@@ -14,7 +14,7 @@
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
-		<activity android:label="@string/setting" android:name="PreferencesActivity"
+		<activity android:name="PreferencesActivity" android:label="@string/setting" 
 			android:configChanges="keyboardHidden|orientation" android:exported="true"
 			android:background="@android:drawable/screen_background_light">
 			<intent-filter>
