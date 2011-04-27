@@ -1,5 +1,7 @@
 package net.roboduino.agent;
 
+import java.util.UUID;
+
 public class BlueToothConstant {
 	// Constants that indicate the current connection state
 	/** we're doing nothing */
@@ -21,5 +23,9 @@ public class BlueToothConstant {
     // Key names received from the BluetoothChatService Handler
     public static final String DEVICE_NAME = "device_name";
     public static final String TOAST = "toast";
+    
+    // Unique UUID for this application
+    public static final UUID MY_UUID_SECURE =
+        UUID.fromString("fa87c0d0-afac-11de-8a39-0800200c9a66");
 
 }
