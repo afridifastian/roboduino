@@ -16,4 +16,5 @@
 	<string name="closing">正在关闭...</string>
 	<string name="send">Send</string>
 	<string name="scanning">搜索蓝牙设备中，请稍等...</string>
+	<string name="not_connected">对不起，和其他设备未建立连接</string>
 </resources>
