@@ -152,6 +152,7 @@ public class BlueToothService {
 			this.device = device;
 			thread = new Thread(this);
 			thread.setDaemon(true);
+			thread.setName("Connect thread");
 			this.device = device;
 			// Get a BluetoothSocket for a connection with the
 			// given BluetoothDevice
@@ -278,6 +279,7 @@ public class BlueToothService {
 			outStream = socket.getOutputStream();
 			thread = new Thread(this);
 			thread.setDaemon(true);
+			thread.setName("DataTransfer thread");
 		}
 
 		public void start() {
@@ -345,6 +347,7 @@ public class BlueToothService {
 		public AcceptThread() throws IOException {
 			thread = new Thread(this);
 			thread.setDaemon(true);
+			thread.setName("Accept thread");
 			// Create a new listening server socket
 			serverSocket = bluetooth.listenUsingRfcommWithServiceRecord(
 					bluetooth.getName(), BlueToothConstant.MY_UUID);
