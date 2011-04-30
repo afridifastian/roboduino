@@ -43,6 +43,7 @@ public final class R {
         public static final int bluetooth_scan=0x7f060009;
         public static final int bluetooth_setting=0x7f060003;
         public static final int closing=0x7f06000d;
+        public static final int not_connected=0x7f060010;
         public static final int opening=0x7f06000c;
         public static final int scanning=0x7f06000f;
         public static final int send=0x7f06000e;

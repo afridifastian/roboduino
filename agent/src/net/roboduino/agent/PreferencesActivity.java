@@ -29,7 +29,9 @@ public class PreferencesActivity extends PreferenceActivity implements
 		OnSharedPreferenceChangeListener {
 	private static final Logger logger = LoggerFactory
 			.getLogger(PreferencesActivity.class);
-	private BlueToothManager blueToothManager = BlueToothManager.getInstance();
+	/* 取得默认的蓝牙适配器 */
+	private BluetoothAdapter blueTooth = BluetoothAdapter.getDefaultAdapter();
+//	private BlueToothManager blueToothManager = BlueToothManager.getInstance();
 
 	// private Map<String,String> deviceMap=new HashMap<String,String>();
 
@@ -68,7 +70,7 @@ public class PreferencesActivity extends PreferenceActivity implements
 	private OnPreferenceChangeListener blueToothDiscoverableListener = new OnPreferenceChangeListener() {
 		public boolean onPreferenceChange(Preference preference, Object obj) {
 			if ((Boolean) obj) {
-				if (blueToothManager.getBluetooth().getScanMode() != BluetoothAdapter.SCAN_MODE_CONNECTABLE_DISCOVERABLE) {
+				if (blueTooth.getScanMode() != BluetoothAdapter.SCAN_MODE_CONNECTABLE_DISCOVERABLE) {
 					Intent discoverableIntent = new Intent(
 							BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
 					discoverableIntent.putExtra(
@@ -77,7 +79,7 @@ public class PreferencesActivity extends PreferenceActivity implements
 				}
 				logger.info("开启蓝牙可见");
 			} else {
-				blueToothManager.getBluetooth().cancelDiscovery();
+				blueTooth.cancelDiscovery();
 				logger.info("关闭蓝牙可见");
 			}
 			return true;
@@ -90,15 +92,14 @@ public class PreferencesActivity extends PreferenceActivity implements
 		public boolean onPreferenceChange(Preference preference, Object obj) {
 			if ((Boolean) obj) {
 				preference.setSummary(R.string.opening);
-				blueToothManager.enableBlueTooth();
+				blueTooth.enable();
 				preference.setSummary("");
 				Preference bluetoothNamePreference = findPreference("bluetooth_name");
 				bluetoothNamePreference.setEnabled(true);
-				bluetoothNamePreference.setSummary(blueToothManager
-						.getBluetooth().getName());
+				bluetoothNamePreference.setSummary(blueTooth.getName());
 			} else {
 				preference.setSummary(R.string.closing);
-				blueToothManager.disableBlueTooth();
+				blueTooth.disable();
 				preference.setSummary(R.string.apply_bluetooth_summary);
 			}
 			return true;
@@ -113,7 +114,6 @@ public class PreferencesActivity extends PreferenceActivity implements
 			// preference.getSummary());
 			// 添加扫描的逻辑
 			// Indicate scanning in the title
-			BluetoothAdapter bluetooth = blueToothManager.getBluetooth();
 
 			PreferenceCategory preferenceCategory = (PreferenceCategory) findPreference("bluetooth_device_list");
 			preferenceCategory.setTitle(R.string.scanning);
@@ -122,12 +122,12 @@ public class PreferencesActivity extends PreferenceActivity implements
 			// setTitle(R.string.scanning);
 
 			// If we're already discovering, stop it
-			if (bluetooth.isDiscovering()) {
-				bluetooth.cancelDiscovery();
+			if (blueTooth.isDiscovering()) {
+				blueTooth.cancelDiscovery();
 			}
 
 			// Request discover from BluetoothAdapter
-			bluetooth.startDiscovery();
+			blueTooth.startDiscovery();
 			return true;
 		}
 
@@ -147,7 +147,7 @@ public class PreferencesActivity extends PreferenceActivity implements
 	}
 
 	private void refreshBlueToothDeviceList() {
-		Set<BluetoothDevice> pairedDevices = blueToothManager.getBluetooth()
+		Set<BluetoothDevice> pairedDevices = blueTooth
 				.getBondedDevices();
 		PreferenceCategory preferenceCategory = (PreferenceCategory) this
 				.findPreference("bluetooth_device_list");
@@ -164,17 +164,21 @@ public class PreferencesActivity extends PreferenceActivity implements
 		}
 	}
 
+	/** 单击连接蓝牙设备 */
 	private OnPreferenceClickListener deviceClickListener = new OnPreferenceClickListener() {
 
 		public boolean onPreferenceClick(Preference preference) {
 			logger.info("Device name={},address={}", preference.getTitle(),
 					preference.getSummary());
-			BluetoothAdapter bluetooth = blueToothManager.getBluetooth();
 			// Cancel discovery because it's costly and we're about to connect
-			bluetooth.cancelDiscovery();
+			// If we're already discovering, stop it
+			if (blueTooth.isDiscovering()) {
+				blueTooth.cancelDiscovery();
+			}
 			// Get the BLuetoothDevice object
-			BluetoothDevice device = bluetooth.getRemoteDevice(preference
+			BluetoothDevice device = blueTooth.getRemoteDevice(preference
 					.getSummary().toString());
+			//// 处理连接的逻辑
 			// Attempt to connect to the device
 			try {
 				BlueToothService.getInstance().connect(device);
@@ -183,7 +187,7 @@ public class PreferencesActivity extends PreferenceActivity implements
 				Toast.makeText(getApplicationContext(), e.getMessage(),
 						Toast.LENGTH_SHORT).show();
 			}
-			// 添加连接的逻辑
+			
 			return true;
 		}
 
@@ -197,14 +201,13 @@ public class PreferencesActivity extends PreferenceActivity implements
 		logger.info("key={}", key);
 		if (StringUtils.equals(key, "bluetooth_setting")) {
 			CheckBoxPreference checkBoxPreference = (CheckBoxPreference) this
-			.findPreference("apply_bluetooth");
-			if (blueToothManager.getBluetooth().isEnabled()) {
+					.findPreference("apply_bluetooth");
+			if (blueTooth.isEnabled()) {
 				checkBoxPreference.setChecked(true);
 				checkBoxPreference.setSummary("");
 				Preference bluetoothNamePreference = this
 						.findPreference("bluetooth_name");
-				bluetoothNamePreference.setSummary(blueToothManager
-						.getBluetooth().getName());
+				bluetoothNamePreference.setSummary(blueTooth.getName());
 				bluetoothNamePreference.setEnabled(true);
 			} else {
 				checkBoxPreference.setChecked(false);
@@ -225,10 +228,9 @@ public class PreferencesActivity extends PreferenceActivity implements
 		getPreferenceManager().getSharedPreferences()
 				.unregisterOnSharedPreferenceChangeListener(this);
 		super.onDestroy();
-		BluetoothAdapter bluetooth = blueToothManager.getBluetooth();
 		// Make sure we're not doing discovery anymore
-		if (bluetooth != null) {
-			bluetooth.cancelDiscovery();
+		if (blueTooth != null) {
+			blueTooth.cancelDiscovery();
 		}
 
 		// Unregister broadcast listeners
