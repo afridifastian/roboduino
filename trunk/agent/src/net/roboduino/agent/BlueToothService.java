@@ -48,12 +48,12 @@ public class BlueToothService {
 	}
 
 	public void onResume() {
+		this.setState(BlueToothConstant.STATE_LISTEN);
 		if (acceptThread == null) {
 			if (bluetooth.isEnabled()) {
 				try {
 					acceptThread = new AcceptThread();
-					acceptThread.start();
-					this.setState(BlueToothConstant.STATE_LISTEN);
+					acceptThread.start();	
 				} catch (IOException e) {
 					logger.error(e.getMessage(), e);
 					// e.printStackTrace();
@@ -142,8 +142,9 @@ public class BlueToothService {
 		bundle.putString(BlueToothConstant.TOAST, info);
 		msg.setData(bundle);
 		handler.sendMessage(msg);
-
+		
 		// Start the service over to restart listening mode
+		onResume();
 		// BluetoothChatService.this.start();
 	}
 
