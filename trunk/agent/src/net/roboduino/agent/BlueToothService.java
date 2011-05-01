@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import net.roboduino.commons.BaseMsg;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -53,7 +55,7 @@ public class BlueToothService {
 			if (bluetooth.isEnabled()) {
 				try {
 					acceptThread = new AcceptThread();
-					acceptThread.start();	
+					acceptThread.start();
 				} catch (IOException e) {
 					logger.error(e.getMessage(), e);
 					// e.printStackTrace();
@@ -142,7 +144,7 @@ public class BlueToothService {
 		bundle.putString(BlueToothConstant.TOAST, info);
 		msg.setData(bundle);
 		handler.sendMessage(msg);
-		
+
 		// Start the service over to restart listening mode
 		onResume();
 		// BluetoothChatService.this.start();
@@ -256,6 +258,15 @@ public class BlueToothService {
 		this.setState(BlueToothConstant.STATE_CONNECTED);
 	}
 
+	public void write(byte cmdType, byte[] content) {
+		BaseMsg msg = new BaseMsg(cmdType, content);
+		logger.info(msg.toString());
+		// Share the sent message back to the UI Activity
+		handler.obtainMessage(BlueToothConstant.MESSAGE_WRITE, -1, -1,
+				msg).sendToTarget();
+		dataTransferThread.write(msg.getBytes());
+	}
+
 	/**
 	 * Write to the ConnectedThread in an unsynchronized manner
 	 * 
@@ -279,9 +290,9 @@ public class BlueToothService {
 	/** 用于真正的数据传输 */
 	public class DataTransferThread implements Runnable {
 		private Thread thread = null;
-		private final BluetoothSocket socket;
-		private final InputStream inStream;
-		private final OutputStream outStream;
+		private BluetoothSocket socket;
+		private InputStream inStream;
+		private OutputStream outStream;
 
 		public DataTransferThread(BluetoothSocket socket) throws IOException {
 			this.socket = socket;
@@ -299,17 +310,16 @@ public class BlueToothService {
 		}
 
 		public void run() {
-			byte[] buffer = new byte[1024];
-			int bytes;
-
 			// Keep listening to the InputStream while connected
 			while (true) {
 				try {
 					// Read from the InputStream
-					bytes = inStream.read(buffer);
+					BaseMsg baseMsg=new BaseMsg(inStream);
+					logger.info(baseMsg.toString());
+				//	bytes = inStream.read(buffer);
 					// Send the obtained bytes to the UI Activity
 					handler.obtainMessage(BlueToothConstant.MESSAGE_READ,
-							bytes, -1, buffer).sendToTarget();
+							-1, -1, baseMsg).sendToTarget();
 				} catch (IOException e) {
 					logger.error(e.getMessage(), e);
 					doConnectException("Device connection was lost");
@@ -328,9 +338,6 @@ public class BlueToothService {
 		public void write(byte[] buffer) {
 			try {
 				outStream.write(buffer);
-				// Share the sent message back to the UI Activity
-				handler.obtainMessage(BlueToothConstant.MESSAGE_WRITE, -1, -1,
-						buffer).sendToTarget();
 			} catch (IOException e) {
 				logger.error(e.getMessage(), e);
 			}
@@ -360,8 +367,8 @@ public class BlueToothService {
 			thread.setDaemon(true);
 			thread.setName("Accept thread");
 			// Create a new listening server socket
-//			logger.error("name={},UUID={}", bluetooth.getName(),
-//					BlueToothConstant.MY_UUID);
+			// logger.error("name={},UUID={}", bluetooth.getName(),
+			// BlueToothConstant.MY_UUID);
 			// Create a new listening server socket
 
 			serverSocket = bluetooth.listenUsingRfcommWithServiceRecord(
