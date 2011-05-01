@@ -31,7 +31,9 @@ public class PreferencesActivity extends PreferenceActivity implements
 			.getLogger(PreferencesActivity.class);
 	/* 取得默认的蓝牙适配器 */
 	private BluetoothAdapter blueTooth = BluetoothAdapter.getDefaultAdapter();
-//	private BlueToothManager blueToothManager = BlueToothManager.getInstance();
+
+	// private BlueToothManager blueToothManager =
+	// BlueToothManager.getInstance();
 
 	// private Map<String,String> deviceMap=new HashMap<String,String>();
 
@@ -147,8 +149,7 @@ public class PreferencesActivity extends PreferenceActivity implements
 	}
 
 	private void refreshBlueToothDeviceList() {
-		Set<BluetoothDevice> pairedDevices = blueTooth
-				.getBondedDevices();
+		Set<BluetoothDevice> pairedDevices = blueTooth.getBondedDevices();
 		PreferenceCategory preferenceCategory = (PreferenceCategory) this
 				.findPreference("bluetooth_device_list");
 		for (BluetoothDevice device : pairedDevices) {
@@ -178,7 +179,7 @@ public class PreferencesActivity extends PreferenceActivity implements
 			// Get the BLuetoothDevice object
 			BluetoothDevice device = blueTooth.getRemoteDevice(preference
 					.getSummary().toString());
-			//// 处理连接的逻辑
+			// // 处理连接的逻辑
 			// Attempt to connect to the device
 			try {
 				BlueToothService.getInstance().connect(device);
@@ -187,7 +188,7 @@ public class PreferencesActivity extends PreferenceActivity implements
 				Toast.makeText(getApplicationContext(), e.getMessage(),
 						Toast.LENGTH_SHORT).show();
 			}
-			
+
 			return true;
 		}
 
@@ -209,6 +210,14 @@ public class PreferencesActivity extends PreferenceActivity implements
 						.findPreference("bluetooth_name");
 				bluetoothNamePreference.setSummary(blueTooth.getName());
 				bluetoothNamePreference.setEnabled(true);
+				CheckBoxPreference blueToothDiscoverablePreference = (CheckBoxPreference) this
+						.findPreference("bluetooth_discoverable");
+
+				if (blueTooth.getScanMode() == BluetoothAdapter.SCAN_MODE_CONNECTABLE_DISCOVERABLE) {
+					blueToothDiscoverablePreference.setChecked(true);
+				} else {
+					blueToothDiscoverablePreference.setChecked(false);
+				}
 			} else {
 				checkBoxPreference.setChecked(false);
 				preference.setSummary(R.string.apply_bluetooth_summary);
@@ -225,8 +234,8 @@ public class PreferencesActivity extends PreferenceActivity implements
 
 	@Override
 	protected void onDestroy() {
-//		getPreferenceManager().getSharedPreferences()
-//				.unregisterOnSharedPreferenceChangeListener(this);
+		// getPreferenceManager().getSharedPreferences()
+		// .unregisterOnSharedPreferenceChangeListener(this);
 		super.onDestroy();
 		// Make sure we're not doing discovery anymore
 		if (blueTooth != null) {
