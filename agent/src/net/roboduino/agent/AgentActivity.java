@@ -54,8 +54,10 @@ public class AgentActivity extends Activity {
 		super.onStart();
 		logger.info("Agent start....");
 		// this.startService(new Intent(this, BlueToothService.class));
-		blueToothService = new BlueToothService(handler);
-		blueToothService.onStart();
+		if (blueToothService == null) {
+			blueToothService = new BlueToothService(handler);
+			blueToothService.onStart();
+		}
 	}
 
 	/**
@@ -80,7 +82,7 @@ public class AgentActivity extends Activity {
 		}
 	}
 
-	public synchronized void onResume() {
+	public void onResume() {
 		super.onResume();
 
 		// Performing this check in onResume() covers the case in which BT was

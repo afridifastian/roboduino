@@ -38,6 +38,7 @@ public class BlueToothService {
 	}
 
 	public void onStart() {
+
 		if (!bluetooth.isEnabled()) {
 			bluetooth.enable();
 			logger.info("开启蓝牙设备");
@@ -47,14 +48,18 @@ public class BlueToothService {
 	}
 
 	public void onResume() {
-		this.setState(BlueToothConstant.STATE_LISTEN);
 		if (acceptThread == null) {
-			try {
-				acceptThread = new AcceptThread();
-			} catch (IOException e) {
-				doConnectException(e.getMessage());
+			if (bluetooth.isEnabled()) {
+				try {
+					acceptThread = new AcceptThread();
+					acceptThread.start();
+					this.setState(BlueToothConstant.STATE_LISTEN);
+				} catch (IOException e) {
+					logger.error(e.getMessage(), e);
+					// e.printStackTrace();
+					doConnectException(e.getMessage());
+				}
 			}
-			acceptThread.start();
 		}
 	}
 
@@ -181,7 +186,7 @@ public class BlueToothService {
 				} catch (IOException e2) {
 					logger.error(e2.getMessage(), e2);
 				}
-				doConnectException("Unable to connect device");
+				doConnectException("对不起，连接失败");
 				return;
 			}
 			// logger.info("开始转入connected线程 todo ");
@@ -249,22 +254,27 @@ public class BlueToothService {
 		handler.sendMessage(msg);
 		this.setState(BlueToothConstant.STATE_CONNECTED);
 	}
-	 /**
-     * Write to the ConnectedThread in an unsynchronized manner
-     * @param out The bytes to write
-     * @see ConnectedThread#write(byte[])
-     */
-    public void write(byte[] out) {
-        // Create temporary object
-    	DataTransferThread r;
-        // Synchronize a copy of the ConnectedThread
-        synchronized (this) {
-            if (state != BlueToothConstant.STATE_CONNECTED) return;
-            r = dataTransferThread;
-        }
-        // Perform the write unsynchronized
-        r.write(out);
-    }
+
+	/**
+	 * Write to the ConnectedThread in an unsynchronized manner
+	 * 
+	 * @param out
+	 *            The bytes to write
+	 * @see ConnectedThread#write(byte[])
+	 */
+	public void write(byte[] out) {
+		// Create temporary object
+		DataTransferThread r;
+		// Synchronize a copy of the ConnectedThread
+		synchronized (this) {
+			if (state != BlueToothConstant.STATE_CONNECTED)
+				return;
+			r = dataTransferThread;
+		}
+		// Perform the write unsynchronized
+		r.write(out);
+	}
+
 	/** 用于真正的数据传输 */
 	public class DataTransferThread implements Runnable {
 		private Thread thread = null;
@@ -349,8 +359,13 @@ public class BlueToothService {
 			thread.setDaemon(true);
 			thread.setName("Accept thread");
 			// Create a new listening server socket
+//			logger.error("name={},UUID={}", bluetooth.getName(),
+//					BlueToothConstant.MY_UUID);
+			// Create a new listening server socket
+
 			serverSocket = bluetooth.listenUsingRfcommWithServiceRecord(
 					bluetooth.getName(), BlueToothConstant.MY_UUID);
+
 		}
 
 		public void start() {
