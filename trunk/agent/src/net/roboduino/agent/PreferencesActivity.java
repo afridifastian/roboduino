@@ -225,8 +225,8 @@ public class PreferencesActivity extends PreferenceActivity implements
 
 	@Override
 	protected void onDestroy() {
-		getPreferenceManager().getSharedPreferences()
-				.unregisterOnSharedPreferenceChangeListener(this);
+//		getPreferenceManager().getSharedPreferences()
+//				.unregisterOnSharedPreferenceChangeListener(this);
 		super.onDestroy();
 		// Make sure we're not doing discovery anymore
 		if (blueTooth != null) {
