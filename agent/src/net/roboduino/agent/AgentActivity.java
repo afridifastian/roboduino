@@ -1,5 +1,7 @@
 package net.roboduino.agent;
 
+import net.roboduino.commons.BaseMsg;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -82,6 +84,17 @@ public class AgentActivity extends Activity {
 		}
 	}
 
+	private void sendCommand(byte cmdType, byte[] content) {
+		// Check that we're actually connected before trying anything
+		if (blueToothService.getState() != BlueToothConstant.STATE_CONNECTED) {
+			Toast.makeText(this, R.string.not_connected, Toast.LENGTH_SHORT)
+					.show();
+			return;
+		}
+		blueToothService.write(cmdType, content);
+
+	}
+
 	public void onResume() {
 		super.onResume();
 
@@ -125,31 +138,36 @@ public class AgentActivity extends Activity {
 					break;
 				}
 				break;
-			case BlueToothConstant.MESSAGE_WRITE:
-				byte[] writeBuf = (byte[]) msg.obj;
+			case BlueToothConstant.MESSAGE_WRITE: {
+				BaseMsg baseMsg = (BaseMsg) msg.obj;
 				// construct a string from the buffer
-				String writeMessage = new String(writeBuf);
-				display.append("Me:  " + writeMessage + "\n");
+				// String writeMessage = new String(writeBuf);
+				display.append("Me:" + baseMsg.toString() + "\n");
 				break;
-			case BlueToothConstant.MESSAGE_READ:
-				byte[] readBuf = (byte[]) msg.obj;
+			}
+			case BlueToothConstant.MESSAGE_READ: {
+				BaseMsg baseMsg = (BaseMsg) msg.obj;
 				// construct a string from the valid bytes in the buffer
-				String readMessage = new String(readBuf, 0, msg.arg1);
-				display.append(connectedDeviceName + ":  " + readMessage + "\n");
+				// String readMessage = new String(readBuf, 0, msg.arg1);
+				display.append(connectedDeviceName + ":  " + baseMsg.toString()
+						+ "\n");
 				break;
-			case BlueToothConstant.MESSAGE_DEVICE_NAME:
-				// save the connected device's name
+			}
+			case BlueToothConstant.MESSAGE_DEVICE_NAME: { // save the connected
+															// device's name
 				connectedDeviceName = msg.getData().getString(
 						BlueToothConstant.DEVICE_NAME);
 				Toast.makeText(getApplicationContext(),
 						"Connected to " + connectedDeviceName,
 						Toast.LENGTH_SHORT).show();
 				break;
-			case BlueToothConstant.MESSAGE_TOAST:
+			}
+			case BlueToothConstant.MESSAGE_TOAST: {
 				Toast.makeText(getApplicationContext(),
 						msg.getData().getString(BlueToothConstant.TOAST),
 						Toast.LENGTH_SHORT).show();
 				break;
+			}
 			}
 		}
 	};
