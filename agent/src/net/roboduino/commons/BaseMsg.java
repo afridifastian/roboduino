@@ -43,7 +43,8 @@ public class BaseMsg {
 		buffer.put(header);
 		deviceAddress = ProtocolConstant.MSG_DEVICEADDRESS;
 		buffer.put(deviceAddress);
-		buffer.put((byte) content.length);
+		frameLen=(byte) content.length;
+		buffer.put(frameLen);
 		buffer.put(cmdType);
 		buffer.put(content);
 		sum = ProtocolUtils.buildChecksum(this);
