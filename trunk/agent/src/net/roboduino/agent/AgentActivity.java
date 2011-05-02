@@ -1,11 +1,12 @@
 package net.roboduino.agent;
 
 import net.roboduino.commons.BaseMsg;
+import net.roboduino.commons.CommandUtil;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import android.app.Activity;
+import android.app.TabActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,17 +16,16 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.TabHost;
+import android.widget.TabHost.OnTabChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class AgentActivity extends Activity {
+public class AgentActivity extends TabActivity {
 	private static final Logger logger = LoggerFactory
 			.getLogger(AgentActivity.class);
 	private TextView display;
-	private EditText input;
-	private Button sendBtn;
 	private String connectedDeviceName;
 	private BlueToothService blueToothService;
 
@@ -36,18 +36,91 @@ public class AgentActivity extends Activity {
 		// Log.i("AgentActivity.onCreate", "applia");
 		setContentView(R.layout.main);
 		display = (TextView) findViewById(R.id.display_windows);
-		input = (EditText) findViewById(R.id.input);
-		sendBtn = (Button) this.findViewById(R.id.button_send);
+		ImageButton upBtn = (ImageButton) this.findViewById(R.id.up);
+		upBtn.setOnClickListener(driveListener);
+		ImageButton downBtn = (ImageButton) this.findViewById(R.id.down);
+		downBtn.setOnClickListener(driveListener);
+		ImageButton leftBtn = (ImageButton) this.findViewById(R.id.left);
+		leftBtn.setOnClickListener(driveListener);
+		ImageButton rightBtn = (ImageButton) this.findViewById(R.id.right);
+		rightBtn.setOnClickListener(driveListener);
+		ImageButton stopBtn = (ImageButton) this.findViewById(R.id.stop);
+		stopBtn.setOnClickListener(driveListener);
+		TabHost tabHost = this.getTabHost();
+		/* 为TabHost添加标签 */
+		// 新建一个newTabSpec(newTabSpec)
+		// 设置其标签和图标(setIndicator)
+		// 设置内容(setContent)
+		tabHost.addTab(tabHost
+				.newTabSpec("tag_display_windows")
+				.setIndicator("",
+						this.getResources().getDrawable(R.drawable.img1))
+				.setContent(R.id.display_windows));
+		tabHost.addTab(tabHost
+				.newTabSpec("tag_camera")
+				.setIndicator("",
+						this.getResources().getDrawable(R.drawable.img2))
+				.setContent(R.id.tab2));
+		tabHost.addTab(tabHost
+				.newTabSpec("tag_console")
+				.setIndicator("",
+						this.getResources().getDrawable(R.drawable.img3))
+				.setContent(R.id.tab3));
+		// 设置TabHost的背景颜色
+		// tabHost.setBackgroundColor(Color.argb(150, 22, 70, 150));
+		// 设置TabHost的背景图片资源
+		// mTabHost.setBackgroundResource(R.drawable.bg0);
 
-		sendBtn.setOnClickListener(send);
+		// 设置当前显示哪一个标签
+		tabHost.setCurrentTab(0);
+		tabHost.setOnTabChangedListener(tabChangeListener);
+		// input = (EditText) findViewById(R.id.input);
 	}
 
+	/** 切换tab */
+	private OnTabChangeListener tabChangeListener = new OnTabChangeListener() {
+
+		public void onTabChanged(String tabId) {
+			logger.info("tabId={}", tabId);
+
+		}
+
+	};
 	// 发送按钮
-	private OnClickListener send = new OnClickListener() {
+	private OnClickListener driveListener = new OnClickListener() {
 		public void onClick(View v) {
-			sendMsg(input.getText().toString());
-			display.append(input.getText() + "\n");
-			input.setText("");
+			switch (v.getId()) {
+			case R.id.up: {
+				CommandUtil.driveMotorS((byte) 0xff, (byte) 0xff);
+				break;
+			}
+
+			case R.id.down: {
+				CommandUtil.driveMotorS((byte) 0x00, (byte) 0x00);
+				break;
+			}
+
+			case R.id.left: {
+				CommandUtil.driveMotorS((byte) 0x00, (byte) 0xff);
+				break;
+			}
+
+			case R.id.right: {
+				CommandUtil.driveMotorS((byte) 0xff, (byte) 0x00);
+				break;
+			}
+
+			case R.id.stop: {
+				CommandUtil.driveMotorS((byte) 0x80, (byte) 0x80);
+				break;
+			}
+
+			default:
+				break;
+			}
+			// sendMsg(input.getText().toString());
+			// display.append(input.getText() + "\n");
+			// input.setText("");
 
 		}
 	};
@@ -149,7 +222,7 @@ public class AgentActivity extends Activity {
 				BaseMsg baseMsg = (BaseMsg) msg.obj;
 				// construct a string from the valid bytes in the buffer
 				// String readMessage = new String(readBuf, 0, msg.arg1);
-				display.append(connectedDeviceName + ":  " + baseMsg.toString()
+				display.append(connectedDeviceName + ":" + baseMsg.toString()
 						+ "\n");
 				break;
 			}

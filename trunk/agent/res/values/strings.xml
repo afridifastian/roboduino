@@ -18,4 +18,10 @@
 	<string name="scanning">搜索蓝牙设备中，请稍等...</string>
 	<string name="not_connected">对不起，和其他设备未建立连接</string>
 	<string name="connected_failed">对不起，连接失败</string>
+	<string name="up">UP</string>
+	<string name="left">LEFT</string>
+	<string name="down">DOWN</string>
+	<string name="right">RIGHT</string>
+	<string name="stop">STOP</string>
+	<string name="info">显示一些速度功率等信息</string>
 </resources>
