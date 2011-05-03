@@ -4,7 +4,7 @@ public class ProtocolConstant {
 	/** 消息头 */
 	public static final byte[] MSG_HEADER = { 0x55, (byte) 0xAA };
 	/** 设备地址 */
-	public static final byte MSG_DEVICEADDRESS = 0x10;
+	public static final byte MSG_DEVICEADDRESS = 0x01;
 	public static final int MSG_POSITION_LENGTH = 3;
 	/** 消息初始总长度,不包括内容的字节长度 */
 	public static final int MSG_LENGTH_INI = 8;
