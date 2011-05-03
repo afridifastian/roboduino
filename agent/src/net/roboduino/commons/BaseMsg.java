@@ -3,7 +3,6 @@ package net.roboduino.commons;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
-import java.util.Arrays;
 
 import org.apache.commons.lang.ArrayUtils;
 
@@ -143,11 +142,15 @@ public class BaseMsg {
 
 	@Override
 	public String toString() {
-		return "BaseMsg [header=" + Arrays.toString(header)
-				+ ", deviceAddress=" + deviceAddress + ", frameLen=" + frameLen
-				+ ", cmdType=" + cmdType + ", content="
-				+ Arrays.toString(content) + ", sum=" + sum + ", end="
-				+ Arrays.toString(end) + "]";
+
+		return "BaseMsg [header=" + StringUtil.toHexString(header)
+				+ ", deviceAddress=0x" + StringUtil.toHexString(deviceAddress)
+				+ ", frameLen=0x" + StringUtil.toHexString(frameLen)
+				+ ", cmdType=0x" + StringUtil.toHexString(cmdType) + ", content="
+				+ StringUtil.toHexString(content) + ", sum=0x"
+				+ StringUtil.toHexString(sum) + ", end="
+				+ StringUtil.toHexString(end) + "]";
+
 	}
 
 }
