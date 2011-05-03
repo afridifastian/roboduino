@@ -7,14 +7,14 @@ public class ProtocolConstant {
 	public static final byte MSG_DEVICEADDRESS = 0x10;
 	public static final int MSG_POSITION_LENGTH = 3;
 	/** 消息初始总长度,不包括内容的字节长度 */
-	public static final int MSG_LENGTH_INI = 7;
+	public static final int MSG_LENGTH_INI = 8;
 
 	public static final int MSG_LENGTH_HEAD = 2;
 	public static final int MSG_LENGTH_DEVICEADDRESS = 1;
 	public static final int MSG_LENGTH_FRAMElEN = 1;
 	public static final int MSG_LENGTH_CMD = 1;
 	public static final int MSG_LENGTH_SUM = 1;
-	public static final int MSG_LENGTH_STOP = 1;
+	public static final int MSG_LENGTH_STOP = 2;
 	/** 消息初始前缀长度，包括消息头，设备地址，帧长度,命令字 */
 	public static final int MSG_LENGTH_PREFIX = MSG_LENGTH_HEAD
 			+ MSG_LENGTH_DEVICEADDRESS + MSG_LENGTH_FRAMElEN + MSG_LENGTH_CMD;
@@ -38,5 +38,5 @@ public class ProtocolConstant {
 	/** 读取超声波的控制指令 */
 	public static final byte MSG_CMD_UR = 0x13;
 	/** 结束字 */
-	public static final byte MSG_STOP = 0x0A;
+	public static final byte[] MSG_STOP = {0x0D,0x0A};
 }

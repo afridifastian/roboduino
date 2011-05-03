@@ -16,7 +16,7 @@ public class BaseMsg {
 	private byte cmdType;
 	private byte[] content = {};
 	private byte sum;
-	private byte end;
+	private byte[] end = {};
 	private byte[] bytes;
 
 	public BaseMsg(InputStream input) throws IOException {
@@ -43,7 +43,7 @@ public class BaseMsg {
 		buffer.put(header);
 		deviceAddress = ProtocolConstant.MSG_DEVICEADDRESS;
 		buffer.put(deviceAddress);
-		frameLen=(byte) content.length;
+		frameLen = (byte) content.length;
 		buffer.put(frameLen);
 		buffer.put(cmdType);
 		buffer.put(content);
@@ -71,7 +71,10 @@ public class BaseMsg {
 		input.read(postfixBytes);
 		content = ArrayUtils.subarray(postfixBytes, 0, frameLen);
 		sum = postfixBytes[frameLen];
-		end = postfixBytes[frameLen + 1];
+		end = ArrayUtils.subarray(postfixBytes, frameLen
+				+ ProtocolConstant.MSG_LENGTH_SUM,
+				ProtocolConstant.MSG_LENGTH_STOP);
+
 	}
 
 	public byte[] getHeader() {
@@ -122,11 +125,11 @@ public class BaseMsg {
 		this.sum = sum;
 	}
 
-	public byte getEnd() {
+	public byte[] getEnd() {
 		return end;
 	}
 
-	public void setEnd(byte end) {
+	public void setEnd(byte[] end) {
 		this.end = end;
 	}
 
@@ -143,8 +146,8 @@ public class BaseMsg {
 		return "BaseMsg [header=" + Arrays.toString(header)
 				+ ", deviceAddress=" + deviceAddress + ", frameLen=" + frameLen
 				+ ", cmdType=" + cmdType + ", content="
-				+ Arrays.toString(content) + ", sum=" + sum + ", end=" + end
-				+ "]";
+				+ Arrays.toString(content) + ", sum=" + sum + ", end="
+				+ Arrays.toString(end) + "]";
 	}
-	
+
 }
