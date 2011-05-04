@@ -41,26 +41,25 @@ public class BlueToothService {
 
 	public void onStart() {
 
-		if (!bluetooth.isEnabled()) {
-			bluetooth.enable();
-			logger.info("开启蓝牙设备");
-		} else {
-			logger.info("蓝牙设备已经打开，不需再次打开");
-		}
+		// if (!bluetooth.isEnabled()) {
+		// bluetooth.enable();
+		// logger.info("开启蓝牙设备");
+		// } else {
+		// logger.info("蓝牙设备已经打开，不需再次打开");
+		// }
 	}
 
 	public void onResume() {
 		this.setState(BlueToothConstant.STATE_LISTEN);
 		if (acceptThread == null) {
-			if (bluetooth.isEnabled()) {
-				try {
-					acceptThread = new AcceptThread();
-					acceptThread.start();
-				} catch (IOException e) {
-					logger.error(e.getMessage(), e);
-					// e.printStackTrace();
-					doConnectException(e.getMessage());
-				}
+			try {
+				acceptThread = new AcceptThread();
+				acceptThread.start();
+			} catch (IOException e) {
+				logger.error(e.getMessage(), e);
+				// e.printStackTrace();
+				doConnectException(e.getMessage());
+
 			}
 		}
 	}
@@ -87,14 +86,7 @@ public class BlueToothService {
 	}
 
 	public void onDestroy() {
-		if (bluetooth.isEnabled()) {
-			bluetooth.disable();
-			logger.info("蓝牙设备关闭");
-		} else {
-			logger.info("蓝牙设备未启动，不需关闭");
-		}
 		this.stopAllThreads();
-
 	}
 
 	/**
@@ -145,8 +137,6 @@ public class BlueToothService {
 		msg.setData(bundle);
 		handler.sendMessage(msg);
 
-		// Start the service over to restart listening mode
-		onResume();
 		// BluetoothChatService.this.start();
 	}
 
@@ -166,6 +156,7 @@ public class BlueToothService {
 			// given BluetoothDevice
 			socket = device
 					.createRfcommSocketToServiceRecord(BlueToothConstant.MY_UUID);
+			logger.info("socket created");
 		}
 
 		public void start() {
@@ -183,6 +174,7 @@ public class BlueToothService {
 				// 由于会被阻塞，所以得另起线程
 				socket.connect();
 			} catch (IOException e) {
+				logger.error(e.getMessage(), e);
 				// Close the socket
 				try {
 					socket.close();
@@ -190,7 +182,13 @@ public class BlueToothService {
 					logger.error(e2.getMessage(), e2);
 				}
 				doConnectException("对不起，连接失败");
+				// Start the service over to restart listening mode
+				onResume();
 				return;
+			}
+			// Reset the ConnectThread because we're done
+			synchronized (BlueToothService.this) {
+				connectThread = null;
 			}
 			// logger.info("开始转入connected线程 todo ");
 			// Start the connected thread
@@ -293,9 +291,9 @@ public class BlueToothService {
 	/** 用于真正的数据传输 */
 	public class DataTransferThread implements Runnable {
 		private Thread thread = null;
-		private BluetoothSocket socket;
-		private InputStream inStream;
-		private OutputStream outStream;
+		private final BluetoothSocket socket;
+		private final InputStream inStream;
+		private final OutputStream outStream;
 
 		public DataTransferThread(BluetoothSocket socket) throws IOException {
 			this.socket = socket;
@@ -316,20 +314,20 @@ public class BlueToothService {
 			// Keep listening to the InputStream while connected
 			while (true) {
 				try {
-					if (inStream.available() > 0) {
-						// Read from the InputStream
-						BaseMsg baseMsg = new BaseMsg(inStream);
-						logger.info(baseMsg.toString());
-						// bytes = inStream.read(buffer);
-						// Send the obtained bytes to the UI Activity
-						handler.obtainMessage(BlueToothConstant.MESSAGE_READ,
-								-1, -1, baseMsg).sendToTarget();
-					} else {
-						logger.error("连接可能已经断开 inStream={}", inStream);
-					}
+
+					// Read from the InputStream
+					// int bytes = inStream.read(buffer);
+					BaseMsg baseMsg = new BaseMsg(inStream);
+					//
+					// Send the obtained bytes to the UI Activity
+					handler.obtainMessage(BlueToothConstant.MESSAGE_READ, -1,
+							-1, baseMsg).sendToTarget();
+
 				} catch (IOException e) {
 					logger.error(e.getMessage(), e);
 					doConnectException("Device connection was lost");
+					// Start the service over to restart listening mode
+					onResume();
 					break;
 				}
 			}

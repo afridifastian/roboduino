@@ -6,7 +6,9 @@ import net.roboduino.commons.CommandUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import android.app.Activity;
 import android.app.TabActivity;
+import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -28,6 +30,8 @@ public class AgentActivity extends TabActivity {
 	private TextView display;
 	private String connectedDeviceName;
 	private BlueToothService blueToothService;
+	/* 取得默认的蓝牙适配器 */
+	private BluetoothAdapter bluetooth = BluetoothAdapter.getDefaultAdapter();
 
 	/** Called when the activity is first created. */
 	@Override
@@ -128,11 +132,22 @@ public class AgentActivity extends TabActivity {
 	public void onStart() {
 		super.onStart();
 		logger.info("Agent start....");
-		// this.startService(new Intent(this, BlueToothService.class));
-		if (blueToothService == null) {
-			blueToothService = new BlueToothService(handler);
-			blueToothService.onStart();
+
+		// If BT is not on, request that it be enabled.
+		// setupChat() will then be called during onActivityResult
+		if (!bluetooth.isEnabled()) {
+			Intent enableIntent = new Intent(
+					BluetoothAdapter.ACTION_REQUEST_ENABLE);
+			startActivityForResult(enableIntent,
+					BlueToothConstant.REQUEST_ENABLE_BT);
+			// Otherwise, setup the chat session
+		} else {
+			if (blueToothService == null) {
+				blueToothService = new BlueToothService(handler);
+				blueToothService.onStart();
+			}
 		}
+
 	}
 
 	/**
@@ -192,6 +207,28 @@ public class AgentActivity extends TabActivity {
 		// this.stopService(new Intent(this, BlueToothService.class));
 	}
 
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		logger.info("onActivityResult={}", resultCode);
+
+		switch (requestCode) {
+
+		case BlueToothConstant.REQUEST_ENABLE_BT:
+			// When the request to enable Bluetooth returns
+			if (resultCode == Activity.RESULT_OK) {
+				// Bluetooth is now enabled, so set up a chat session
+				if (blueToothService == null) {
+					blueToothService = new BlueToothService(handler);
+				}
+			} else {
+				// User did not enable Bluetooth or an error occured
+				logger.warn("BT not enabled");
+				Toast.makeText(this, R.string.bt_not_enabled_leaving,
+						Toast.LENGTH_SHORT).show();
+				finish();
+			}
+		}
+	}
+
 	private final Handler handler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
@@ -200,7 +237,7 @@ public class AgentActivity extends TabActivity {
 				logger.info("state={}", msg.arg1);
 				switch (msg.arg1) {
 				case BlueToothConstant.STATE_CONNECTED:
-					display.append("Connected\n");
+					display.append("Connected to " + connectedDeviceName + "\n");
 					break;
 				case BlueToothConstant.STATE_CONNECTING:
 					display.append("Connecting...\n");
@@ -230,15 +267,18 @@ public class AgentActivity extends TabActivity {
 															// device's name
 				connectedDeviceName = msg.getData().getString(
 						BlueToothConstant.DEVICE_NAME);
-				Toast.makeText(getApplicationContext(),
-						"Connected to " + connectedDeviceName,
+				String constent = "Connected to " + connectedDeviceName;
+				Toast.makeText(getApplicationContext(), constent,
 						Toast.LENGTH_SHORT).show();
+				// display.append(constent + "\n");
 				break;
 			}
 			case BlueToothConstant.MESSAGE_TOAST: {
-				Toast.makeText(getApplicationContext(),
-						msg.getData().getString(BlueToothConstant.TOAST),
+				String constent = msg.getData().getString(
+						BlueToothConstant.TOAST);
+				Toast.makeText(getApplicationContext(), constent,
 						Toast.LENGTH_SHORT).show();
+				// display.append(constent + "\n");
 				break;
 			}
 			}
