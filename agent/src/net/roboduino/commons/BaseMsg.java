@@ -71,8 +71,9 @@ public class BaseMsg {
 		content = ArrayUtils.subarray(postfixBytes, 0, frameLen);
 		sum = postfixBytes[frameLen];
 		end = ArrayUtils.subarray(postfixBytes, frameLen
-				+ ProtocolConstant.MSG_LENGTH_SUM,
-				ProtocolConstant.MSG_LENGTH_STOP);
+				+ ProtocolConstant.MSG_LENGTH_SUM, frameLen
+				+ ProtocolConstant.MSG_LENGTH_SUM
+				+ ProtocolConstant.MSG_LENGTH_STOP);
 
 	}
 
@@ -146,8 +147,8 @@ public class BaseMsg {
 		return "BaseMsg [header=" + StringUtil.toHexString(header)
 				+ ", deviceAddress=0x" + StringUtil.toHexString(deviceAddress)
 				+ ", frameLen=0x" + StringUtil.toHexString(frameLen)
-				+ ", cmdType=0x" + StringUtil.toHexString(cmdType) + ", content="
-				+ StringUtil.toHexString(content) + ", sum=0x"
+				+ ", cmdType=0x" + StringUtil.toHexString(cmdType)
+				+ ", content=" + StringUtil.toHexString(content) + ", sum=0x"
 				+ StringUtil.toHexString(sum) + ", end="
 				+ StringUtil.toHexString(end) + "]";
 
