@@ -111,7 +111,7 @@ public class MultiColorLamp extends Activity implements OnSeekBarChangeListener{
 
 
 
-	@Override
+
 	public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 		// do not send to many updates, Arduino can't handle so much
 		if (System.currentTimeMillis() - lastChange > DELAY ){
@@ -120,12 +120,12 @@ public class MultiColorLamp extends Activity implements OnSeekBarChangeListener{
 		}
 	}
 
-	@Override
+	
 	public void onStartTrackingTouch(SeekBar seekBar) {
 		lastChange = System.currentTimeMillis();
 	}
 
-	@Override
+	
 	public void onStopTrackingTouch(SeekBar seekBar) {
 		updateState(seekBar);
 	}
