@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+	android:title="@string/setting">
+	<PreferenceCategory>
+		<PreferenceScreen android:title="@string/bluetooth_setting"
+			android:key="bluetooth_setting">
+			<PreferenceCategory>
+				<CheckBoxPreference android:title="@string/apply_bluetooth"
+					android:summary="@string/apply_bluetooth_summary" android:key="apply_bluetooth"></CheckBoxPreference>
+				<EditTextPreference android:title="@string/bluetooth_name"
+					android:key="bluetooth_name" android:dependency="apply_bluetooth"></EditTextPreference>
+				<CheckBoxPreference android:summary="@string/bluetooth_discoverable_summary"
+					android:title="@string/bluetooth_discoverable" android:key="bluetooth_discoverable"
+					android:dependency="apply_bluetooth"></CheckBoxPreference>
+				<Preference android:title="@string/bluetooth_scan"
+					android:key="bluetooth_scan" android:dependency="apply_bluetooth"></Preference>
+
+			</PreferenceCategory>
+			<PreferenceCategory android:title="@string/bluetooth_device_list"
+				android:key="bluetooth_device_list">
+			</PreferenceCategory>
+		</PreferenceScreen>
+		<PreferenceScreen android:title="@string/wifi_setting"></PreferenceScreen>
+	</PreferenceCategory>
+</PreferenceScreen>

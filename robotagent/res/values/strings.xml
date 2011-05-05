@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="app_name">Robot Agent</string>
+	<string name="setting">设置</string>
+	<string name="update">更新</string>
+	<string name="bluetooth_setting">蓝牙设置</string>
+	<string name="apply_bluetooth">蓝牙</string>
+	<string name="apply_bluetooth_summary">打开蓝牙</string>
+	<string name="bluetooth_name">设备名称</string>
+	<string name="bluetooth_discoverable">可检测性</string>
+	<string name="bluetooth_discoverable_summary">可以检测到设备</string>
+	<string name="bluetooth_scan">扫描查找设备</string>
+	<string name="bluetooth_device_list">蓝牙设备</string>
+	<string name="wifi_setting">Wi-Fi</string>
+	<string name="opening">正在打开...</string>
+	<string name="closing">正在关闭...</string>
+	<string name="send">Send</string>
+	<string name="scanning">搜索蓝牙设备中，请稍等...</string>
+	<string name="not_connected">对不起，和其他设备未建立连接</string>
+	<string name="connected_failed">对不起，连接失败</string>
+	<string name="bt_not_enabled_leaving">对不起，蓝牙启动失败</string>
+	<string name="up">UP</string>
+	<string name="left">LEFT</string>
+	<string name="down">DOWN</string>
+	<string name="right">RIGHT</string>
+	<string name="stop">STOP</string>
+	<string name="info">显示一些速度功率等信息</string>
+</resources>
