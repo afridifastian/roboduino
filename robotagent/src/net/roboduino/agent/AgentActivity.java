@@ -49,10 +49,7 @@ public class AgentActivity extends TabActivity {
 		display = (TextView) this.findViewById(R.id.display_windows);
 		this.buildDrive();
 		this.buildTabView();
-	}
 
-	public void onStart() {
-		super.onStart();
 		// in order to receive broadcasted intents we need to register our
 		// receiver
 		this.registerReceiver(arduinoReceiver, new IntentFilter(
@@ -62,9 +59,18 @@ public class AgentActivity extends TabActivity {
 		Amarino.connect(this, deviceAddress);
 	}
 
+	public void onStart() {
+		super.onStart();
+	}
+
 	@Override
 	protected void onStop() {
 		super.onStop();
+
+	}
+
+	public void onDestroy() {
+		super.onDestroy();
 		Amarino.disconnect(this, deviceAddress);
 		// do never forget to unregister a registered receiver
 		this.unregisterReceiver(arduinoReceiver);
@@ -176,10 +182,6 @@ public class AgentActivity extends TabActivity {
 		}
 	};
 
-	public void onDestroy() {
-		super.onDestroy();
-	}
-
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
@@ -229,7 +231,7 @@ public class AgentActivity extends TabActivity {
 				if (!ArrayUtils.isEmpty(bytes)) {
 					BaseMsg msg = new BaseMsg(bytes);
 					logger.info(msg.toString());
-					display.append(name+":" + msg.toString() + "\n");
+					display.append(name + ":" + msg.toString() + "\n");
 				} else {
 					logger.warn("收到的字节数组为空");
 				}
