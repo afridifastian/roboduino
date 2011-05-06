@@ -22,13 +22,13 @@ public class BlueToothConstant {
     
     // Key names received from the BluetoothChatService Handler
     public static final String DEVICE_NAME = "device_name";
+    public static final String PREF_DEVICE_ADDRESS = "device_address";
     public static final String TOAST = "toast";
     
     // Unique UUID for this application
     public static final UUID MY_UUID =
-        UUID.fromString("a60f35f0-b93a-11de-8a39-08002009c666");
-    // Name for the SDP record when creating server socket
-    public static final String NAME_SECURE = "BluetoothSecure";
+        UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
     public static final int REQUEST_ENABLE_BT = 3;
+    public static final String DEFAULT_DEVICE_ADDRESS = "00:06:66:03:73:7B";
 
 }

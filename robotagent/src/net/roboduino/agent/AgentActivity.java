@@ -3,16 +3,19 @@ package net.roboduino.agent;
 import net.roboduino.commons.BaseMsg;
 import net.roboduino.commons.CommandUtil;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import android.app.Activity;
 import android.app.TabActivity;
-import android.bluetooth.BluetoothAdapter;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -23,23 +26,52 @@ import android.widget.TabHost;
 import android.widget.TabHost.OnTabChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
+import at.abraxas.amarino.Amarino;
+import at.abraxas.amarino.AmarinoIntent;
 
 public class AgentActivity extends TabActivity {
 	private static final Logger logger = LoggerFactory
 			.getLogger(AgentActivity.class);
 	private TextView display;
-	private String connectedDeviceName;
-	private BlueToothService blueToothService;
-	/* 取得默认的蓝牙适配器 */
-	private BluetoothAdapter bluetooth = BluetoothAdapter.getDefaultAdapter();
+	private String deviceAddress;
 
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		// Log.i("AgentActivity.onCreate", "applia");
 		setContentView(R.layout.main);
-		display = (TextView) findViewById(R.id.display_windows);
+		// 获取设备地址
+		SharedPreferences prefs = PreferenceManager
+				.getDefaultSharedPreferences(this);
+		deviceAddress = prefs.getString(BlueToothConstant.PREF_DEVICE_ADDRESS,
+				BlueToothConstant.DEFAULT_DEVICE_ADDRESS);
+
+		display = (TextView) this.findViewById(R.id.display_windows);
+		this.buildDrive();
+		this.buildTabView();
+	}
+
+	public void onStart() {
+		super.onStart();
+		// in order to receive broadcasted intents we need to register our
+		// receiver
+		this.registerReceiver(arduinoReceiver, new IntentFilter(
+				AmarinoIntent.ACTION_RECEIVED));
+
+		logger.info("Agent start....");
+		Amarino.connect(this, deviceAddress);
+	}
+
+	@Override
+	protected void onStop() {
+		super.onStop();
+		Amarino.disconnect(this, deviceAddress);
+		// do never forget to unregister a registered receiver
+		this.unregisterReceiver(arduinoReceiver);
+	}
+
+	/** 创建控制台 */
+	private void buildDrive() {
 		ImageButton upBtn = (ImageButton) this.findViewById(R.id.up);
 		upBtn.setOnClickListener(driveListener);
 		ImageButton downBtn = (ImageButton) this.findViewById(R.id.down);
@@ -50,6 +82,10 @@ public class AgentActivity extends TabActivity {
 		rightBtn.setOnClickListener(driveListener);
 		ImageButton stopBtn = (ImageButton) this.findViewById(R.id.stop);
 		stopBtn.setOnClickListener(driveListener);
+	}
+
+	/** 创建tab list界面 */
+	private void buildTabView() {
 		TabHost tabHost = this.getTabHost();
 		/* 为TabHost添加标签 */
 		// 新建一个newTabSpec(newTabSpec)
@@ -78,7 +114,6 @@ public class AgentActivity extends TabActivity {
 		// 设置当前显示哪一个标签
 		tabHost.setCurrentTab(0);
 		tabHost.setOnTabChangedListener(tabChangeListener);
-		// input = (EditText) findViewById(R.id.input);
 	}
 
 	/** 切换tab */
@@ -90,197 +125,113 @@ public class AgentActivity extends TabActivity {
 		}
 
 	};
+
+	/** 消息分发 */
+	private void dispatchMsg(int id) {
+		String msg = "no msg";
+		switch (id) {
+		case R.id.up: {
+			msg = CommandUtil.driveMotorS(this, deviceAddress, (byte) 0xff,
+					(byte) 0xff);
+			break;
+		}
+
+		case R.id.down: {
+			msg = CommandUtil.driveMotorS(this, deviceAddress, (byte) 0x00,
+					(byte) 0x00);
+			break;
+		}
+
+		case R.id.left: {
+			msg = CommandUtil.driveMotorS(this, deviceAddress, (byte) 0x00,
+					(byte) 0xff);
+			break;
+		}
+
+		case R.id.right: {
+			msg = CommandUtil.driveMotorS(this, deviceAddress, (byte) 0xff,
+					(byte) 0x00);
+			break;
+		}
+
+		case R.id.stop: {
+			msg = CommandUtil.driveMotorS(this, deviceAddress, (byte) 0x80,
+					(byte) 0x80);
+			break;
+		}
+
+		default:
+			break;
+		}
+		display.append("You:" + msg + "\n");
+		// Toast.makeText(getApplicationContext(), msg,
+		// Toast.LENGTH_SHORT).show();
+
+	}
+
 	// 发送按钮
 	private OnClickListener driveListener = new OnClickListener() {
 		public void onClick(View v) {
-			switch (v.getId()) {
-			case R.id.up: {
-				CommandUtil.driveMotorS((byte) 0xff, (byte) 0xff);
-				break;
-			}
-
-			case R.id.down: {
-				CommandUtil.driveMotorS((byte) 0x00, (byte) 0x00);
-				break;
-			}
-
-			case R.id.left: {
-				CommandUtil.driveMotorS((byte) 0x00, (byte) 0xff);
-				break;
-			}
-
-			case R.id.right: {
-				CommandUtil.driveMotorS((byte) 0xff, (byte) 0x00);
-				break;
-			}
-
-			case R.id.stop: {
-				CommandUtil.driveMotorS((byte) 0x80, (byte) 0x80);
-				break;
-			}
-
-			default:
-				break;
-			}
-			// sendMsg(input.getText().toString());
-			// display.append(input.getText() + "\n");
-			// input.setText("");
-
+			dispatchMsg(v.getId());
 		}
 	};
 
-	public void onStart() {
-		super.onStart();
-		logger.info("Agent start....");
+	public void onDestroy() {
+	}
 
-		// If BT is not on, request that it be enabled.
-		// setupChat() will then be called during onActivityResult
-		if (!bluetooth.isEnabled()) {
-			Intent enableIntent = new Intent(
-					BluetoothAdapter.ACTION_REQUEST_ENABLE);
-			startActivityForResult(enableIntent,
-					BlueToothConstant.REQUEST_ENABLE_BT);
-			// Otherwise, setup the chat session
-		} else {
-			if (blueToothService == null) {
-				blueToothService = new BlueToothService(handler);
-				blueToothService.onStart();
-			}
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (resultCode == Activity.RESULT_OK && data != null) {
+
 		}
-
 	}
 
 	/**
-	 * Sends a message.
+	 * ArduinoReceiver is responsible for catching broadcasted Amarino events.
 	 * 
-	 * @param message
-	 *            A string of text to send.
+	 * It extracts data from the intent and updates the graph accordingly.
 	 */
-	private void sendMsg(String msg) {
-		// Check that we're actually connected before trying anything
-		if (blueToothService.getState() != BlueToothConstant.STATE_CONNECTED) {
-			Toast.makeText(this, R.string.not_connected, Toast.LENGTH_SHORT)
-					.show();
-			return;
-		}
+	private BroadcastReceiver arduinoReceiver = new BroadcastReceiver() {
 
-		// Check that there's actually something to send
-		if (msg.length() > 0) {
-			// Get the message bytes and tell the BluetoothService to write
-			byte[] send = msg.getBytes();
-			blueToothService.write(send);
-		}
-	}
-
-	private void sendCommand(byte cmdType, byte[] content) {
-		// Check that we're actually connected before trying anything
-		if (blueToothService.getState() != BlueToothConstant.STATE_CONNECTED) {
-			Toast.makeText(this, R.string.not_connected, Toast.LENGTH_SHORT)
-					.show();
-			return;
-		}
-		blueToothService.write(cmdType, content);
-
-	}
-
-	public void onResume() {
-		super.onResume();
-
-		// Performing this check in onResume() covers the case in which BT was
-		// not enabled during onStart(), so we were paused to enable it...
-		// onResume() will be called when ACTION_REQUEST_ENABLE activity
-		// returns.
-		if (blueToothService != null) {
-			// Only if the state is STATE_NONE, do we know that we haven't
-			// started already
-			if (blueToothService.getState() == BlueToothConstant.STATE_NONE) {
-				// Start the Bluetooth chat services
-				blueToothService.onResume();
-			}
-		}
-	}
-
-	public void onDestroy() {
-		logger.info("Agent stop....");
-		super.onDestroy();
-		blueToothService.onDestroy();
-		// this.stopService(new Intent(this, BlueToothService.class));
-	}
-
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		logger.info("onActivityResult={}", resultCode);
-
-		switch (requestCode) {
-
-		case BlueToothConstant.REQUEST_ENABLE_BT:
-			// When the request to enable Bluetooth returns
-			if (resultCode == Activity.RESULT_OK) {
-				// Bluetooth is now enabled, so set up a chat session
-				if (blueToothService == null) {
-					blueToothService = new BlueToothService(handler);
-				}
-			} else {
-				// User did not enable Bluetooth or an error occured
-				logger.warn("BT not enabled");
-				Toast.makeText(this, R.string.bt_not_enabled_leaving,
-						Toast.LENGTH_SHORT).show();
-				finish();
-			}
-		}
-	}
-
-	private final Handler handler = new Handler() {
 		@Override
-		public void handleMessage(Message msg) {
-			switch (msg.what) {
-			case BlueToothConstant.MESSAGE_STATE_CHANGE:
-				logger.info("state={}", msg.arg1);
-				switch (msg.arg1) {
-				case BlueToothConstant.STATE_CONNECTED:
-					display.append("Connected to " + connectedDeviceName + "\n");
-					break;
-				case BlueToothConstant.STATE_CONNECTING:
-					display.append("Connecting...\n");
-					break;
-				case BlueToothConstant.STATE_LISTEN:
-				case BlueToothConstant.STATE_NONE:
-					display.append("not connected\n");
-					break;
+		public void onReceive(Context context, Intent intent) {
+			String data = null;
+
+			// the device address from which the data was sent, we don't need it
+			// here but to demonstrate how you retrieve it
+			final String name = intent
+					.getStringExtra(AmarinoIntent.EXTRA_DEVICE);
+			final String address = intent
+					.getStringExtra(AmarinoIntent.EXTRA_DEVICE_ADDRESS);
+			final String state = intent
+					.getStringExtra(AmarinoIntent.EXTRA_DEVICE_STATE);
+			logger.info("name={},address={},state={}", new Object[] { name,
+					address, state });
+			// the type of data which is added to the intent
+			final int dataType = intent.getIntExtra(
+					AmarinoIntent.EXTRA_DATA_TYPE, -1);
+			// we only expect String data though, but it is better to check if
+			// really string was sent
+			// later Amarino will support differnt data types, so far data comes
+			// always as string and
+			// you have to parse the data to the type you have sent from
+			// Arduino, like it is shown below
+			if (dataType == AmarinoIntent.STRING_EXTRA) {
+				data = intent.getStringExtra(AmarinoIntent.EXTRA_DATA);
+				if (data != null) {
+
 				}
-				break;
-			case BlueToothConstant.MESSAGE_WRITE: {
-				BaseMsg baseMsg = (BaseMsg) msg.obj;
-				// construct a string from the buffer
-				// String writeMessage = new String(writeBuf);
-				display.append("Me:" + baseMsg.toString() + "\n");
-				break;
-			}
-			case BlueToothConstant.MESSAGE_READ: {
-				BaseMsg baseMsg = (BaseMsg) msg.obj;
-				// construct a string from the valid bytes in the buffer
-				// String readMessage = new String(readBuf, 0, msg.arg1);
-				display.append(connectedDeviceName + ":" + baseMsg.toString()
-						+ "\n");
-				break;
-			}
-			case BlueToothConstant.MESSAGE_DEVICE_NAME: { // save the connected
-															// device's name
-				connectedDeviceName = msg.getData().getString(
-						BlueToothConstant.DEVICE_NAME);
-				String constent = "Connected to " + connectedDeviceName;
-				Toast.makeText(getApplicationContext(), constent,
-						Toast.LENGTH_SHORT).show();
-				// display.append(constent + "\n");
-				break;
-			}
-			case BlueToothConstant.MESSAGE_TOAST: {
-				String constent = msg.getData().getString(
-						BlueToothConstant.TOAST);
-				Toast.makeText(getApplicationContext(), constent,
-						Toast.LENGTH_SHORT).show();
-				// display.append(constent + "\n");
-				break;
-			}
+			} else if (dataType == AmarinoIntent.BYTE_ARRAY_EXTRA) {
+				byte[] bytes = intent
+						.getByteArrayExtra(AmarinoIntent.EXTRA_DATA);
+				if (!ArrayUtils.isEmpty(bytes)) {
+					BaseMsg msg = new BaseMsg(bytes);
+					logger.info(msg.toString());
+					display.append("Me:" + msg.toString() + "\n");
+				} else {
+					logger.warn("收到的字节数组为空");
+				}
 			}
 		}
 	};
@@ -291,16 +242,10 @@ public class AgentActivity extends TabActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-
-		// Case: Bring up the Preferences Screen
 		case R.id.menu_setting: // Preferences
-			// Launch the Preference Activity
 			Intent intent = new Intent(this, PreferencesActivity.class);
 			startActivity(intent);
-			// startActivityForResult(intent, REQUEST_CODE_SET);
-
 			break;
-
 		case R.id.menu_update:
 			Toast.makeText(getApplicationContext(), "该功能还在开发中",
 					Toast.LENGTH_SHORT).show();
@@ -314,10 +259,6 @@ public class AgentActivity extends TabActivity {
 		MenuInflater inflater = this.getMenuInflater();
 		inflater.inflate(R.menu.option_menu, menu);
 		return true;
-		//
-		// menu.add(0, R.id.SETTING, 0,R.string.setting);
-		// menu.add(0, R.id.UPDATE, 0, R.string.update);
-		// return true;
 	}
 
 }

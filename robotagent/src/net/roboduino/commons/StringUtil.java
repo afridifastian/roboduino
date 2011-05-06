@@ -15,7 +15,9 @@ public class StringUtil {
 	}
 
 	public static String toHexString(byte input) {
-		return format("00", StringUtils.upperCase(Integer.toHexString((int) input & 0x00ff)));
+		return "0x"
+				+ format("00", StringUtils.upperCase(Integer
+						.toHexString((int) input & 0x00ff)));
 	}
 
 	/**
