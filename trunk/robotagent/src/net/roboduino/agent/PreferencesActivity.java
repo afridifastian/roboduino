@@ -24,6 +24,7 @@ import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import at.abraxas.amarino.Amarino;
+import at.abraxas.amarino.AmarinoIntent;
 
 public class PreferencesActivity extends PreferenceActivity implements
 		OnSharedPreferenceChangeListener {
@@ -33,6 +34,11 @@ public class PreferencesActivity extends PreferenceActivity implements
 	/* 取得默认的蓝牙适配器 */
 	private BluetoothAdapter blueTooth = BluetoothAdapter.getDefaultAdapter();
 	private SharedPreferences prefs;
+	private CheckBoxPreference blueToothSwitchPreference;
+	private Preference bluetoothNamePreference;
+	private CheckBoxPreference blueToothDiscoverablePreference;
+	private Preference scanPreference;
+	private PreferenceCategory deviceListPreferenceCategory;
 
 	// private BlueToothManager blueToothManager =
 	// BlueToothManager.getInstance();
@@ -51,25 +57,30 @@ public class PreferencesActivity extends PreferenceActivity implements
 		// this.getPreferenceManager().getSharedPreferences()
 		// .registerOnSharedPreferenceChangeListener(this);
 		// 开启蓝牙开关监听
-		CheckBoxPreference blueToothSwitchPreference = (CheckBoxPreference) this
+		blueToothSwitchPreference = (CheckBoxPreference) this
 				.findPreference("apply_bluetooth");
 		blueToothSwitchPreference
 				.setOnPreferenceChangeListener(blueToothSwitchListener);
+		//蓝牙名字
+		bluetoothNamePreference = findPreference("bluetooth_name");
 		// 开启蓝牙可见监听
-		CheckBoxPreference blueToothDiscoverablePreference = (CheckBoxPreference) this
+		blueToothDiscoverablePreference = (CheckBoxPreference) this
 				.findPreference("bluetooth_discoverable");
 		blueToothDiscoverablePreference
 				.setOnPreferenceChangeListener(blueToothDiscoverableListener);
 		// 扫描查找设备添加监听
-		Preference preference = this.findPreference("bluetooth_scan");
-		preference.setOnPreferenceClickListener(scanClickListener);
-
+		scanPreference = this.findPreference("bluetooth_scan");
+		scanPreference.setOnPreferenceClickListener(scanClickListener);
+		// 设备列表
+		deviceListPreferenceCategory = (PreferenceCategory) findPreference("bluetooth_device_list");
 		this.refreshBlueToothDeviceList();
 
 		// 注册Receiver来获取蓝牙设备相关的结果
 		IntentFilter intent = new IntentFilter();
 		intent.addAction(BluetoothDevice.ACTION_FOUND);
 		intent.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
+		intent.addAction(AmarinoIntent.ACTION_CONNECTED);
+
 		this.registerReceiver(receiver, intent);
 
 	}
@@ -102,7 +113,6 @@ public class PreferencesActivity extends PreferenceActivity implements
 				preference.setSummary(R.string.opening);
 				blueTooth.enable();
 				preference.setSummary("");
-				Preference bluetoothNamePreference = findPreference("bluetooth_name");
 				bluetoothNamePreference.setEnabled(true);
 				bluetoothNamePreference.setSummary(blueTooth.getName());
 			} else {
@@ -122,9 +132,7 @@ public class PreferencesActivity extends PreferenceActivity implements
 			// preference.getSummary());
 			// 添加扫描的逻辑
 			// Indicate scanning in the title
-
-			PreferenceCategory preferenceCategory = (PreferenceCategory) findPreference("bluetooth_device_list");
-			preferenceCategory.setTitle(R.string.scanning);
+			deviceListPreferenceCategory.setTitle(R.string.scanning);
 
 			// setProgressBarIndeterminateVisibility(true);
 			// setTitle(R.string.scanning);
@@ -142,8 +150,6 @@ public class PreferencesActivity extends PreferenceActivity implements
 	};
 
 	private void addDevice(BluetoothDevice device) {
-		PreferenceCategory preferenceCategory = (PreferenceCategory) this
-				.findPreference("bluetooth_device_list");
 		Preference e = new Preference(this);
 		e.setTitle(device.getName());
 		e.setSummary(device.getAddress());
@@ -151,13 +157,11 @@ public class PreferencesActivity extends PreferenceActivity implements
 		// e.setDependency("apply_bluetooth");
 		// 为每个远程设备连接添加监听
 		e.setOnPreferenceClickListener(deviceClickListener);
-		preferenceCategory.addPreference(e);
+		deviceListPreferenceCategory.addPreference(e);
 	}
 
 	private void refreshBlueToothDeviceList() {
 		Set<BluetoothDevice> pairedDevices = blueTooth.getBondedDevices();
-		PreferenceCategory preferenceCategory = (PreferenceCategory) this
-				.findPreference("bluetooth_device_list");
 		for (BluetoothDevice device : pairedDevices) {
 			Preference e = new Preference(this);
 			e.setTitle(device.getName());
@@ -166,7 +170,7 @@ public class PreferencesActivity extends PreferenceActivity implements
 			// e.setDependency("apply_bluetooth");
 			// 为每个远程设备连接添加监听
 			e.setOnPreferenceClickListener(deviceClickListener);
-			preferenceCategory.addPreference(e);
+			deviceListPreferenceCategory.addPreference(e);
 			// deviceMap.put(device.getAddress(), device.getName());
 		}
 	}
@@ -195,9 +199,10 @@ public class PreferencesActivity extends PreferenceActivity implements
 					.getSummary().toString());
 
 			disconnect(deviceAddress);
+			deviceAddress = device.getAddress();
 			prefs.edit()
 					.putString(BlueToothConstant.PREF_DEVICE_ADDRESS,
-							device.getAddress()).commit();
+							deviceAddress).commit();
 			// 处理连接的逻辑
 			// Attempt to connect to the device
 			connect(deviceAddress);
@@ -213,25 +218,18 @@ public class PreferencesActivity extends PreferenceActivity implements
 		String key = preference.getKey();
 		logger.info("key={}", key);
 		if (StringUtils.equals(key, "bluetooth_setting")) {
-			CheckBoxPreference checkBoxPreference = (CheckBoxPreference) this
-					.findPreference("apply_bluetooth");
 			if (blueTooth.isEnabled()) {
-				checkBoxPreference.setChecked(true);
-				checkBoxPreference.setSummary("");
-				Preference bluetoothNamePreference = this
-						.findPreference("bluetooth_name");
+				blueToothSwitchPreference.setChecked(true);
+				blueToothSwitchPreference.setSummary("");
 				bluetoothNamePreference.setSummary(blueTooth.getName());
 				bluetoothNamePreference.setEnabled(true);
-				CheckBoxPreference blueToothDiscoverablePreference = (CheckBoxPreference) this
-						.findPreference("bluetooth_discoverable");
-
 				if (blueTooth.getScanMode() == BluetoothAdapter.SCAN_MODE_CONNECTABLE_DISCOVERABLE) {
 					blueToothDiscoverablePreference.setChecked(true);
 				} else {
 					blueToothDiscoverablePreference.setChecked(false);
 				}
 			} else {
-				checkBoxPreference.setChecked(false);
+				blueToothSwitchPreference.setChecked(false);
 				preference.setSummary(R.string.apply_bluetooth_summary);
 			}
 		}
@@ -320,8 +318,18 @@ public class PreferencesActivity extends PreferenceActivity implements
 				// When discovery is finished, change the Activity title
 			} else if (StringUtils.equals(
 					BluetoothAdapter.ACTION_DISCOVERY_FINISHED, action)) {
-				PreferenceCategory preferenceCategory = (PreferenceCategory) findPreference("bluetooth_device_list");
-				preferenceCategory.setTitle(R.string.bluetooth_device_list);
+				deviceListPreferenceCategory
+						.setTitle(R.string.bluetooth_device_list);
+			} else if (StringUtils.equals(AmarinoIntent.ACTION_CONNECTED,
+					action)) {
+				blueToothSwitchPreference.setChecked(true);
+				blueToothSwitchPreference.setSummary("");
+				bluetoothNamePreference.setSummary(blueTooth.getName());
+				if (blueTooth.getScanMode() == BluetoothAdapter.SCAN_MODE_CONNECTABLE_DISCOVERABLE) {
+					blueToothDiscoverablePreference.setChecked(true);
+				} else {
+					blueToothDiscoverablePreference.setChecked(false);
+				}
 			}
 		}
 	};
