@@ -139,13 +139,13 @@ public class BaseMsg {
 	@Override
 	public String toString() {
 
-		return "BaseMsg [header=" + StringUtil.toHexString(header)
-				+ ", deviceAddress=" + StringUtil.toHexString(deviceAddress)
-				+ ", frameLen=" + StringUtil.toHexString(frameLen)
-				+ ", cmdType=" + StringUtil.toHexString(cmdType) + ", content="
-				+ StringUtil.toHexString(content) + ", sum="
-				+ StringUtil.toHexString(sum) + ", end="
-				+ StringUtil.toHexString(end) + "]";
+		return "BaseMsg [header=" + ProtocolUtils.toHexString(header)
+				+ ", deviceAddress=" + ProtocolUtils.toHexString(deviceAddress)
+				+ ", frameLen=" + ProtocolUtils.toHexString(frameLen)
+				+ ", cmdType=" + ProtocolUtils.toHexString(cmdType) + ", content="
+				+ ProtocolUtils.toHexString(content) + ", sum="
+				+ ProtocolUtils.toHexString(sum) + ", end="
+				+ ProtocolUtils.toHexString(end) + "]";
 
 	}
 
