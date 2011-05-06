@@ -28,13 +28,14 @@ public final class R {
         public static final int ixus=0x7f020007;
         public static final int keychain=0x7f020008;
         public static final int left=0x7f020009;
-        public static final int ra=0x7f02000a;
-        public static final int rc=0x7f02000b;
-        public static final int right=0x7f02000c;
-        public static final int robot=0x7f02000d;
-        public static final int stop=0x7f02000e;
-        public static final int up=0x7f02000f;
-        public static final int woa39=0x7f020010;
+        public static final int littlea=0x7f02000a;
+        public static final int ra=0x7f02000b;
+        public static final int rc=0x7f02000c;
+        public static final int right=0x7f02000d;
+        public static final int robot=0x7f02000e;
+        public static final int stop=0x7f02000f;
+        public static final int up=0x7f020010;
+        public static final int woa39=0x7f020011;
     }
     public static final class id {
         public static final int button_info=0x7f080000;
