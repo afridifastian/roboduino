@@ -26,7 +26,7 @@ public class BlueToothConstant {
     
     // Unique UUID for this application
     public static final UUID MY_UUID =
-        UUID.fromString("a60f35f0-b93a-11de-8a39-08002009c666");
+        UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
     // Name for the SDP record when creating server socket
     public static final String NAME_SECURE = "BluetoothSecure";
     public static final int REQUEST_ENABLE_BT = 3;
