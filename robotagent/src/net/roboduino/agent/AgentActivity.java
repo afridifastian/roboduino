@@ -163,7 +163,7 @@ public class AgentActivity extends TabActivity {
 		default:
 			break;
 		}
-		display.append("You:" + msg + "\n");
+		display.append("Me:" + msg + "\n");
 		// Toast.makeText(getApplicationContext(), msg,
 		// Toast.LENGTH_SHORT).show();
 
@@ -177,6 +177,7 @@ public class AgentActivity extends TabActivity {
 	};
 
 	public void onDestroy() {
+		super.onDestroy();
 	}
 
 	@Override
@@ -228,7 +229,7 @@ public class AgentActivity extends TabActivity {
 				if (!ArrayUtils.isEmpty(bytes)) {
 					BaseMsg msg = new BaseMsg(bytes);
 					logger.info(msg.toString());
-					display.append("Me:" + msg.toString() + "\n");
+					display.append(name+":" + msg.toString() + "\n");
 				} else {
 					logger.warn("收到的字节数组为空");
 				}
