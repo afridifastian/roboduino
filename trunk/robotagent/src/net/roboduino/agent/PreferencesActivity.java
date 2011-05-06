@@ -1,6 +1,5 @@
 package net.roboduino.agent;
 
-import java.io.IOException;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
@@ -22,15 +21,18 @@ import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
+import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
-import android.widget.Toast;
+import at.abraxas.amarino.Amarino;
 
 public class PreferencesActivity extends PreferenceActivity implements
 		OnSharedPreferenceChangeListener {
 	private static final Logger logger = LoggerFactory
 			.getLogger(PreferencesActivity.class);
+	private String deviceAddress;
 	/* 取得默认的蓝牙适配器 */
 	private BluetoothAdapter blueTooth = BluetoothAdapter.getDefaultAdapter();
+	private SharedPreferences prefs;
 
 	// private BlueToothManager blueToothManager =
 	// BlueToothManager.getInstance();
@@ -40,6 +42,10 @@ public class PreferencesActivity extends PreferenceActivity implements
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		prefs = PreferenceManager.getDefaultSharedPreferences(this);
+		deviceAddress = prefs.getString(BlueToothConstant.PREF_DEVICE_ADDRESS,
+				BlueToothConstant.DEFAULT_DEVICE_ADDRESS);
+
 		// 所的的值将会自动保存到SharePreferences
 		this.addPreferencesFromResource(R.xml.preferences);
 		// this.getPreferenceManager().getSharedPreferences()
@@ -165,6 +171,14 @@ public class PreferencesActivity extends PreferenceActivity implements
 		}
 	}
 
+	private void disconnect(String address) {
+		Amarino.disconnect(this, address);
+	}
+
+	private void connect(String address) {
+		Amarino.connect(this, address);
+	}
+
 	/** 单击连接蓝牙设备 */
 	private OnPreferenceClickListener deviceClickListener = new OnPreferenceClickListener() {
 
@@ -179,16 +193,14 @@ public class PreferencesActivity extends PreferenceActivity implements
 			// Get the BLuetoothDevice object
 			BluetoothDevice device = blueTooth.getRemoteDevice(preference
 					.getSummary().toString());
-			// // 处理连接的逻辑
-			// Attempt to connect to the device
-			try {
-				BlueToothService.getInstance().connect(device);
-			} catch (IOException e) {
-				logger.error(e.getMessage(), e);
-				Toast.makeText(getApplicationContext(), e.getMessage(),
-						Toast.LENGTH_SHORT).show();
-			}
 
+			disconnect(deviceAddress);
+			prefs.edit()
+					.putString(BlueToothConstant.PREF_DEVICE_ADDRESS,
+							device.getAddress()).commit();
+			// 处理连接的逻辑
+			// Attempt to connect to the device
+			connect(deviceAddress);
 			return true;
 		}
 

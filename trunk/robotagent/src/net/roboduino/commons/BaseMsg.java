@@ -1,7 +1,5 @@
 package net.roboduino.commons;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.nio.ByteBuffer;
 
 import org.apache.commons.lang.ArrayUtils;
@@ -18,7 +16,7 @@ public class BaseMsg {
 	private byte[] end = {};
 	private byte[] bytes;
 
-	public BaseMsg(InputStream input) throws IOException {
+	public BaseMsg(byte[] input){
 		this.deserialize(input);
 	}
 
@@ -55,24 +53,21 @@ public class BaseMsg {
 
 	}
 
-	private void deserialize(InputStream input) throws IOException {
+	private void deserialize(byte[] input){
 		// logger.info("");
 		// prefixBytes 大尾小尾问题？
-		byte[] prefixBytes = new byte[ProtocolConstant.MSG_LENGTH_PREFIX];
-		input.read(prefixBytes);
-		header = ArrayUtils.subarray(prefixBytes, 0,
-				ProtocolConstant.MSG_LENGTH_HEAD);
-		deviceAddress = prefixBytes[2];
-		frameLen = prefixBytes[3];
-		cmdType = prefixBytes[4];
-		byte[] postfixBytes = new byte[frameLen
-				+ ProtocolConstant.MSG_LENGTH_POSTFIX];
-		input.read(postfixBytes);
-		content = ArrayUtils.subarray(postfixBytes, 0, frameLen);
-		sum = postfixBytes[frameLen];
-		end = ArrayUtils.subarray(postfixBytes, frameLen
-				+ ProtocolConstant.MSG_LENGTH_SUM, frameLen
-				+ ProtocolConstant.MSG_LENGTH_SUM
+		header = ArrayUtils
+				.subarray(input, 0, ProtocolConstant.MSG_LENGTH_HEAD);
+		deviceAddress = input[2];
+		frameLen = input[3];
+		cmdType = input[4];
+		content = ArrayUtils.subarray(input,
+				ProtocolConstant.MSG_LENGTH_PREFIX,
+				ProtocolConstant.MSG_LENGTH_PREFIX + frameLen);
+		sum = input[ProtocolConstant.MSG_LENGTH_PREFIX + frameLen];
+		end = ArrayUtils.subarray(input, frameLen
+				+ ProtocolConstant.MSG_LENGTH_INI, frameLen
+				+ ProtocolConstant.MSG_LENGTH_INI
 				+ ProtocolConstant.MSG_LENGTH_STOP);
 
 	}
@@ -145,10 +140,10 @@ public class BaseMsg {
 	public String toString() {
 
 		return "BaseMsg [header=" + StringUtil.toHexString(header)
-				+ ", deviceAddress=0x" + StringUtil.toHexString(deviceAddress)
-				+ ", frameLen=0x" + StringUtil.toHexString(frameLen)
-				+ ", cmdType=0x" + StringUtil.toHexString(cmdType)
-				+ ", content=" + StringUtil.toHexString(content) + ", sum=0x"
+				+ ", deviceAddress=" + StringUtil.toHexString(deviceAddress)
+				+ ", frameLen=" + StringUtil.toHexString(frameLen)
+				+ ", cmdType=" + StringUtil.toHexString(cmdType) + ", content="
+				+ StringUtil.toHexString(content) + ", sum="
 				+ StringUtil.toHexString(sum) + ", end="
 				+ StringUtil.toHexString(end) + "]";
 
