@@ -14,16 +14,16 @@ import android.util.AttributeSet;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-public class Preview extends SurfaceView implements SurfaceHolder.Callback {
-	private static final Logger logger = LoggerFactory.getLogger(Preview.class);
+public class VideoView extends SurfaceView implements SurfaceHolder.Callback {
+	private static final Logger logger = LoggerFactory.getLogger(VideoView.class);
 	private SurfaceHolder holder;
 	private Camera camera;
 
-	Preview(Context context) {
+	VideoView(Context context) {
 		this(context, (AttributeSet) null);
 	}
 
-	public Preview(Context context, AttributeSet attrs) {
+	public VideoView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		// Install a SurfaceHolder.Callback so we get notified when the
 		// underlying surface is created and destroyed.
