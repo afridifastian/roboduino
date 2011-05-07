@@ -39,6 +39,8 @@ public class AgentActivity extends TabActivity {
 	private String deviceAddress;
 	private LinearLayout layout;
 	private ScrollView scrollView;
+	private Preview	preview;
+	
 	private final Handler handler = new Handler();
 
 	/** Called when the activity is first created. */
@@ -67,6 +69,8 @@ public class AgentActivity extends TabActivity {
 
 		logger.info("Agent start....");
 		Amarino.connect(this, deviceAddress);
+		// Create our Preview view and set it as the content of our activity.
+		//preview = new Preview(this);
 	}
 
 	public void onStart() {
