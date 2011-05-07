@@ -15,6 +15,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,6 +23,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TabHost;
 import android.widget.TabHost.OnTabChangeListener;
 import android.widget.TextView;
@@ -34,11 +37,16 @@ public class AgentActivity extends TabActivity {
 			.getLogger(AgentActivity.class);
 	private TextView display;
 	private String deviceAddress;
+	private LinearLayout layout;
+	private ScrollView scrollView;
+	private final Handler handler = new Handler();
 
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		// Hide the window title.
+		// requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.main);
 		// 获取设备地址
 		SharedPreferences prefs = PreferenceManager
@@ -47,6 +55,8 @@ public class AgentActivity extends TabActivity {
 				BlueToothConstant.DEFAULT_DEVICE_ADDRESS);
 
 		display = (TextView) this.findViewById(R.id.display_windows);
+		layout = (LinearLayout) findViewById(R.id.tab1_layout);
+		scrollView = (ScrollView) findViewById(R.id.tab1);
 		this.buildDrive();
 		this.buildTabView();
 
@@ -98,10 +108,10 @@ public class AgentActivity extends TabActivity {
 		// 设置其标签和图标(setIndicator)
 		// 设置内容(setContent)
 		tabHost.addTab(tabHost
-				.newTabSpec("tag_display_windows")
+				.newTabSpec("tab1")
 				.setIndicator("",
 						this.getResources().getDrawable(R.drawable.img1))
-				.setContent(R.id.display_windows));
+				.setContent(R.id.tab1));
 		tabHost.addTab(tabHost
 				.newTabSpec("tag_camera")
 				.setIndicator("",
@@ -170,10 +180,23 @@ public class AgentActivity extends TabActivity {
 			break;
 		}
 		display.append("Me:" + msg + "\n");
+		// 投递一个消息进行滚动
+		handler.post(scrollToBottom);
 		// Toast.makeText(getApplicationContext(), msg,
 		// Toast.LENGTH_SHORT).show();
 
 	}
+
+	private Thread scrollToBottom = new Thread() {
+		@Override
+		public void run() {
+			logger.info("ScrollY: ", scrollView.getScrollY());
+			int off = layout.getMeasuredHeight() - scrollView.getHeight();
+			if (off > 0) {
+				scrollView.scrollTo(0, off);
+			}
+		}
+	};
 
 	// 发送按钮
 	private OnClickListener driveListener = new OnClickListener() {

@@ -39,15 +39,17 @@ public final class R {
     }
     public static final class id {
         public static final int button_info=0x7f080000;
-        public static final int display_windows=0x7f080006;
+        public static final int display_windows=0x7f080008;
         public static final int down=0x7f080005;
         public static final int left=0x7f080002;
-        public static final int menu_setting=0x7f080009;
-        public static final int menu_update=0x7f08000a;
+        public static final int menu_setting=0x7f08000b;
+        public static final int menu_update=0x7f08000c;
         public static final int right=0x7f080004;
         public static final int stop=0x7f080003;
-        public static final int tab2=0x7f080007;
-        public static final int tab3=0x7f080008;
+        public static final int tab1=0x7f080006;
+        public static final int tab1_layout=0x7f080007;
+        public static final int tab2=0x7f080009;
+        public static final int tab3=0x7f08000a;
         public static final int up=0x7f080001;
     }
     public static final class layout {
