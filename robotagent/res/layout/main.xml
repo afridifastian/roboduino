@@ -47,7 +47,7 @@
 						</TextView>
 					</LinearLayout>
 				</ScrollView>
-				<net.roboduino.agent.Preview android:id="@+id/tab2" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+				<net.roboduino.agent.VideoView android:id="@+id/tab2" android:layout_width="fill_parent" android:layout_height="fill_parent" />
 				<TextView android:id="@+id/tab3" android:layout_width="fill_parent"
 					android:layout_height="fill_parent" android:transcriptMode="alwaysScroll"
 					android:textColor="@color/green">

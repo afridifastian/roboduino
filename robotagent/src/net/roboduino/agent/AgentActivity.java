@@ -39,7 +39,6 @@ public class AgentActivity extends TabActivity {
 	private String deviceAddress;
 	private LinearLayout layout;
 	private ScrollView scrollView;
-	private Preview	preview;
 	
 	private final Handler handler = new Handler();
 
