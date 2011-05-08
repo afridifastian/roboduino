@@ -25,4 +25,11 @@
 	<string name="right">RIGHT</string>
 	<string name="stop">STOP</string>
 	<string name="info">显示一些速度功率等信息</string>
+	<string name="tcp_mgr">Agent连接设置</string>
+	<string name="connect_address">连接地址</string>
+	<string name="tcp_connect">TCP连接</string>
+	<string name="udp_connect">UDP连接</string>
+	<string name="connected">已连接</string>
+	<string name="disconnected">未连接</string>
+	<string name="default_ip">192.168.1.1</string>
 </resources>

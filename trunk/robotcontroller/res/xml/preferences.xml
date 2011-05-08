@@ -2,6 +2,12 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
 	android:title="@string/setting">
 	<PreferenceCategory>
-		<PreferenceScreen android:title="@string/wifi_setting"></PreferenceScreen>
+		<PreferenceScreen android:title="@string/wifi_setting"
+			android:key="wifi_setting">
+			<PreferenceCategory android:title="@string/tcp_mgr">
+			<CheckBoxPreference android:key="tcp_connect" android:title="@string/tcp_connect" android:summary="@string/disconnected"></CheckBoxPreference><CheckBoxPreference android:summary="@string/disconnected" android:title="@string/udp_connect" android:key="udp_connect"></CheckBoxPreference>
+				<EditTextPreference android:key="connect_address" android:title="@string/connect_address" android:defaultValue="@string/default_ip" android:summary="@string/default_ip"></EditTextPreference>
+			</PreferenceCategory>
+		</PreferenceScreen>
 	</PreferenceCategory>
 </PreferenceScreen>
