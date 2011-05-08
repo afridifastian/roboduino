@@ -1,7 +1,4 @@
-package net.roboduino.commons.codec;
-
-import net.roboduino.commons.constant.ProtocolConstant;
-import net.roboduino.commons.util.ProtocolUtils;
+package net.roboduino.commons;
 
 import org.apache.mina.core.buffer.IoBuffer;
 import org.apache.mina.core.session.IoSession;
