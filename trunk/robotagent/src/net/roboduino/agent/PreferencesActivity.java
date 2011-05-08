@@ -16,6 +16,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
+import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
@@ -35,7 +36,7 @@ public class PreferencesActivity extends PreferenceActivity implements
 	private BluetoothAdapter blueTooth = BluetoothAdapter.getDefaultAdapter();
 	private SharedPreferences prefs;
 	private CheckBoxPreference blueToothSwitchPreference;
-	private Preference bluetoothNamePreference;
+	private EditTextPreference bluetoothNamePreference;
 	private CheckBoxPreference blueToothDiscoverablePreference;
 	private Preference scanPreference;
 	private PreferenceCategory deviceListPreferenceCategory;
@@ -61,8 +62,11 @@ public class PreferencesActivity extends PreferenceActivity implements
 				.findPreference("apply_bluetooth");
 		blueToothSwitchPreference
 				.setOnPreferenceChangeListener(blueToothSwitchListener);
-		//蓝牙名字
-		bluetoothNamePreference = findPreference("bluetooth_name");
+		// 蓝牙名字
+		bluetoothNamePreference = (EditTextPreference) this
+				.findPreference("bluetooth_name");
+		bluetoothNamePreference
+				.setOnPreferenceChangeListener(bluetoothNameListener);
 		// 开启蓝牙可见监听
 		blueToothDiscoverablePreference = (CheckBoxPreference) this
 				.findPreference("bluetooth_discoverable");
@@ -85,6 +89,15 @@ public class PreferencesActivity extends PreferenceActivity implements
 
 	}
 
+	/** 蓝牙名字监听器 */
+	private OnPreferenceChangeListener bluetoothNameListener = new OnPreferenceChangeListener() {
+		public boolean onPreferenceChange(Preference preference, Object obj) {
+			String name = (String) obj;
+			bluetoothNamePreference.setSummary(name);
+			return true;
+		}
+
+	};
 	/** 蓝牙可见性监听器 */
 	private OnPreferenceChangeListener blueToothDiscoverableListener = new OnPreferenceChangeListener() {
 		public boolean onPreferenceChange(Preference preference, Object obj) {
@@ -222,6 +235,8 @@ public class PreferencesActivity extends PreferenceActivity implements
 				blueToothSwitchPreference.setChecked(true);
 				blueToothSwitchPreference.setSummary("");
 				bluetoothNamePreference.setSummary(blueTooth.getName());
+				// bluetoothNamePreference.setDefaultValue(blueTooth.getName());
+				bluetoothNamePreference.setText(blueTooth.getName());
 				bluetoothNamePreference.setEnabled(true);
 				if (blueTooth.getScanMode() == BluetoothAdapter.SCAN_MODE_CONNECTABLE_DISCOVERABLE) {
 					blueToothDiscoverablePreference.setChecked(true);
@@ -325,6 +340,7 @@ public class PreferencesActivity extends PreferenceActivity implements
 				blueToothSwitchPreference.setChecked(true);
 				blueToothSwitchPreference.setSummary("");
 				bluetoothNamePreference.setSummary(blueTooth.getName());
+				bluetoothNamePreference.setDefaultValue(blueTooth.getName());
 				if (blueTooth.getScanMode() == BluetoothAdapter.SCAN_MODE_CONNECTABLE_DISCOVERABLE) {
 					blueToothDiscoverablePreference.setChecked(true);
 				} else {
