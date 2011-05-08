@@ -1,5 +1,9 @@
-package net.roboduino.commons;
+package net.roboduino.agent;
 
+import net.roboduino.commons.BaseMsg;
+import net.roboduino.commons.ProtocolConstant;
+
+import org.apache.mina.core.buffer.IoBuffer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,8 +31,16 @@ public class CommandUtil {
 	private static String sendDataToArduino(Context context, String address,
 			byte cmdType, byte[] content) {
 		BaseMsg msg = new BaseMsg(cmdType, content);
+		int length=ProtocolConstant.MSG_LENGTH_INI+ content.length;
+		IoBuffer buffer = IoBuffer.allocate(length);// 指定初始化容量
+		//buffer.setAutoExpand(true);// 为自动扩展容量
+		msg.serialize(buffer);
+	//	logger.info(buffer.getHexDump());//print the hex data
+		buffer.flip();// 对position和limit进行移动，否则缓冲区的position
+		byte[] bytes = new byte[length];
+		buffer.get(bytes);
 		Amarino.sendDataToArduino(context, address, (char) cmdType,
-				msg.getBytes());
+				bytes);
 		logger.info(msg.toString());
 		return msg.toString();
 	}
