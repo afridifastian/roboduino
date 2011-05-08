@@ -4,18 +4,20 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
+import android.preference.CheckBoxPreference;
+import android.preference.EditTextPreference;
 import android.preference.Preference;
+import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceScreen;
 
-public class PreferencesActivity extends PreferenceActivity implements
-		OnSharedPreferenceChangeListener {
+public class PreferencesActivity extends PreferenceActivity {
 	private static final Logger logger = LoggerFactory
 			.getLogger(PreferencesActivity.class);
+	private CheckBoxPreference tcpSwitchPreference;
+	private CheckBoxPreference udpSwitchPreference;
+	private EditTextPreference addressPreference;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -25,23 +27,76 @@ public class PreferencesActivity extends PreferenceActivity implements
 		this.addPreferencesFromResource(R.xml.preferences);
 		// this.getPreferenceManager().getSharedPreferences()
 		// .registerOnSharedPreferenceChangeListener(this);
+		// TCP连接控制
+		tcpSwitchPreference = (CheckBoxPreference) this
+				.findPreference("tcp_connect");
+		tcpSwitchPreference.setOnPreferenceChangeListener(switchListener);
+		// UDP连接控制
+		udpSwitchPreference = (CheckBoxPreference) this
+				.findPreference("udp_connect");
+		udpSwitchPreference.setOnPreferenceChangeListener(switchListener);
+		// 地址
+		addressPreference = (EditTextPreference) this
+				.findPreference("connect_address");
+		addressPreference.setOnPreferenceChangeListener(addressListener);
 
 	}
 
-	//
+	/** TCP/UDP开关监听器 */
+	private OnPreferenceChangeListener switchListener = new OnPreferenceChangeListener() {
+
+		public boolean onPreferenceChange(Preference preference, Object obj) {
+			if (StringUtils.equals(preference.getKey(), "tcp_connect")) {
+				if ((Boolean) obj) {
+					preference.setSummary(R.string.connected);
+					// 处理tcp连接
+				} else {
+					// 处理tcp断开
+					preference.setSummary(R.string.disconnected);
+				}
+			} else if (StringUtils.equals(preference.getKey(), "udp_connect")) {
+				if ((Boolean) obj) {
+					preference.setSummary(R.string.connected);
+					// 处理tcp连接
+				} else {
+					// 处理tcp断开
+					preference.setSummary(R.string.disconnected);
+				}
+			}
+
+			return true;
+		}
+
+	};
+	/** IP地址监听器 */
+	private OnPreferenceChangeListener addressListener = new OnPreferenceChangeListener() {
+		public boolean onPreferenceChange(Preference preference, Object obj) {
+			String address = (String) obj;
+			addressPreference.setSummary(address);
+			return true;
+		}
+	};
+
 	@Override
 	public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen,
 			Preference preference) {
 		String key = preference.getKey();
 		logger.info("key={}", key);
-
+		if (StringUtils.equals(key, "wifi_setting")) {
+			if (tcpSwitchPreference.isChecked()) {
+				tcpSwitchPreference.setSummary(R.string.connected);
+			} else {
+				tcpSwitchPreference.setSummary(R.string.disconnected);
+			}
+			if (udpSwitchPreference.isChecked()) {
+				udpSwitchPreference.setSummary(R.string.connected);
+			} else {
+				udpSwitchPreference.setSummary(R.string.disconnected);
+			}
+			addressPreference.setSummary(addressPreference.getText());
+		}
 		return super.onPreferenceTreeClick(preferenceScreen, preference);
 
-	}
-
-	@Override
-	protected void onResume() {
-		super.onResume();
 	}
 
 	@Override
@@ -50,47 +105,5 @@ public class PreferencesActivity extends PreferenceActivity implements
 		// .unregisterOnSharedPreferenceChangeListener(this);
 		super.onDestroy();
 
-	}
-
-	/** 共享属性改变 */
-	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
-			String key) {
-		logger.info("key={}", key);
-		Preference preference = this.findPreference(key);
-		if (StringUtils.equals(key, "apply_bluetooth")) {
-		} else if (StringUtils.equals(key, "bluetooth_name")) {
-		} else if (StringUtils.equals(key, "bluetooth_discoverable")) {
-		}
-	}
-
-	/*** 用于属性页面接收返回后的值 */
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		logger.info("requestCode={},resultCode={}", requestCode, resultCode);
-		switch (requestCode) {
-		// case REQUEST_CONNECT_DEVICE_SECURE:
-		// // When DeviceListActivity returns with a device to connect
-		// if (resultCode == Activity.RESULT_OK) {
-		// connectDevice(data, true);
-		// }
-		// break;
-		// case REQUEST_CONNECT_DEVICE_INSECURE:
-		// // When DeviceListActivity returns with a device to connect
-		// if (resultCode == Activity.RESULT_OK) {
-		// connectDevice(data, false);
-		// }
-		// break;
-		// case REQUEST_ENABLE_BT:
-		// // When the request to enable Bluetooth returns
-		// if (resultCode == Activity.RESULT_OK) {
-		// // Bluetooth is now enabled, so set up a chat session
-		// setupChat();
-		// } else {
-		// // User did not enable Bluetooth or an error occured
-		// Log.d(TAG, "BT not enabled");
-		// Toast.makeText(this, R.string.bt_not_enabled_leaving,
-		// Toast.LENGTH_SHORT).show();
-		// finish();
-		// }
-		}
 	}
 }
