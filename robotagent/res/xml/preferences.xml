@@ -20,6 +20,6 @@
 				android:key="bluetooth_device_list">
 			</PreferenceCategory>
 		</PreferenceScreen>
-		<PreferenceScreen android:title="@string/wifi_setting"></PreferenceScreen>
+		<PreferenceScreen android:title="@string/wifi_setting" android:key="wifi_setting"></PreferenceScreen>
 	</PreferenceCategory>
 </PreferenceScreen>
