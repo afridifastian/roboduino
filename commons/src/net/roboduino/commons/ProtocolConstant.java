@@ -1,26 +1,29 @@
-package net.roboduino.commons.constant;
+package net.roboduino.commons;
 
 public class ProtocolConstant {
 	/** 消息头 */
 	public static final byte[] MSG_HEADER = { 0x55, (byte) 0xAA };
 	/** 设备地址 */
-	public static final byte MSG_DEVICEADDRESS = 0x10;
+	public static final byte MSG_DEVICEADDRESS = 0x01;
+	/** 结束字 */
+	public static final byte[] MSG_STOP = { 0x0D, 0x0A };
+	/**帧长度所在位置*/
 	public static final int MSG_POSITION_LENGTH = 3;
-	/** 消息初始总长度 */
-	public static final int MSG_LENGTH_INI = 8;
-
 	public static final int MSG_LENGTH_HEAD = 2;
 	public static final int MSG_LENGTH_DEVICEADDRESS = 1;
 	public static final int MSG_LENGTH_FRAMElEN = 1;
 	public static final int MSG_LENGTH_CMD = 1;
 	public static final int MSG_LENGTH_SUM = 1;
-	public static final int MSG_LENGTH_STOP = 1;
-	/** 消息初始前缀长度，包括消息头，设备地址，帧长度 */
+	public static final int MSG_LENGTH_STOP = 2;
+	/** 消息初始前缀长度，包括消息头，设备地址，帧长度,命令字 */
 	public static final int MSG_LENGTH_PREFIX = MSG_LENGTH_HEAD
-			+ MSG_LENGTH_DEVICEADDRESS + MSG_LENGTH_FRAMElEN;
-	/** 消息初始后缀长度，包括命令字，校验和，结束字 */
-	public static final int MSG_LENGTH_POSTFIX = MSG_LENGTH_CMD
-			+ MSG_LENGTH_SUM + MSG_LENGTH_STOP;
+			+ MSG_LENGTH_DEVICEADDRESS + MSG_LENGTH_FRAMElEN + MSG_LENGTH_CMD;
+	/** 消息初始后缀长度，包括校验和，结束字 */
+	public static final int MSG_LENGTH_POSTFIX = MSG_LENGTH_SUM
+			+ MSG_LENGTH_STOP;
+	/** 消息初始总长度,不包括内容的字节长度 */
+	public static final int MSG_LENGTH_INI = MSG_LENGTH_PREFIX
+			+ MSG_LENGTH_POSTFIX;
 
 	// /**帧长度*/
 	// public static final byte MSG_FRAMELEN=0x01;
@@ -37,6 +40,5 @@ public class ProtocolConstant {
 	public static final byte MSG_CMD_IR = 0x12;
 	/** 读取超声波的控制指令 */
 	public static final byte MSG_CMD_UR = 0x13;
-	/** 结束字 */
-	public static final byte MSG_STOP = 0x0A;
+	
 }

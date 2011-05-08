@@ -1,6 +1,4 @@
-package net.roboduino.commons.codec;
-
-import net.roboduino.commons.constant.ProtocolConstant;
+package net.roboduino.commons;
 
 import org.apache.mina.core.buffer.IoBuffer;
 import org.apache.mina.core.session.IoSession;
@@ -15,7 +13,7 @@ public class MessageEncoder extends ProtocolEncoderAdapter {
 
 	@Override
 	public void encode(IoSession iosession, Object obj,
-			ProtocolEncoderOutput protocolencoderoutput) throws Exception {
+			ProtocolEncoderOutput output) throws Exception {
 		BaseMsg msg = (BaseMsg) obj;
 		IoBuffer buffer = IoBuffer.allocate(ProtocolConstant.MSG_LENGTH_INI);// 指定初始化容量
 		buffer.setAutoExpand(true);// 为自动扩展容量
@@ -23,7 +21,7 @@ public class MessageEncoder extends ProtocolEncoderAdapter {
 		buffer.flip();// 对position和limit进行移动，否则缓冲区的position
 		// 的后面是没有数据可以用来输出的
 		logger.debug("Sent:{}", buffer.getHexDump());
-
+		output.write(buffer);
 	}
 
 }

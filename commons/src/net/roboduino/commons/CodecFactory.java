@@ -1,4 +1,4 @@
-package net.roboduino.commons.codec;
+package net.roboduino.commons;
 
 import org.apache.mina.core.session.IoSession;
 import org.apache.mina.filter.codec.ProtocolCodecFactory;
