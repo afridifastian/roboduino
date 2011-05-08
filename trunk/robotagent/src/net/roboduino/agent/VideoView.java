@@ -30,6 +30,7 @@ public class VideoView extends SurfaceView implements SurfaceHolder.Callback {
 		holder = getHolder();
 		holder.addCallback(this);
 		holder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+		// this.setKeepScreenOn(true);// 保持屏幕常亮  
 	}
 
 	public void surfaceCreated(SurfaceHolder holder) {

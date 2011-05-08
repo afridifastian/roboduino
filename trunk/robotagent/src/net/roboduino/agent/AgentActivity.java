@@ -1,7 +1,6 @@
 package net.roboduino.agent;
 
 import net.roboduino.commons.BaseMsg;
-import net.roboduino.commons.CommandUtil;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.slf4j.Logger;
@@ -40,7 +39,7 @@ public class AgentActivity extends TabActivity {
 	private LinearLayout layout;
 	private ScrollView scrollView;
 	
-	private final Handler handler = new Handler();
+	private Handler handler = new Handler();
 
 	/** Called when the activity is first created. */
 	@Override
