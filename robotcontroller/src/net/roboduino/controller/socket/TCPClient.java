@@ -14,8 +14,8 @@ import org.apache.mina.transport.socket.nio.NioSocketConnector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class Client {
-	private static final Logger logger = LoggerFactory.getLogger(Client.class);
+public class TCPClient {
+	private static final Logger logger = LoggerFactory.getLogger(TCPClient.class);
 	private static NioSocketConnector connector;
 	private static IoSession session;
 	private static String ip;
@@ -62,6 +62,13 @@ public class Client {
 	public static synchronized void sendMsg(BaseMsg msg) {
 		if (session != null && session.isConnected()) {
 			session.write(msg);
+		}
+	}
+
+	public static void disconnect() {
+		if (session != null && session.isConnected()) {
+			session.close(true);
+			logger.info("session closed");
 		}
 	}
 

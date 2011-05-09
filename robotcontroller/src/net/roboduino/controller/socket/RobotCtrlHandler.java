@@ -48,7 +48,7 @@ public class RobotCtrlHandler extends IoHandlerAdapter {
 			logger.error(e.getMessage(), e);
 		}
 		logger.info("restart robot agent connect....");
-		Client.connect(Client.getIp(), Client.getPort());
+		TCPClient.connect(TCPClient.getIp(), TCPClient.getPort());
 	}
 
 	public void messageSent(IoSession iosession, Object obj) {
