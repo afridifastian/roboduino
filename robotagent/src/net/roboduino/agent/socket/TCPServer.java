@@ -1,7 +1,11 @@
 package net.roboduino.agent.socket;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.InetSocketAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
+import java.util.Enumeration;
 import java.util.concurrent.ExecutorService;
 
 import net.roboduino.commons.CodecFactory;
@@ -15,7 +19,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class TCPServer {
-	private static final Logger logger = LoggerFactory.getLogger(TCPServer.class);
+	private static final Logger logger = LoggerFactory
+			.getLogger(TCPServer.class);
 	private static NioSocketAcceptor acceptor;
 	private static ExecutorService executorService;
 
@@ -38,6 +43,26 @@ public class TCPServer {
 
 	public static void stop() {
 		acceptor.unbind();
-	//	executorService.shutdown();
+		// executorService.shutdown();
+	}
+
+	/** 获取本地IP地址 */
+	public static String getLocalIpAddress() {
+		try {
+			for (Enumeration<NetworkInterface> en = NetworkInterface
+					.getNetworkInterfaces(); en.hasMoreElements();) {
+				NetworkInterface intf = en.nextElement();
+				for (Enumeration<InetAddress> enumIpAddr = intf
+						.getInetAddresses(); enumIpAddr.hasMoreElements();) {
+					InetAddress inetAddress = enumIpAddr.nextElement();
+					if (!inetAddress.isLoopbackAddress()) {
+						return inetAddress.getHostAddress().toString();
+					}
+				}
+			}
+		} catch (SocketException e) {
+			logger.error(e.getMessage(), e);
+		}
+		return "";
 	}
 }
