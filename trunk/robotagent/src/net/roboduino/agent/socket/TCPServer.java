@@ -14,8 +14,8 @@ import org.apache.mina.transport.socket.nio.NioSocketAcceptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class Server {
-	private static final Logger logger = LoggerFactory.getLogger(Server.class);
+public class TCPServer {
+	private static final Logger logger = LoggerFactory.getLogger(TCPServer.class);
 	private static NioSocketAcceptor acceptor;
 	private static ExecutorService executorService;
 
