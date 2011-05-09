@@ -1,5 +1,7 @@
 package net.roboduino.controller;
 
+import net.roboduino.controller.socket.TCPClient;
+
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,17 +51,24 @@ public class PreferencesActivity extends PreferenceActivity {
 			if (StringUtils.equals(preference.getKey(), "tcp_connect")) {
 				if ((Boolean) obj) {
 					preference.setSummary(R.string.connected);
+					TCPClient.init();
+					try {
+						TCPClient.connect(addressPreference.getText(), 8080);
+					} catch (InterruptedException e) {
+						logger.error(e.getMessage(),e);
+					}
 					// 处理tcp连接
 				} else {
 					// 处理tcp断开
+					TCPClient.disconnect();
 					preference.setSummary(R.string.disconnected);
 				}
 			} else if (StringUtils.equals(preference.getKey(), "udp_connect")) {
 				if ((Boolean) obj) {
 					preference.setSummary(R.string.connected);
-					// 处理tcp连接
+					// 处理udp连接
 				} else {
-					// 处理tcp断开
+					// 处理udp断开
 					preference.setSummary(R.string.disconnected);
 				}
 			}

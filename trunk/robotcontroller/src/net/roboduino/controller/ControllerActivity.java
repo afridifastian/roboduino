@@ -1,6 +1,7 @@
 package net.roboduino.controller;
 
 import net.roboduino.commons.BaseMsg;
+import net.roboduino.controller.socket.TCPClient;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.slf4j.Logger;
@@ -67,6 +68,8 @@ public class ControllerActivity extends TabActivity {
 
 		logger.info("Agent start....");
 		Amarino.connect(this, deviceAddress);
+		
+		
 		// Create our Preview view and set it as the content of our activity.
 		// preview = new Preview(this);
 	}
@@ -86,6 +89,8 @@ public class ControllerActivity extends TabActivity {
 		Amarino.disconnect(this, deviceAddress);
 		// do never forget to unregister a registered receiver
 		this.unregisterReceiver(arduinoReceiver);
+		
+		TCPClient.disconnect();
 	}
 
 	/** 创建控制台 */
