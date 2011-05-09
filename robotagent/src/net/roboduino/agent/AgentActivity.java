@@ -1,5 +1,8 @@
 package net.roboduino.agent;
 
+import java.io.IOException;
+
+import net.roboduino.agent.socket.TCPServer;
 import net.roboduino.commons.BaseMsg;
 
 import org.apache.commons.lang.ArrayUtils;
@@ -38,7 +41,7 @@ public class AgentActivity extends TabActivity {
 	private String deviceAddress;
 	private LinearLayout layout;
 	private ScrollView scrollView;
-	
+
 	private Handler handler = new Handler();
 
 	/** Called when the activity is first created. */
@@ -65,10 +68,17 @@ public class AgentActivity extends TabActivity {
 		this.registerReceiver(arduinoReceiver, new IntentFilter(
 				AmarinoIntent.ACTION_RECEIVED));
 
-		logger.info("Agent start....");
+		logger.info("BlueTooth client start....");
 		Amarino.connect(this, deviceAddress);
+		logger.info("Agent TCP server start....");
+		TCPServer.init();
+		try {
+			TCPServer.bind(8080);
+		} catch (IOException e) {
+			logger.error(e.getMessage(), e);
+		}
 		// Create our Preview view and set it as the content of our activity.
-		//preview = new Preview(this);
+		// preview = new Preview(this);
 	}
 
 	public void onStart() {
@@ -86,6 +96,7 @@ public class AgentActivity extends TabActivity {
 		Amarino.disconnect(this, deviceAddress);
 		// do never forget to unregister a registered receiver
 		this.unregisterReceiver(arduinoReceiver);
+		TCPServer.stop();
 	}
 
 	/** 创建控制台 */
