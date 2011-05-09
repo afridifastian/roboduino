@@ -18,7 +18,7 @@ public class RobotCtrlHandler extends IoHandlerAdapter {
 
 	/** 分发到各个功能界面 */
 	public void dispatch(IoSession iosession, BaseMsg msg) {
-
+		MsgDelegate.dispatch(msg);
 	}
 
 	public void messageReceived(IoSession iosession, Object obj) {
@@ -28,6 +28,7 @@ public class RobotCtrlHandler extends IoHandlerAdapter {
 
 	public void sessionOpened(IoSession iosession) {
 		time = System.currentTimeMillis();
+		// 心跳线程
 
 	}
 
@@ -38,6 +39,7 @@ public class RobotCtrlHandler extends IoHandlerAdapter {
 	}
 
 	public void exceptionCaught(IoSession session, Throwable cause)
+			throws Exception
 
 	{
 		try {
@@ -45,7 +47,8 @@ public class RobotCtrlHandler extends IoHandlerAdapter {
 		} catch (InterruptedException e) {
 			logger.error(e.getMessage(), e);
 		}
-
+		logger.info("restart robot agent connect....");
+		Client.connect(Client.getIp(), Client.getPort());
 	}
 
 	public void messageSent(IoSession iosession, Object obj) {
