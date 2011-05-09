@@ -18,6 +18,8 @@ public class Client {
 	private static final Logger logger = LoggerFactory.getLogger(Client.class);
 	private static NioSocketConnector connector;
 	private static IoSession session;
+	private static String ip;
+	private static int port;
 
 	public static void init() {
 		connector = new NioSocketConnector();
@@ -27,9 +29,12 @@ public class Client {
 		connector.getSessionConfig().setReuseAddress(true);
 	}
 
-	public static void connect(String ip, int port) throws InterruptedException {
+	public static void connect(String host, int ports)
+			throws InterruptedException {
 		SocketAddress remoteAddress = new InetSocketAddress(ip, port);
 		logger.info("Try to connect {}:{}", ip, port);
+		ip = host;
+		port = ports;
 		boolean isConnect = false;
 		int i = 0;
 		while (!isConnect && i < 6) {
@@ -53,9 +58,19 @@ public class Client {
 		}
 
 	}
+
 	public static synchronized void sendMsg(BaseMsg msg) {
 		if (session != null && session.isConnected()) {
 			session.write(msg);
 		}
 	}
+
+	public static String getIp() {
+		return ip;
+	}
+
+	public static int getPort() {
+		return port;
+	}
+
 }
