@@ -73,7 +73,7 @@ public class AgentActivity extends TabActivity {
 		logger.info("Agent TCP server start....");
 		TCPServer.init();
 		try {
-			TCPServer.bind(8080);
+			TCPServer.bind(9600);
 		} catch (IOException e) {
 			logger.error(e.getMessage(), e);
 		}
