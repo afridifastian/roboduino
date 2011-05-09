@@ -31,10 +31,10 @@ public class TCPClient {
 
 	public static void connect(String host, int ports)
 			throws InterruptedException {
-		SocketAddress remoteAddress = new InetSocketAddress(ip, port);
-		logger.info("Try to connect {}:{}", ip, port);
 		ip = host;
 		port = ports;
+		logger.info("Try to connect {}:{}", ip, port);
+		SocketAddress remoteAddress = new InetSocketAddress(ip, port);
 		boolean isConnect = false;
 		int i = 0;
 		while (!isConnect && i < 6) {
