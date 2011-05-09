@@ -53,7 +53,7 @@ public class PreferencesActivity extends PreferenceActivity {
 					preference.setSummary(R.string.connected);
 					TCPClient.init();
 					try {
-						TCPClient.connect(addressPreference.getText(), 8080);
+						TCPClient.connect(addressPreference.getText(), 9600);
 					} catch (InterruptedException e) {
 						logger.error(e.getMessage(),e);
 					}
