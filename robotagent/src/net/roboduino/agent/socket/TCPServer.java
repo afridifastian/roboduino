@@ -7,6 +7,7 @@ import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.Enumeration;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import net.roboduino.commons.CodecFactory;
 
@@ -22,13 +23,15 @@ public class TCPServer {
 	private static final Logger logger = LoggerFactory
 			.getLogger(TCPServer.class);
 	private static NioSocketAcceptor acceptor;
-	private static ExecutorService executorService;
+	//private static ExecutorService executorService;
 
 	public static void init() {
 		acceptor = new NioSocketAcceptor();
 		DefaultIoFilterChainBuilder chain = acceptor.getFilterChain();
 		chain.addLast("codec", new ProtocolCodecFilter(new CodecFactory()));
+		//executorService= Executors.newCachedThreadPool();
 		// for most operation
+		//chain.addLast("executor", new ExecutorFilter(executorService));
 		chain.addLast("executor", new ExecutorFilter());
 		// for log
 		chain.addLast("executor4IO", new ExecutorFilter(IoEventType.WRITE));
