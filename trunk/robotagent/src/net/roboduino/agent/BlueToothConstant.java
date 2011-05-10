@@ -29,6 +29,6 @@ public class BlueToothConstant {
     public static final UUID MY_UUID =
         UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
     public static final int REQUEST_ENABLE_BT = 3;
-    public static final String DEFAULT_DEVICE_ADDRESS = "00:06:66:03:73:7B";
+    public static  String DEVICE_ADDRESS = "00:06:66:03:73:7B";
 
 }
