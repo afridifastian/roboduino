@@ -15,7 +15,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class TCPClient {
-	private static final Logger logger = LoggerFactory.getLogger(TCPClient.class);
+	private static final Logger logger = LoggerFactory
+			.getLogger(TCPClient.class);
 	private static NioSocketConnector connector;
 	private static IoSession session;
 	private static String ip;
@@ -31,32 +32,35 @@ public class TCPClient {
 
 	public static void connect(String host, int ports)
 			throws InterruptedException {
-		ip = host;
-		port = ports;
-		logger.info("Try to connect {}:{}", ip, port);
-		SocketAddress remoteAddress = new InetSocketAddress(ip, port);
-		boolean isConnect = false;
-		int i = 0;
-		while (!isConnect && i < 6) {
-			logger.info("Time:{}", (++i));
-			ConnectFuture connectFuture = connector.connect(remoteAddress);
-			connectFuture.await(2000, TimeUnit.MILLISECONDS);
-			Throwable exception = connectFuture.getException();
-			if (exception != null) {
-				logger.error(exception.getMessage());
-				Thread.sleep(2000);
-			} else {
-				if (connectFuture.isConnected()) {
-					logger.info("Connected successfully");
-					session = connectFuture.getSession();
-					isConnect = true;
+		if (session != null && session.isConnected()) {
+			logger.warn("No need to connect twice");
+		} else {
+			ip = host;
+			port = ports;
+			logger.info("Try to connect {}:{}", ip, port);
+			SocketAddress remoteAddress = new InetSocketAddress(ip, port);
+			boolean isConnect = false;
+			int i = 0;
+			while (!isConnect && i < 6) {
+				logger.info("Time:{}", (++i));
+				ConnectFuture connectFuture = connector.connect(remoteAddress);
+				connectFuture.await(2000, TimeUnit.MILLISECONDS);
+				Throwable exception = connectFuture.getException();
+				if (exception != null) {
+					logger.error(exception.getMessage());
+					Thread.sleep(2000);
+				} else {
+					if (connectFuture.isConnected()) {
+						logger.info("Connected successfully");
+						session = connectFuture.getSession();
+						isConnect = true;
+					}
 				}
 			}
+			if (!isConnect) {
+				logger.warn("Connect failed");
+			}
 		}
-		if (!isConnect) {
-			logger.warn("Connect failed");
-		}
-
 	}
 
 	public static synchronized void sendMsg(BaseMsg msg) {
@@ -68,6 +72,7 @@ public class TCPClient {
 	public static void disconnect() {
 		if (session != null && session.isConnected()) {
 			session.close(true);
+			session = null;
 			logger.info("session closed");
 		}
 	}
