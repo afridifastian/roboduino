@@ -28,7 +28,7 @@ public class CommandUtil {
 				ProtocolConstant.MSG_CMD_MOTOR_SPEED, new byte[] { m1s, m2s });
 	}
 
-	private static String sendDataToArduino(Context context, String address,
+	public static String sendDataToArduino(Context context, String address,
 			byte cmdType, byte[] content) {
 		BaseMsg msg = new BaseMsg(cmdType, content);
 		int length=ProtocolConstant.MSG_LENGTH_INI+ content.length;

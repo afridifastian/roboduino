@@ -51,8 +51,8 @@ public class PreferencesActivity extends PreferenceActivity implements
 		super.onCreate(savedInstanceState);
 		prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		deviceAddress = prefs.getString(BlueToothConstant.PREF_DEVICE_ADDRESS,
-				BlueToothConstant.DEFAULT_DEVICE_ADDRESS);
-
+				BlueToothConstant.DEVICE_ADDRESS);
+		BlueToothConstant.DEVICE_ADDRESS=deviceAddress;
 		// 所的的值将会自动保存到SharePreferences
 		this.addPreferencesFromResource(R.xml.preferences);
 		// this.getPreferenceManager().getSharedPreferences()
@@ -213,6 +213,7 @@ public class PreferencesActivity extends PreferenceActivity implements
 
 			disconnect(deviceAddress);
 			deviceAddress = device.getAddress();
+			BlueToothConstant.DEVICE_ADDRESS=deviceAddress;
 			prefs.edit()
 					.putString(BlueToothConstant.PREF_DEVICE_ADDRESS,
 							deviceAddress).commit();

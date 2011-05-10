@@ -55,8 +55,8 @@ public class AgentActivity extends TabActivity {
 		SharedPreferences prefs = PreferenceManager
 				.getDefaultSharedPreferences(this);
 		deviceAddress = prefs.getString(BlueToothConstant.PREF_DEVICE_ADDRESS,
-				BlueToothConstant.DEFAULT_DEVICE_ADDRESS);
-
+				BlueToothConstant.DEVICE_ADDRESS);
+		BlueToothConstant.DEVICE_ADDRESS=deviceAddress;
 		display = (TextView) this.findViewById(R.id.display_windows);
 		layout = (LinearLayout) findViewById(R.id.tab1_layout);
 		scrollView = (ScrollView) findViewById(R.id.tab1);
