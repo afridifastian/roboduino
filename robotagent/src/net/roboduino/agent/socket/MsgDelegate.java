@@ -1,5 +1,6 @@
 package net.roboduino.agent.socket;
 
+import net.roboduino.agent.ApplicationContext;
 import net.roboduino.agent.BlueToothConstant;
 import net.roboduino.agent.CommandUtil;
 import net.roboduino.commons.BaseMsg;
@@ -9,8 +10,11 @@ import net.roboduino.commons.ProtocolConstant;
 public class MsgDelegate {
 
 	public static void dispatch(BaseMsg msg) {
-		String retMsg = CommandUtil.sendDataToArduino(null, BlueToothConstant.DEVICE_ADDRESS,msg.getCmdType(),msg.getContent());
-		
+		String retMsg = CommandUtil.sendDataToArduino(
+				ApplicationContext.getInstance(),
+				BlueToothConstant.DEVICE_ADDRESS, msg.getCmdType(),
+				msg.getContent());
+
 		switch (msg.getCmdType()) {
 		case ProtocolConstant.MSG_CMD_MOTOR_SPEED: {
 			break;
