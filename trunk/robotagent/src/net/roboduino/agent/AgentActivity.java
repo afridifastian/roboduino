@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import android.app.Activity;
+import android.app.Application;
 import android.app.TabActivity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
