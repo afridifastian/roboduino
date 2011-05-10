@@ -33,7 +33,7 @@ public class MessageDecoder extends ProtocolDecoderAdapter {
 			byte frameLen = bufTmp.get(ProtocolConstant.MSG_POSITION_LENGTH);// position不移动吗？
 			if (bufTmp.remaining() >= ProtocolConstant.MSG_LENGTH_PREFIX
 					+ frameLen + ProtocolConstant.MSG_LENGTH_POSTFIX) {
-				BaseMsg baseMsg = new BaseMsg(in);
+				BaseMsg baseMsg = new BaseMsg(bufTmp);
 				if (ProtocolUtils.validateChecksum(baseMsg)) {
 					output.write(baseMsg);
 				} else {
@@ -48,7 +48,7 @@ public class MessageDecoder extends ProtocolDecoderAdapter {
 			}
 
 		}
-		this.finishDecode(session, in);
+		this.finishDecode(session, bufTmp);
 
 	}
 
@@ -79,6 +79,7 @@ public class MessageDecoder extends ProtocolDecoderAdapter {
 		} else {
 			in.clear();
 		}
+	//	this.getContext(session).append(in);
 	}
 
 	private Context getContext(IoSession session) {
