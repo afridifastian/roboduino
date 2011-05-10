@@ -63,7 +63,14 @@ public class TCPClient {
 		}
 	}
 
-	public static synchronized void sendMsg(BaseMsg msg) {
+	/** 发送消息 */
+	public static String sendMsg(byte cmdType, byte[] content) {
+		BaseMsg msg = new BaseMsg(cmdType, content);
+		sendMsg(msg);
+		return msg.toString();
+	}
+
+	public static void sendMsg(BaseMsg msg) {
 		if (session != null && session.isConnected()) {
 			session.write(msg);
 		}
