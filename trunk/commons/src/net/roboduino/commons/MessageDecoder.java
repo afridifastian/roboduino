@@ -79,7 +79,6 @@ public class MessageDecoder extends ProtocolDecoderAdapter {
 		} else {
 			in.clear();
 		}
-	//	this.getContext(session).append(in);
 	}
 
 	private Context getContext(IoSession session) {
