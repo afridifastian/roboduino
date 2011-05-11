@@ -1,0 +1,42 @@
+.doob_tiny_text {font-size: 8pt; font-family: arial,helvetica}
+.doob_small_text {font-size: 10pt; font-family: arial,helvetica}
+.doob_small_text_white {color: white;font-size: 10pt; font-family: arial,helvetica}
+.doob_small_text_bold {font-weight: bold; font-size: 10pt; font-family: arial,helvetica}
+.doob_small_text_bold_white {color: white; font-weight: bold; font-size: 10pt; font-family: arial,helvetica}		
+.doob_small_text_bold_red {color: red; font-weight: bold; font-size: 10pt; font-family: arial,helvetica}		
+.doob_medium_text {color: white; font-size: 14pt; font-family: arial,helvetica}
+.doob_medium_text_black {color: black; font-weight: bold; font-size: 14pt; font-family: arial,helvetica}
+.doob_large_text {font-weight: bold; font-size: 18pt; font-family: arial,helvetica}
+.doob_link A:link {text-decoration: none; color: #FFA81E}
+.doob_link A:visited {text-decoration: none; color: #FFA81E}
+.doob_link A:active {text-decoration: none; color: #FFA81E}
+.doob_link A:hover {text-decoration: underline; color: #FFA81E}
+.doob_link_header A:link {text-decoration: underline; color: black}
+.doob_link_header A:visited {text-decoration: underline; color: black}
+.doob_link_header A:active {text-decoration: underline; color: black}
+.doob_link_header A:hover {text-decoration: underline; color: #3A66DD}
+.doob_link_file A:link {text-decoration: none; color: #3A66DD}
+.doob_link_file A:visited {text-decoration: none; color: #3A66DD}
+.doob_link_file A:active {text-decoration: none; color: #3A66DD}
+.doob_link_file A:hover {text-decoration: underline; color: black}
+.doob_link_upgrade A:link {text-decoration: none; color: #3A66DD}
+.doob_link_upgrade A:visited {text-decoration: none; color: #3A66DD}
+.doob_link_upgrade A:active {text-decoration: none; color: #3A66DD}
+.doob_link_upgrade A:hover {text-decoration: underline; color: #3A66DD}
+tr.tr_odd td {background-color: white}
+tr.tr_even td {background-color: #EBEBEB}
+tr.tr_highlight td {background-color: #FFDFB2}
+#round_corners_table { border: 0px; border-collapse: collapse; background-color: #B2B2B2; }
+#top-row {height: 10px; }
+#bottom-row {height: 10px; }
+#tl { width: 8px; background-image: url(x99_dooblou_corner_1.png); }
+#tr { width: 8px; background-image: url(x99_dooblou_corner_2.png); }
+#bl { background-image: url(x99_dooblou_corner_4.png); }
+#br { background-image: url(x99_dooblou_corner_3.png); }	
+img.progress {
+  background: white url(x99_dooblou_progress_2.png) top left no-repeat;
+  padding: 0;
+  margin: 0;
+  border: none;
+  background-position: 1px 0;
+}

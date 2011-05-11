@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PreferenceScreen android:title="@string/settings" android:key="@string/_settingsKey"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="@string/categories" android:key="@string/_categoriesKey">
+        <PreferenceScreen android:title="@string/general_settings" android:key="@string/_generalSettingsKey" android:summary="@string/general_settings_sub">
+            <ListPreference android:entries="@array/_motionCaptureModesEntries" android:title="@string/motion_capture_mode" android:key="@string/_motionCaptureModeKey" android:defaultValue="@string/_motionCaptureModeDef" android:entryValues="@array/_motionCaptureModesEntryValues" />
+            <PreferenceScreen android:title="@string/photo_settings" android:key="@string/_photoSettingsKey" android:summary="@string/photo_settings_sub">
+                <CheckBoxPreference android:title="@string/colour" android:key="@string/_colourKey" />
+                <ListPreference android:title="@string/phone_camera_resolution" android:key="@string/_phoneCameraResolutionKey" />
+                <CheckBoxPreference android:title="@string/take_full_resolution_photos" android:key="@string/_fullResolutionPhotoKey" android:summary="@string/take_full_resolution_photos_sub" />
+                <ListPreference android:entries="@array/_burstCapturesEntries" android:title="@string/burst_captures" android:key="@string/_burstCapturesKey" android:defaultValue="@string/_burstCapturesDef" android:entryValues="@array/_burstCapturesEntryValues" />
+                <PreferenceCategory android:title="@string/actions" android:key="@string/_photoCategory1Key">
+                    <PreferenceScreen android:title="@string/email_settings" android:key="@string/_emailSettingsKey" android:summary="@string/email_settings_sub">
+                        <CheckBoxPreference android:title="@string/email_capture" android:key="@string/_emailCaptureKey" android:summary="@string/email_capture_sub" android:defaultValue="@bool/_emailCaptureDef" />
+                        <PreferenceCategory android:title="@string/login" android:key="@string/_emailCategory1Key">
+                            <EditTextPreference android:title="@string/gmail_username" android:key="@string/_gmailUsernameKey" android:defaultValue="@string/_gmailUsernameDef" />
+                            <EditTextPreference android:password="true" android:title="@string/gmail_password" android:key="@string/_gmailPasswordKey" android:summary="@string/gmail_password_sub" android:defaultValue="@string/_gmailPasswordDef" />
+                        </PreferenceCategory>
+                        <PreferenceCategory android:title="@string/email_recipient" android:key="@string/_emailCategory2Key">
+                            <EditTextPreference android:title="@string/send_email_to" android:key="@string/_sendEmailToKey" android:defaultValue="@string/_sendEmailToDef" />
+                        </PreferenceCategory>
+                        <PreferenceCategory android:title="@string/customisation" android:key="@string/_emailCategory3Key">
+                            <EditTextPreference android:title="@string/email_subject" android:key="@string/_emailSubjectKey" android:defaultValue="@string/_emailSubjectDef" />
+                            <EditTextPreference android:title="@string/email_message" android:key="@string/_emailMessageKey" android:defaultValue="@string/_emailMessageDef" />
+                        </PreferenceCategory>
+                    </PreferenceScreen>
+                    <PreferenceScreen android:title="@string/twitter_settings" android:key="@string/_twitterSettingsKey" android:summary="@string/twitter_settings_sub">
+                        <CheckBoxPreference android:title="@string/twitter_capture" android:key="@string/_twitterCaptureKey" android:summary="@string/twitter_capture_sub" android:defaultValue="@bool/_twitterCaptureDef" />
+                        <PreferenceCategory android:title="@string/login" android:key="@string/_twitterCategory1Key">
+                            <EditTextPreference android:title="@string/twitter_username" android:key="@string/_twitterUsernameKey" android:dependency="@string/_twitterCaptureKey" android:defaultValue="@string/_twitterUsernameDef" />
+                            <EditTextPreference android:password="true" android:title="@string/twitter_password" android:key="@string/_twitterPasswordKey" android:summary="@string/twitter_password_sub" android:dependency="@string/_twitterCaptureKey" android:defaultValue="@string/_twitterPasswordDef" />
+                        </PreferenceCategory>
+                        <PreferenceCategory android:title="@string/gateway_settings" android:key="@string/_twitterCategory2Key">
+                            <ListPreference android:entries="@array/_normalGatewaysEntries" android:title="@string/normal_gateway" android:key="@string/_normalGatewayKey" android:dependency="@string/_twitterCaptureKey" android:defaultValue="@string/_normalGatewayDef" android:entryValues="@array/_normalGatewaysEntryValues" />
+                            <CheckBoxPreference android:title="@string/gateway_to_use" android:key="@string/_normalOrSecureKey" android:dependency="@string/_twitterCaptureKey" android:defaultValue="@bool/_normalOrSecureDef" />
+                            <ListPreference android:entries="@array/_secureGatewaysEntries" android:title="@string/secure_gateway" android:key="@string/_secureGatewayKey" android:dependency="@string/_twitterCaptureKey" android:defaultValue="@string/_secureGatewayDef" android:entryValues="@array/_secureGatewaysEntryValues" />
+                        </PreferenceCategory>
+                        <PreferenceCategory android:title="@string/customisation" android:key="@string/_twitterCategory3Key">
+                            <EditTextPreference android:title="@string/twitter_message" android:key="@string/_twitterMessageKey" android:dependency="@string/_twitterCaptureKey" android:defaultValue="@string/_twitterMessageDef" />
+                        </PreferenceCategory>
+                    </PreferenceScreen>
+                </PreferenceCategory>
+            </PreferenceScreen>
+            <PreferenceScreen android:title="@string/video_settings" android:key="@string/_videoSettingsKey" android:summary="@string/video_settings_sub">
+                <Preference android:title="@string/attention" android:key="@string/_videoAttentionKey" android:summary="@string/attention_sub" />
+                <Preference android:title="@string/video_rec_length" android:key="@string/_videoRecLengthKey" />
+                <ListPreference android:entries="@array/_videoResolutionsEntries" android:title="@string/video_resolution" android:key="@string/_videoResolutionKey" android:entryValues="@array/_videoResolutionsEntryValues" />
+                <CheckBoxPreference android:title="@string/record_audio" android:key="@string/_recordAudioKey" />
+                <ListPreference android:entries="@array/_videoFormatsEntries" android:title="@string/video_format" android:key="@string/_videoFormatKey" android:defaultValue="@string/_videoFormatDef" android:entryValues="@array/_videoFormatsEntryValues" />
+                <ListPreference android:entries="@array/_threegpCodecsEntries" android:title="@string/threegp_codec" android:key="@string/_threegpCodecKey" android:defaultValue="@string/_threegpCodecDef" android:entryValues="@array/_threegpCodecsEntryValues" />
+            </PreferenceScreen>
+            <PreferenceCategory android:title="@string/sounds" android:key="@string/_generalCategory1Key">
+                <Preference android:title="@string/attention" android:key="@string/_generalAttentionKey" android:summary="@string/attention_sub" />
+                <CheckBoxPreference android:title="@string/put_phone_in_silent_mode" android:key="@string/_silentModeKey" android:summary="@string/put_phone_in_silent_mode_sub" />
+                <Preference android:title="@string/volume" android:key="@string/_volumeKey" />
+                <Preference android:title="@string/lullaby_volume" android:key="@string/_lullabyVolumeKey" />
+            </PreferenceCategory>
+            <PreferenceCategory android:title="@string/timings" android:key="@string/_generalCategory2Key">
+                <Preference android:title="@string/screen_brightness_timeout" android:key="@string/_screenBrightnessTimeoutKey" android:summary="@string/screen_brightness_timeout_sub" />
+                <Preference android:title="@string/capture_interval" android:key="@string/_captureIntervalKey" android:summary="@string/capture_interval_sub" />
+                <Preference android:title="@string/start_capturing_delay" android:key="@string/_startCapturingDelayKey" android:summary="@string/start_capturing_delay_sub" />
+            </PreferenceCategory>
+            <PreferenceCategory android:title="@string/other" android:key="@string/_generalCategory3Key">
+                <CheckBoxPreference android:title="@string/save_capture_to_sd" android:key="@string/_saveToSDKey" android:summary="@string/save_capture_to_sd_sub" android:defaultValue="@bool/_saveToSDDef" />
+            </PreferenceCategory>
+        </PreferenceScreen>
+        <PreferenceScreen android:title="@string/webcam_settings" android:key="@string/_webcamSettingsKey" android:summary="@string/webcam_settings_sub">
+            <Preference android:title="@string/webcam_help" android:key="@string/_webcamHelpKey" android:summary="@string/webcam_help_sub" />
+            <EditTextPreference android:title="@string/webcam_address" android:key="@string/_webcamAddressKey" />
+            <CheckBoxPreference android:title="@string/fit_to_screen" android:key="@string/_fitToScreenKey" android:defaultValue="@bool/_fitToScreenDef" />
+        </PreferenceScreen>
+        <PreferenceScreen android:title="@string/display_settings" android:key="@string/_displaySettingsKey" android:summary="@string/display_settings_sub">
+            <PreferenceCategory android:title="@string/main_camera_screen" android:key="@string/_displayCategory1Key">
+                <ListPreference android:entries="@array/_cameraEffectsEntries" android:title="@string/camera_effect" android:key="@string/_cameraEffectKey" android:defaultValue="@string/_cameraEffectDef" android:entryValues="@array/_cameraEffectsEntryValues" />
+                <ListPreference android:title="@string/mini_preview_display" android:key="@string/_miniPreviewDisplayKey" />
+                <ListPreference android:entries="@array/_miniPreviewScalesEntries" android:title="@string/mini_preview_scale" android:key="@string/_miniPreviewScaleKey" android:entryValues="@array/_miniPreviewScalesEntryValues" />
+                <ListPreference android:entries="@array/_miniPreviewPositionsEntries" android:title="@string/mini_preview_position" android:key="@string/_miniPreviewPositionKey" android:defaultValue="@string/_miniPreviewPositionDef" android:entryValues="@array/_miniPreviewPositionsEntryValues" />
+                <CheckBoxPreference android:title="@string/show_flash_button" android:key="@string/_showFlashButtonKey" android:summary="@string/show_flash_button_sub" />
+                <CheckBoxPreference android:title="@string/show_hints" android:key="@string/_showHintsKey" android:defaultValue="@bool/_showHintsDef" />
+                <ListPreference android:entries="@array/_hintsPositionsEntries" android:title="@string/hints_position" android:key="@string/_hintsPositionKey" android:dependency="@string/_showHintsKey" android:defaultValue="@string/_hintsPositionDef" android:entryValues="@array/_hintsPositionsEntryValues" />
+            </PreferenceCategory>
+            <PreferenceCategory android:title="@string/mini_gallery" android:key="@string/_displayCategory2Key">
+                <CheckBoxPreference android:title="@string/show_mini_gallery" android:key="@string/_miniGalleryKey" android:defaultValue="@bool/_miniGalleryDef" />
+                <ListPreference android:entries="@array/_miniGalleryItemsEntries" android:title="@string/mini_gallery_items" android:key="@string/_miniGalleryItemsKey" android:dependency="@string/_miniGalleryKey" android:defaultValue="@string/_miniGalleryItemsDef" android:entryValues="@array/_miniGalleryItemsEntryValues" />
+            </PreferenceCategory>
+        </PreferenceScreen>
+        <PreferenceScreen android:title="@string/security_settings" android:key="@string/_securitySettingsKey" android:summary="@string/security_settings_sub">
+            <Preference android:title="@string/attention" android:key="@string/_securityAttentionKey" android:summary="@string/attention_sub" />
+            <PreferenceCategory android:title="@string/touchscreen_lock" android:key="@string/_securityCategory1Key">
+                <CheckBoxPreference android:title="@string/touch_screen_lock" android:key="@string/_touchScreenLockKey" android:summary="@string/touch_screen_lock_sub" android:defaultValue="@bool/_touchScreenLockDef" />
+            </PreferenceCategory>
+            <PreferenceCategory android:title="@string/touchscreen_unlock" android:key="@string/_securityCategory2Key">
+                <CheckBoxPreference android:title="@string/menu_to_unlock_setting" android:key="@string/_menuToUnlockKey" android:dependency="@string/_touchScreenLockKey" android:defaultValue="@bool/_menuToUnlockDef" />
+                <CheckBoxPreference android:title="@string/password_on_touchscreen_unlock" android:key="@string/_passwordOnUnlockKey" android:dependency="@string/_touchScreenLockKey" android:defaultValue="@bool/_passwordOnUnlockDef" />
+                <EditTextPreference android:password="true" android:title="@string/unlock_password" android:key="@string/_unlockPasswordKey" android:dependency="@string/_touchScreenLockKey" android:defaultValue="@string/_unlockPasswordDef" />
+            </PreferenceCategory>
+            <PreferenceCategory android:title="@string/other" android:key="@string/_securityCategory3Key">
+                <EditTextPreference android:title="@string/disguise_web_page" android:key="@string/_disguiseWebPageKey" android:defaultValue="@string/_disguiseWebPageDef" />
+                <CheckBoxPreference android:title="@string/hide_captures" android:key="@string/_hideCapturesKey" android:summary="@string/hide_captures_sub" android:defaultValue="@bool/_hideCapturesDef" />
+                <CheckBoxPreference android:title="@string/exit_on_back" android:key="@string/_exitOnBackKey" android:summary="@string/exit_on_back_sub" android:defaultValue="@bool/_exitOnBackDef" />
+            </PreferenceCategory>
+        </PreferenceScreen>
+        <PreferenceScreen android:title="@string/network_settings" android:key="@string/_networkSettingsKey" android:summary="@string/network_settings_sub">
+            <CheckBoxPreference android:title="@string/require_password" android:key="@string/_requirePasswordKey" android:defaultValue="@bool/_requirePasswordDef" />
+            <EditTextPreference android:password="true" android:title="@string/password" android:key="@string/_passwordKey" android:dependency="@string/_requirePasswordKey" android:defaultValue="@string/_passwordDef" />
+            <CheckBoxPreference android:title="@string/served_feed" android:key="@string/_servedFeedKey" />
+            <EditTextPreference android:title="@string/port_range" android:key="@string/_portKey" android:defaultValue="@string/_portDef" android:inputType="number" />
+            <CheckBoxPreference android:title="@string/served_audio" android:key="@string/_servedAudioKey" />
+            <EditTextPreference android:title="@string/audio_port_range" android:key="@string/_audioPortKey" android:dependency="@string/_servedAudioKey" android:defaultValue="@string/_audioPortDef" android:inputType="number" />
+        </PreferenceScreen>
+        <PreferenceScreen android:title="@string/advanced_settings" android:key="@string/_advancedSettingsKey" android:summary="@string/advanced_settings_sub">
+            <PreferenceCategory android:title="@string/performance" android:key="@string/_advancedCategory1Key">
+                <CheckBoxPreference android:title="@string/motion_detection" android:key="@string/_motionDetectionKey" />
+                <ListPreference android:entries="@array/_motionDetectionsEntries" android:title="@string/motion_detections_for_trigger" android:key="@string/_motionDetectionsKey" android:defaultValue="@string/_motionDetectionsDef" android:entryValues="@array/_motionDetectionsEntryValues" />
+                <ListPreference android:title="@string/processing_scale" android:key="@string/_processingScaleKey" />
+                <ListPreference android:entries="@array/_sensitivitiesEntries" android:title="@string/sensitivity" android:key="@string/_sensitivityKey" android:entryValues="@array/_sensitivitiesEntryValues" />
+                <CheckBoxPreference android:title="@string/gaussian" android:key="@string/_gaussianKey" android:defaultValue="@bool/_gaussianDef" />
+            </PreferenceCategory>
+            <PreferenceCategory android:title="@string/restart_capture_interval" android:key="@string/_advancedCategory2Key">
+                <CheckBoxPreference android:title="@string/restart_capture_interval_after_video_recording" android:key="@string/_restartAfterVideoKey" android:defaultValue="@bool/_restartAfterVideoDef" />
+                <CheckBoxPreference android:title="@string/restart_capture_interval_after_burst_captures" android:key="@string/_restartAfterBurstKey" android:defaultValue="@bool/_restartAfterBurstDef" />
+            </PreferenceCategory>
+            <PreferenceCategory android:title="@string/other" android:key="@string/_advancedCategory3Key">
+                <CheckBoxPreference android:title="@string/quick_start" android:key="@string/_quickStartKey" android:summary="@string/quick_start_sub" android:defaultValue="@bool/_quickStartDef" />
+                <EditTextPreference android:title="@string/capture_save_folder" android:key="@string/_folderKey" />
+                <CheckBoxPreference android:title="@string/show_warning_on_start" android:key="@string/_showWarningOnStartKey" android:summary="@string/show_warning_on_start_sub" android:defaultValue="@bool/_showWarningOnStartDef" />
+            </PreferenceCategory>
+        </PreferenceScreen>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/more" android:key="@string/_moreKey">
+        <Preference android:title="@string/upgrade" android:key="@string/_upgradeKey" android:summary="@string/upgrade_sub" />
+        <Preference android:title="@string/securet_apps" android:key="@string/_securetKey" android:summary="@string/securet_apps_sub" />
+        <PreferenceScreen android:title="@string/contact" android:key="@string/_contactKey">
+            <Preference android:title="@string/email" android:key="@string/_emailKey" android:summary="@string/email_sub" />
+            <Preference android:title="@string/blog" android:key="@string/_blogKey" android:summary="@string/blog_sub" />
+            <Preference android:title="@string/facebook" android:key="@string/_facebookKey" android:summary="@string/facebook_sub" />
+            <Preference android:title="@string/twitter" android:key="@string/_twitterKey" android:summary="@string/twitter_sub" />
+        </PreferenceScreen>
+    </PreferenceCategory>
+</PreferenceScreen>

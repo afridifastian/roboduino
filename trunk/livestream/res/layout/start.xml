@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <View android:id="@id/start_vi_title_divider_1" android:background="@drawable/divider_gradient" android:layout_width="fill_parent" android:layout_height="@dimen/divider_height" />
+    <LinearLayout android:gravity="center_vertical" android:id="@id/start_ll_title" android:background="@drawable/header_gradient" android:layout_width="fill_parent" android:layout_height="@dimen/header_height">
+        <LinearLayout android:id="@id/start_ll_title_image" android:paddingLeft="@dimen/header_padding" android:layout_width="wrap_content" android:layout_height="wrap_content">
+            <ImageView android:id="@id/start_iv_title" android:layout_width="200.0dip" android:layout_height="wrap_content" android:src="@drawable/title" />
+        </LinearLayout>
+        <LinearLayout android:gravity="right|center" android:id="@id/start_ll_title_buttons" android:paddingRight="@dimen/header_padding" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_weight="1.0">
+            <ImageButton android:id="@id/start_bt_settings" android:background="@drawable/menu_button" android:layout_width="@dimen/menu_button_width" android:layout_height="@dimen/menu_button_height" android:src="@drawable/ic_menu_preferences" android:scaleType="fitCenter" />
+            <View android:id="@id/start_vi_menu_divider" android:layout_width="@dimen/header_padding" android:layout_height="@dimen/header_padding" />
+            <ImageButton android:id="@id/start_bt_help" android:background="@drawable/menu_button" android:layout_width="@dimen/menu_button_width" android:layout_height="@dimen/menu_button_height" android:src="@drawable/ic_menu_help" android:scaleType="fitCenter" />
+        </LinearLayout>
+    </LinearLayout>
+    <View android:id="@id/start_vi_title_divider_2" android:background="@drawable/divider_gradient" android:layout_width="fill_parent" android:layout_height="@dimen/divider_height" />
+    <View android:id="@id/start_vi_title_divider_3" android:background="@color/main_divider" android:layout_width="fill_parent" android:layout_height="@dimen/divider_height" />
+    <LinearLayout android:orientation="vertical" android:id="@id/start_ll_body" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_weight="1.0">
+        <ScrollView android:id="@id/start_sv_main" android:layout_width="fill_parent" android:layout_height="fill_parent" android:fillViewport="true" android:layout_weight="1.0">
+            <LinearLayout android:orientation="vertical" android:id="@id/start_ll_main" android:background="@color/background" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_weight="1.0">
+                <RadioGroup android:orientation="vertical" android:id="@id/start_rg_phonecam_or_webcam" android:background="@drawable/panel_gradient" android:padding="@dimen/large_padding" android:layout_width="fill_parent" android:layout_height="wrap_content">
+                    <RadioButton android:textSize="@dimen/medium_text" android:textStyle="bold" android:textColor="@color/text_1" android:id="@id/start_rb_phonecam" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/phonecam" android:shadowColor="@color/text_shadow" android:shadowDx="2.0" android:shadowDy="2.0" android:shadowRadius="2.0" />
+                    <TextView android:textSize="@dimen/small_text" android:textColor="@color/text_2" android:id="@id/start_tv_phonecam" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="@string/start_phonecam_text" android:shadowColor="@color/text_shadow" android:shadowDx="2.0" android:shadowDy="2.0" android:shadowRadius="2.0" />
+                    <RadioButton android:textSize="@dimen/medium_text" android:textStyle="bold" android:textColor="@color/text_1" android:id="@id/start_rb_webcam" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/webcam" android:shadowColor="@color/text_shadow" android:shadowDx="2.0" android:shadowDy="2.0" android:shadowRadius="2.0" />
+                    <TextView android:textSize="@dimen/small_text" android:textColor="@color/text_2" android:id="@id/start_tv_webcam" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="@string/start_webcam_text" android:shadowColor="@color/text_shadow" android:shadowDx="2.0" android:shadowDy="2.0" android:shadowRadius="2.0" />
+                </RadioGroup>
+                <LinearLayout android:orientation="vertical" android:id="@id/start_ll_wifi_status" android:background="@drawable/panel_gradient" android:padding="@dimen/large_padding" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content">
+                    <LinearLayout android:orientation="horizontal" android:id="@id/start_ll_wifi_status_row_1" android:padding="@dimen/small_padding" android:layout_width="fill_parent" android:layout_height="wrap_content">
+                        <TextView android:textSize="@dimen/medium_text" android:textStyle="bold" android:textColor="@color/text_1" android:id="@id/start_tv_wifi_enabled" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="@string/wifi_enabled" android:shadowColor="@color/text_shadow" android:shadowDx="2.0" android:shadowDy="2.0" android:shadowRadius="2.0" android:layout_weight="1.0" />
+                        <ImageView android:layout_gravity="center" android:id="@id/start_iv_wifi_enabled" android:layout_width="@dimen/led" android:layout_height="@dimen/led" android:src="@drawable/on" />
+                    </LinearLayout>
+                    <LinearLayout android:orientation="horizontal" android:id="@id/start_ll_wifi_status_row_2" android:padding="@dimen/small_padding" android:layout_width="fill_parent" android:layout_height="wrap_content">
+                        <TextView android:textSize="@dimen/medium_text" android:textStyle="bold" android:textColor="@color/text_1" android:id="@id/start_tv_wifi_connected" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="@string/wifi_connected" android:shadowColor="@color/text_shadow" android:shadowDx="2.0" android:shadowDy="2.0" android:shadowRadius="2.0" android:layout_weight="1.0" />
+                        <ImageView android:layout_gravity="center" android:id="@id/start_iv_wifi_connected" android:layout_width="@dimen/led" android:layout_height="@dimen/led" android:src="@drawable/on" />
+                    </LinearLayout>
+                    <LinearLayout android:orientation="horizontal" android:id="@id/start_ll_wifi_status_row_3" android:padding="@dimen/small_padding" android:layout_width="fill_parent" android:layout_height="wrap_content">
+                        <TextView android:textSize="@dimen/medium_text" android:textStyle="bold" android:textColor="@color/text_1" android:id="@id/start_tv_ssid" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="@string/ssid" android:shadowColor="@color/text_shadow" android:shadowDx="2.0" android:shadowDy="2.0" android:shadowRadius="2.0" android:layout_weight="1.0" />
+                        <TextView android:textSize="@dimen/small_text" android:textColor="@color/text_2" android:gravity="right" android:id="@id/start_tv_ssid_data" android:paddingRight="2.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="-" android:shadowColor="@color/text_shadow" android:shadowDx="2.0" android:shadowDy="2.0" android:shadowRadius="2.0" />
+                    </LinearLayout>
+                    <LinearLayout android:orientation="horizontal" android:id="@id/start_ll_wifi_status_row_4" android:padding="@dimen/small_padding" android:layout_width="fill_parent" android:layout_height="wrap_content">
+                        <TextView android:textSize="@dimen/medium_text" android:textStyle="bold" android:textColor="@color/text_1" android:id="@id/start_tv_ip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="@string/ip" android:shadowColor="@color/text_shadow" android:shadowDx="2.0" android:shadowDy="2.0" android:shadowRadius="2.0" android:layout_weight="1.0" />
+                        <TextView android:textSize="@dimen/small_text" android:textColor="@color/text_2" android:gravity="right" android:id="@id/start_tv_ip_data" android:paddingRight="2.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="-" android:shadowColor="@color/text_shadow" android:shadowDx="2.0" android:shadowDy="2.0" android:shadowRadius="2.0" />
+                    </LinearLayout>
+                    <LinearLayout android:orientation="horizontal" android:id="@id/start_ll_wifi_status_row_5" android:padding="@dimen/small_padding" android:layout_width="fill_parent" android:layout_height="wrap_content">
+                        <TextView android:textSize="@dimen/medium_text" android:textStyle="bold" android:textColor="@color/text_1" android:id="@id/start_tv_port" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="@string/port" android:shadowColor="@color/text_shadow" android:shadowDx="2.0" android:shadowDy="2.0" android:shadowRadius="2.0" android:layout_weight="1.0" />
+                        <TextView android:textSize="@dimen/small_text" android:textColor="@color/text_2" android:gravity="right" android:id="@id/start_tv_port_data" android:paddingRight="2.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="-" android:shadowColor="@color/text_shadow" android:shadowDx="2.0" android:shadowDy="2.0" android:shadowRadius="2.0" />
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout android:orientation="vertical" android:id="@id/start_ll_remote_control" android:background="@drawable/panel_gradient" android:padding="@dimen/large_padding" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content">
+                    <TextView android:textSize="@dimen/small_text" android:textStyle="bold" android:textColor="@color/text_1" android:id="@id/start_tv_send_sms" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="@string/send_sms" android:shadowColor="@color/text_shadow" android:shadowDx="2.0" android:shadowDy="2.0" android:shadowRadius="2.0" />
+                    <TextView android:textSize="@dimen/small_text" android:textColor="@color/text_2" android:id="@id/start_tv_for_photos" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="@string/for_photos" android:shadowColor="@color/text_shadow" android:shadowDx="2.0" android:shadowDy="2.0" android:shadowRadius="2.0" />
+                    <LinearLayout android:gravity="center" android:orientation="horizontal" android:id="@id/start_ll_photo_buttons" android:padding="@dimen/small_padding" android:layout_width="fill_parent" android:layout_height="wrap_content">
+                        <Button android:id="@id/start_bt_photo_sms_format" android:background="@drawable/custom_button" android:layout_width="100.0dip" android:layout_height="@dimen/button_height" android:text="@string/sms_format" />
+                        <View android:id="@id/start_vi_button_divider_1" android:layout_width="16.0dip" android:layout_height="@dimen/header_padding" />
+                        <Button android:id="@id/start_bt_photo_sms_example" android:background="@drawable/custom_button" android:layout_width="100.0dip" android:layout_height="@dimen/button_height" android:text="@string/sms_example" />
+                    </LinearLayout>
+                    <TextView android:textSize="@dimen/small_text" android:textColor="@color/text_2" android:id="@id/start_tv_for_videos" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="@string/for_videos" android:shadowColor="@color/text_shadow" android:shadowDx="2.0" android:shadowDy="2.0" android:shadowRadius="2.0" />
+                    <LinearLayout android:gravity="center" android:orientation="horizontal" android:id="@id/start_ll_video_buttons" android:padding="@dimen/small_padding" android:layout_width="fill_parent" android:layout_height="wrap_content">
+                        <Button android:id="@id/start_bt_video_sms_format" android:background="@drawable/custom_button" android:layout_width="100.0dip" android:layout_height="@dimen/button_height" android:text="@string/sms_format" />
+                        <View android:id="@id/start_vi_button_divider_2" android:layout_width="16.0dip" android:layout_height="@dimen/header_padding" />
+                        <Button android:id="@id/start_bt_video_sms_example" android:background="@drawable/custom_button" android:layout_width="100.0dip" android:layout_height="@dimen/button_height" android:text="@string/sms_example" />
+                    </LinearLayout>
+                </LinearLayout>
+                <View android:id="@id/Vstart_vi_main_divider_1" android:background="@color/main_divider" android:layout_width="fill_parent" android:layout_height="@dimen/divider_height" />
+                <LinearLayout android:id="@id/start_ll_main_gallery" android:background="@drawable/background_repeat" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_weight="1.0">
+                    <RelativeLayout android:id="@id/RelativeLayout02" android:layout_width="fill_parent" android:layout_height="fill_parent">
+                        <LinearLayout android:gravity="center" android:id="@id/start_ll_gallery" android:padding="@dimen/gallery_padding" android:layout_width="fill_parent" android:layout_height="fill_parent">
+                            <Gallery android:layout_gravity="center" android:id="@id/start_gl_gallery" android:layout_width="fill_parent" android:layout_height="fill_parent"
+                              xmlns:android="http://schemas.android.com/apk/res/android" />
+                        </LinearLayout>
+                        <LinearLayout android:gravity="center" android:orientation="vertical" android:id="@id/start_ll_beta" android:layout_width="fill_parent" android:layout_height="fill_parent">
+                            <TextView android:textSize="@dimen/medium_text" android:textStyle="bold" android:textColor="@color/white" android:gravity="center" android:id="@id/start_tv_beta" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/start_beta_text" android:shadowColor="@color/black" android:shadowDx="2.0" android:shadowDy="2.0" android:shadowRadius="2.0" />
+                            <TextView android:textSize="@dimen/small_text" android:textColor="@color/white" android:gravity="center" android:id="@id/start_tv_beta_sub" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/start_beta_sub_text" android:shadowColor="@color/black" android:shadowDx="2.0" android:shadowDy="2.0" android:shadowRadius="2.0" />
+                        </LinearLayout>
+                        <LinearLayout android:gravity="top" android:id="@id/start_ll_main_gallery_drop_shadow_1" android:layout_width="fill_parent" android:layout_height="wrap_content">
+                            <View android:id="@id/start_vi_main_gallery_drop_shadow_1" android:background="@drawable/drop_shadow_1" android:layout_width="fill_parent" android:layout_height="@dimen/drop_shadow_height" />
+                        </LinearLayout>
+                        <LinearLayout android:gravity="bottom" android:id="@id/start_ll_main_gallery_drop_shadow_2" android:layout_width="fill_parent" android:layout_height="fill_parent">
+                            <View android:id="@id/start_vi_main_gallery_drop_shadow_2" android:background="@drawable/drop_shadow_2" android:layout_width="fill_parent" android:layout_height="@dimen/drop_shadow_height" />
+                        </LinearLayout>
+                    </RelativeLayout>
+                </LinearLayout>
+                <View android:id="@id/start_vi_main_divider_2" android:background="@color/main_divider" android:layout_width="fill_parent" android:layout_height="@dimen/divider_height" />
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+    <View android:id="@id/start_vi_footer_divider_1" android:background="@drawable/divider_gradient" android:layout_width="fill_parent" android:layout_height="@dimen/divider_height" />
+    <LinearLayout android:gravity="center" android:id="@id/start_ll_footer" android:background="@drawable/footer_gradient" android:padding="@dimen/footer_padding" android:layout_width="fill_parent" android:layout_height="@dimen/header_height">
+        <Button android:gravity="center" android:layout_gravity="center" android:id="@id/start_bt_start" android:background="@drawable/custom_button" android:paddingRight="48.0dip" android:layout_width="190.0dip" android:layout_height="@dimen/button_height" android:text="@string/start" android:drawableLeft="@drawable/ic_menu_camera" />
+    </LinearLayout>
+    <View android:id="@id/start_vi_footer_divider_2" android:background="@drawable/divider_gradient" android:layout_width="fill_parent" android:layout_height="@dimen/divider_height" />
+</LinearLayout>
