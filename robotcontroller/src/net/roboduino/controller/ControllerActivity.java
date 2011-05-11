@@ -69,7 +69,7 @@ public class ControllerActivity extends TabActivity {
 		logger.info("Agent start....");
 		Amarino.connect(this, deviceAddress);
 		
-		
+		display.setText("Address:"+TCPClient.getLocalIpAddress());
 		// Create our Preview view and set it as the content of our activity.
 		// preview = new Preview(this);
 	}
