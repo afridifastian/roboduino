@@ -78,6 +78,7 @@ public class AgentActivity extends TabActivity {
 		} catch (IOException e) {
 			logger.error(e.getMessage(), e);
 		}
+		display.setText("Address:"+TCPServer.getLocalIpAddress());
 		// Create our Preview view and set it as the content of our activity.
 		// preview = new Preview(this);
 	}
