@@ -1,18 +1,13 @@
 package net.roboduino.controller;
 
-import net.roboduino.commons.BaseMsg;
 import net.roboduino.controller.socket.TCPClient;
 
-import org.apache.commons.lang.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import android.app.Activity;
 import android.app.TabActivity;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
@@ -29,8 +24,6 @@ import android.widget.TabHost;
 import android.widget.TabHost.OnTabChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
-import at.abraxas.amarino.Amarino;
-import at.abraxas.amarino.AmarinoIntent;
 
 public class ControllerActivity extends TabActivity {
 	private static final Logger logger = LoggerFactory
@@ -63,13 +56,8 @@ public class ControllerActivity extends TabActivity {
 
 		// in order to receive broadcasted intents we need to register our
 		// receiver
-		this.registerReceiver(arduinoReceiver, new IntentFilter(
-				AmarinoIntent.ACTION_RECEIVED));
-
 		logger.info("Agent start....");
-		Amarino.connect(this, deviceAddress);
-		
-		display.setText("Address:"+TCPClient.getLocalIpAddress());
+		display.setText("Address:" + TCPClient.getLocalIpAddress());
 		// Create our Preview view and set it as the content of our activity.
 		// preview = new Preview(this);
 	}
@@ -86,10 +74,7 @@ public class ControllerActivity extends TabActivity {
 
 	public void onDestroy() {
 		super.onDestroy();
-		Amarino.disconnect(this, deviceAddress);
-		// do never forget to unregister a registered receiver
-		this.unregisterReceiver(arduinoReceiver);
-		
+
 		TCPClient.disconnect();
 	}
 
@@ -219,55 +204,6 @@ public class ControllerActivity extends TabActivity {
 
 		}
 	}
-
-	/**
-	 * ArduinoReceiver is responsible for catching broadcasted Amarino events.
-	 * 
-	 * It extracts data from the intent and updates the graph accordingly.
-	 */
-	private BroadcastReceiver arduinoReceiver = new BroadcastReceiver() {
-
-		@Override
-		public void onReceive(Context context, Intent intent) {
-			String data = null;
-
-			// the device address from which the data was sent, we don't need it
-			// here but to demonstrate how you retrieve it
-			final String name = intent
-					.getStringExtra(AmarinoIntent.EXTRA_DEVICE);
-			final String address = intent
-					.getStringExtra(AmarinoIntent.EXTRA_DEVICE_ADDRESS);
-			final String state = intent
-					.getStringExtra(AmarinoIntent.EXTRA_DEVICE_STATE);
-			logger.info("name={},address={},state={}", new Object[] { name,
-					address, state });
-			// the type of data which is added to the intent
-			final int dataType = intent.getIntExtra(
-					AmarinoIntent.EXTRA_DATA_TYPE, -1);
-			// we only expect String data though, but it is better to check if
-			// really string was sent
-			// later Amarino will support differnt data types, so far data comes
-			// always as string and
-			// you have to parse the data to the type you have sent from
-			// Arduino, like it is shown below
-			if (dataType == AmarinoIntent.STRING_EXTRA) {
-				data = intent.getStringExtra(AmarinoIntent.EXTRA_DATA);
-				if (data != null) {
-
-				}
-			} else if (dataType == AmarinoIntent.BYTE_ARRAY_EXTRA) {
-				byte[] bytes = intent
-						.getByteArrayExtra(AmarinoIntent.EXTRA_DATA);
-				if (!ArrayUtils.isEmpty(bytes)) {
-					BaseMsg msg = new BaseMsg(bytes);
-					logger.info(msg.toString());
-					display.append(name + ":" + msg.toString() + "\n");
-				} else {
-					logger.warn("收到的字节数组为空");
-				}
-			}
-		}
-	};
 
 	/**
 	 * Invoked when a menu item has been selected
