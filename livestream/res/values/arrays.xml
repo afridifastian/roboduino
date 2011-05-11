@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <string-array name="csv">
+        <item>csv</item>
+    </string-array>
+    <string-array name="excel">
+        <item>xls</item>
+        <item>xla</item>
+        <item>xlb</item>
+        <item>xlc</item>
+        <item>xld</item>
+        <item>xlk</item>
+        <item>xll</item>
+        <item>xlm</item>
+        <item>xlt</item>
+        <item>xlv</item>
+        <item>xlw</item>
+        <item>xlsx</item>
+        <item>xlsm</item>
+        <item>xlsb</item>
+        <item>xltm</item>
+        <item>xlam</item>
+    </string-array>
+    <string-array name="film">
+        <item>3gp</item>
+        <item>avi</item>
+        <item>divx</item>
+        <item>flv</item>
+        <item>mov</item>
+        <item>movie</item>
+        <item>mp4</item>
+        <item>mpe</item>
+        <item>mpeg</item>
+        <item>mpeg4</item>
+        <item>mpg</item>
+        <item>swf</item>
+        <item>wmv</item>
+    </string-array>
+    <string-array name="music">
+        <item>mp3</item>
+        <item>wav</item>
+        <item>aac</item>
+        <item>m4a</item>
+        <item>m4p</item>
+        <item>ogg</item>
+        <item>midi</item>
+        <item>wma</item>
+        <item>ra</item>
+        <item>flac</item>
+    </string-array>
+    <string-array name="pdf">
+        <item>pdf</item>
+    </string-array>
+    <string-array name="picture">
+        <item>png</item>
+        <item>gif</item>
+        <item>jpg</item>
+        <item>jpeg</item>
+        <item>bmp</item>
+    </string-array>
+    <string-array name="playlist">
+        <item>m3u</item>
+    </string-array>
+    <string-array name="powerpoint">
+        <item>ppt</item>
+        <item>pptx</item>
+        <item>pps</item>
+        <item>ppsx</item>
+    </string-array>
+    <string-array name="web">
+        <item>htm</item>
+        <item>html</item>
+        <item>php</item>
+    </string-array>
+    <string-array name="word">
+        <item>doc</item>
+        <item>docx</item>
+    </string-array>
+    <string-array name="zip">
+        <item>7z</item>
+        <item>jar</item>
+        <item>zip</item>
+        <item>rar</item>
+        <item>tar</item>
+        <item>gz</item>
+        <item>apk</item>
+    </string-array>
+    <string-array name="_processingScalesNormalEntries">
+        <item>1/2</item>
+        <item>1/4</item>
+        <item>1/8</item>
+    </string-array>
+    <array name="_processingScalesNormalEntryValues">
+        <item>@string/_ps_half</item>
+        <item>@string/_ps_quarter</item>
+        <item>@string/_ps_eighth</item>
+    </array>
+    <array name="_processingScalesGroovyEntries">
+        <item>@string/_ps_one</item>
+        <item>1/2</item>
+        <item>1/4</item>
+        <item>1/8</item>
+    </array>
+    <array name="_processingScalesGroovyEntryValues">
+        <item>@string/_ps_one</item>
+        <item>@string/_ps_half</item>
+        <item>@string/_ps_quarter</item>
+        <item>@string/_ps_eighth</item>
+    </array>
+    <array name="_motionDetectionsEntries">
+        <item>@string/_md_one</item>
+        <item>@string/_md_two</item>
+        <item>@string/_md_three</item>
+        <item>@string/_md_four</item>
+        <item>@string/_md_five</item>
+        <item>@string/_md_six</item>
+        <item>@string/_md_seven</item>
+        <item>@string/_md_eight</item>
+        <item>@string/_md_nine</item>
+        <item>@string/_md_ten</item>
+    </array>
+    <array name="_motionDetectionsEntryValues">
+        <item>@string/_md_one</item>
+        <item>@string/_md_two</item>
+        <item>@string/_md_three</item>
+        <item>@string/_md_four</item>
+        <item>@string/_md_five</item>
+        <item>@string/_md_six</item>
+        <item>@string/_md_seven</item>
+        <item>@string/_md_eight</item>
+        <item>@string/_md_nine</item>
+        <item>@string/_md_ten</item>
+    </array>
+    <string-array name="_sensitivitiesEntries">
+        <item>Very Low</item>
+        <item>Low</item>
+        <item>Medium</item>
+        <item>High</item>
+        <item>Very High</item>
+    </string-array>
+    <array name="_sensitivitiesEntryValues">
+        <item>@string/_sy_very_low</item>
+        <item>@string/_sy_low</item>
+        <item>@string/_sy_medium</item>
+        <item>@string/_sy_high</item>
+        <item>@string/_sy_very_high</item>
+    </array>
+    <string-array name="_cameraEffectsEntries">
+        <item>None</item>
+        <item>Aqua</item>
+        <item>Blackboard</item>
+        <item>Mono</item>
+        <item>Negative</item>
+        <item>Posterize</item>
+        <item>Sepia</item>
+        <item>Solarize</item>
+        <item>Whiteboard</item>
+    </string-array>
+    <array name="_cameraEffectsEntryValues">
+        <item>@string/_ce_none</item>
+        <item>@string/_ce_aqua</item>
+        <item>@string/_ce_blackboard</item>
+        <item>@string/_ce_mono</item>
+        <item>@string/_ce_negative</item>
+        <item>@string/_ce_posterize</item>
+        <item>@string/_ce_sepia</item>
+        <item>@string/_ce_solarize</item>
+        <item>@string/_ce_whiteboard</item>
+    </array>
+    <string-array name="_miniPreviewDisplaysNormalEntries">
+        <item>Normal Frame Image</item>
+        <item>Gradients</item>
+        <item>Edges</item>
+        <item>Gradients &amp;amp; Edges</item>
+        <item>Motion</item>
+        <item>Heat Map</item>
+        <item>Magnify &amp;amp; Track</item>
+        <item>Activity Chart</item>
+        <item>Combo 1</item>
+        <item>Combo 2</item>
+        <item>Combo Mega</item>
+    </string-array>
+    <array name="_miniPreviewDisplaysNormalEntryValues">
+        <item>@string/_mpd_normal_frame</item>
+        <item>@string/_mpd_gradients</item>
+        <item>@string/_mpd_edges</item>
+        <item>@string/_mpd_grad_edge</item>
+        <item>@string/_mpd_motion</item>
+        <item>@string/_mpd_activity_heatmap</item>
+        <item>@string/_mpd_magnify_track</item>
+        <item>@string/_mpd_activity_chart</item>
+        <item>@string/_mpd_combo_1</item>
+        <item>@string/_mpd_combo_2</item>
+        <item>@string/_mpd_combo_mega</item>
+    </array>
+    <string-array name="_miniPreviewDisplaysGroovyEntries">
+        <item>Normal Frame Image</item>
+        <item>Embossed</item>
+        <item>Cartoon</item>
+    </string-array>
+    <array name="_miniPreviewDisplaysGroovyEntryValues">
+        <item>@string/_mpd_normal_frame</item>
+        <item>@string/_mpd_embossed</item>
+        <item>@string/_mpd_cartoon</item>
+    </array>
+    <string-array name="_miniPreviewScalesEntries">
+        <item>1/2</item>
+        <item>1/3</item>
+        <item>1/4</item>
+        <item>None</item>
+        <item>Full Screen</item>
+    </string-array>
+    <array name="_miniPreviewScalesEntryValues">
+        <item>@string/_mps_half</item>
+        <item>@string/_mps_third</item>
+        <item>@string/_mps_quarter</item>
+        <item>@string/_mps_none</item>
+        <item>@string/_mps_full</item>
+    </array>
+    <string-array name="_miniPreviewPositionsEntries">
+        <item>Top Left</item>
+        <item>Top Right</item>
+        <item>Bottom Left</item>
+        <item>Bottom Right</item>
+    </string-array>
+    <array name="_miniPreviewPositionsEntryValues">
+        <item>@string/_pos_top_left</item>
+        <item>@string/_pos_top_right</item>
+        <item>@string/_pos_bottom_left</item>
+        <item>@string/_pos_bottom_right</item>
+    </array>
+    <string-array name="_hintsPositionsEntries">
+        <item>Top Left</item>
+        <item>Top Right</item>
+    </string-array>
+    <array name="_hintsPositionsEntryValues">
+        <item>@string/_pos_top_left</item>
+        <item>@string/_pos_top_right</item>
+    </array>
+    <array name="_miniGalleryItemsEntries">
+        <item>@string/_gli_five</item>
+        <item>@string/_gli_ten</item>
+        <item>@string/_gli_fifteen</item>
+        <item>@string/_gli_twenty</item>
+        <item>@string/_gli_thirty</item>
+        <item>@string/_gli_fourty</item>
+        <item>@string/_gli_fifty</item>
+    </array>
+    <array name="_miniGalleryItemsEntryValues">
+        <item>@string/_gli_five</item>
+        <item>@string/_gli_ten</item>
+        <item>@string/_gli_fifteen</item>
+        <item>@string/_gli_twenty</item>
+        <item>@string/_gli_thirty</item>
+        <item>@string/_gli_fourty</item>
+        <item>@string/_gli_fifty</item>
+    </array>
+    <string-array name="_motionCaptureModesEntries">
+        <item>Photo</item>
+        <item>Video</item>
+    </string-array>
+    <array name="_motionCaptureModesEntryValues">
+        <item>@string/_mcm_photo</item>
+        <item>@string/_mcm_video</item>
+    </array>
+    <string-array name="_phoneCameraResolutionsNormalEntries">
+        <item>Default (%1$dx%2$d)</item>
+        <item>Approx. Screen Size (%1$dx%2$d)</item>
+        <item>Full Resolution</item>
+    </string-array>
+    <array name="_phoneCameraResolutionsNormalEntryValues">
+        <item>@string/_pcr_default</item>
+        <item>@string/_pcr_screen</item>
+        <item>@string/_pcr_full</item>
+    </array>
+    <string-array name="_phoneCameraResolutionsLiveStreamEntries">
+        <item>Default (%1$dx%2$d)</item>
+        <item>Approx. Screen Size (%1$dx%2$d)</item>
+    </string-array>
+    <array name="_phoneCameraResolutionsLiveStreamEntryValues">
+        <item>@string/_pcr_default</item>
+        <item>@string/_pcr_screen</item>
+    </array>
+    <array name="_burstCapturesEntries">
+        <item>@string/_bc_one</item>
+        <item>@string/_bc_two</item>
+        <item>@string/_bc_three</item>
+        <item>@string/_bc_four</item>
+        <item>@string/_bc_five</item>
+    </array>
+    <array name="_burstCapturesEntryValues">
+        <item>@string/_bc_one</item>
+        <item>@string/_bc_two</item>
+        <item>@string/_bc_three</item>
+        <item>@string/_bc_four</item>
+        <item>@string/_bc_five</item>
+    </array>
+    <string-array name="_normalGatewaysEntries">
+        <item>TwitPic.com</item>
+        <item>Twitgoo.com</item>
+        <item>Upic.me</item>
+        <item>yfrog.com</item>
+        <item>Twipl.net</item>
+        <item>TwitrPix.com</item>
+    </string-array>
+    <array name="_normalGatewaysEntryValues">
+        <item>@string/_ng_twitpic</item>
+        <item>@string/_ng_twitgoo</item>
+        <item>@string/_ng_upic</item>
+        <item>@string/_ng_yfrog</item>
+        <item>@string/_ng_twipl</item>
+        <item>@string/_ng_twitrpix</item>
+    </array>
+    <string-array name="_secureGatewaysEntries">
+        <item>TwitPic.com</item>
+        <item>Twitgoo.com</item>
+        <item>Upic.me</item>
+        <item>yfrog.com</item>
+    </string-array>
+    <array name="_secureGatewaysEntryValues">
+        <item>@string/_sg_twitpic</item>
+        <item>@string/_sg_twitgoo</item>
+        <item>@string/_sg_upic</item>
+        <item>@string/_sg_yfrog</item>
+    </array>
+    <string-array name="_videoResolutionsEntries">
+        <item>Default (320x240)</item>
+        <item>Low</item>
+        <item>High</item>
+    </string-array>
+    <array name="_videoResolutionsEntryValues">
+        <item>@string/_vr_default</item>
+        <item>@string/_vr_low</item>
+        <item>@string/_vr_high</item>
+    </array>
+    <string-array name="_videoFormatsEntries">
+        <item>3GP</item>
+        <item>MP4</item>
+    </string-array>
+    <array name="_videoFormatsEntryValues">
+        <item>@string/_vf_3gp</item>
+        <item>@string/_vf_mp4</item>
+    </array>
+    <string-array name="_threegpCodecsEntries">
+        <item>H263</item>
+        <item>H264</item>
+    </string-array>
+    <array name="_threegpCodecsEntryValues">
+        <item>@string/_tc_h263</item>
+        <item>@string/_tc_h264</item>
+    </array>
+</resources>

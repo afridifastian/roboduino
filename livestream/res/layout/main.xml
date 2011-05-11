@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RelativeLayout android:id="@id/RelativeLayout01" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout android:orientation="vertical" android:id="@id/main_ll_body" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <LinearLayout android:orientation="vertical" android:id="@id/main_ll_hide_preview" android:background="@color/black" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <LinearLayout android:orientation="vertical" android:id="@id/main_ll_mini_preview_full" android:padding="@dimen/mini_preview_padding" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <LinearLayout android:orientation="vertical" android:id="@id/main_ll_mini_preview" android:background="@drawable/rounded_corner_gradient_1" android:padding="@dimen/small_padding" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+    </LinearLayout>
+    <LinearLayout android:gravity="center" android:orientation="vertical" android:id="@id/main_ll_progress" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <ProgressBar android:id="@id/main_pb_progress" android:layout_width="@dimen/progress_width" android:layout_height="@dimen/progress_height" />
+    </LinearLayout>
+    <LinearLayout android:gravity="top|right|center" android:orientation="horizontal" android:id="@id/main_ll_hints" android:padding="@dimen/mini_preview_padding" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <LinearLayout android:orientation="horizontal" android:id="@id/main_ll_hint_body" android:background="@drawable/rounded_corner_gradient_1" android:clickable="true" android:layout_width="wrap_content" android:layout_height="wrap_content">
+            <TextView android:textColor="@color/black" android:id="@id/main_tv_hints" android:padding="@dimen/small_padding" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/press_play" />
+            <LinearLayout android:gravity="top" android:orientation="horizontal" android:id="@id/main_ll_hints_close" android:layout_width="wrap_content" android:layout_height="wrap_content">
+                <TextView android:textColor="@color/border_color" android:id="@id/main_tv_hints_close" android:paddingLeft="@dimen/small_padding" android:paddingRight="@dimen/small_padding" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="x" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout android:gravity="center" android:orientation="vertical" android:id="@id/main_ll_center" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <LinearLayout android:orientation="horizontal" android:id="@id/main_ll_webcam_body" android:background="@drawable/rounded_corner_gradient_1" android:layout_width="wrap_content" android:layout_height="wrap_content">
+            <TextView android:textColor="@color/black" android:id="@id/main_tv_webcam" android:padding="@dimen/small_padding" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/webcam_error" />
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout android:gravity="center" android:orientation="vertical" android:id="@id/main_ll_disguise" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <TextView android:textColor="@color/white" android:id="@id/main_tv_disguise" android:background="@color/black" android:padding="@dimen/small_padding" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="@string/web_browser" />
+        <LinearLayout android:gravity="center" android:orientation="vertical" android:id="@id/main_ll_disguise_webview" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_weight="1.0" />
+    </LinearLayout>
+    <LinearLayout android:gravity="bottom|center" android:orientation="vertical" android:id="@id/main_ll_control" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <LinearLayout android:orientation="vertical" android:id="@id/main_ll_buttons" android:layout_width="fill_parent" android:layout_height="wrap_content">
+            <View android:id="@id/View01" android:background="@drawable/divider_gradient" android:layout_width="fill_parent" android:layout_height="@dimen/divider_height" />
+            <LinearLayout android:orientation="horizontal" android:id="@id/main_ll_control_display" android:layout_width="fill_parent" android:layout_height="wrap_content">
+                <LinearLayout android:gravity="left|center" android:orientation="horizontal" android:id="@id/main_ll_status_1" android:padding="@dimen/camera_padding" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_weight="1.0">
+                    <ImageView android:id="@id/main_iv_logo_1" android:layout_width="80.0dip" android:layout_height="wrap_content" android:src="@drawable/logo" />
+                </LinearLayout>
+                <LinearLayout android:gravity="center" android:orientation="horizontal" android:id="@id/main_ll_buttons_only" android:padding="@dimen/camera_padding" android:layout_width="wrap_content" android:layout_height="wrap_content">
+                    <ImageButton android:id="@id/main_bt_play" android:background="@drawable/camera_button" android:layout_width="@dimen/camera_button_width" android:layout_height="@dimen/camera_button_height" android:src="@drawable/play" android:scaleType="fitCenter" />
+                    <View android:id="@id/start_vi_camera_divider_1" android:layout_width="@dimen/header_padding" android:layout_height="@dimen/header_padding" />
+                    <ImageButton android:id="@id/main_bt_light" android:background="@drawable/camera_button" android:layout_width="@dimen/camera_button_width" android:layout_height="@dimen/camera_button_height" android:src="@drawable/brightness" android:scaleType="fitCenter" />
+                    <View android:id="@id/start_vi_camera_divider_2" android:layout_width="@dimen/header_padding" android:layout_height="@dimen/header_padding" />
+                    <ImageButton android:id="@id/main_bt_disguise" android:background="@drawable/camera_button" android:layout_width="@dimen/camera_button_width" android:layout_height="@dimen/camera_button_height" android:src="@drawable/disguise" android:scaleType="fitCenter" />
+                    <View android:id="@id/start_vi_camera_divider_3" android:layout_width="@dimen/header_padding" android:layout_height="@dimen/header_padding" />
+                    <ImageButton android:id="@id/main_bt_flash" android:background="@drawable/camera_button" android:layout_width="@dimen/camera_button_width" android:layout_height="@dimen/camera_button_height" android:src="@drawable/flash_on" android:scaleType="fitCenter" />
+                    <View android:id="@id/start_vi_camera_divider_4" android:layout_width="@dimen/header_padding" android:layout_height="@dimen/header_padding" />
+                    <ImageButton android:id="@id/main_bt_settings" android:background="@drawable/camera_button" android:layout_width="@dimen/camera_button_width" android:layout_height="@dimen/camera_button_height" android:src="@drawable/more" android:scaleType="fitCenter" />
+                </LinearLayout>
+                <LinearLayout android:gravity="right|center" android:orientation="horizontal" android:id="@id/main_ll_status_2" android:padding="@dimen/camera_padding" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_weight="1.0">
+                    <TextView android:textSize="@dimen/camera_text" android:textStyle="bold" android:textColor="@color/white" android:id="@id/main_tv_demo" android:clickable="true" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/demo_text" android:shadowColor="@color/black" android:shadowDx="2.0" android:shadowDy="2.0" android:shadowRadius="2.0" />
+                    <ImageView android:id="@id/main_iv_info_1" android:clickable="true" android:layout_width="20.0dip" android:layout_height="20.0dip" android:src="@drawable/ic_menu_info_details" />
+                </LinearLayout>
+            </LinearLayout>
+            <View android:id="@id/View02" android:background="@drawable/divider_gradient" android:layout_width="fill_parent" android:layout_height="@dimen/divider_height" />
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout android:orientation="vertical" android:id="@id/main_ll_blackout" android:background="@color/black" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+</RelativeLayout>

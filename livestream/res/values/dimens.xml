@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <dimen name="border_width">1.0dip</dimen>
+    <dimen name="led">14.0dip</dimen>
+    <dimen name="rounder_corner_radius">6.0dip</dimen>
+    <dimen name="drop_shadow_padding">4.0dip</dimen>
+    <dimen name="tiny_text">10.0dip</dimen>
+    <dimen name="small_text">14.0dip</dimen>
+    <dimen name="medium_text">18.0dip</dimen>
+    <dimen name="camera_text">16.0dip</dimen>
+    <dimen name="camera_button_corner_radius">19.0dip</dimen>
+    <dimen name="progress_width">80.0dip</dimen>
+    <dimen name="progress_height">80.0dip</dimen>
+    <dimen name="camera_button_width">50.0dip</dimen>
+    <dimen name="camera_button_height">38.0dip</dimen>
+    <dimen name="menu_button_height">36.0dip</dimen>
+    <dimen name="menu_button_width">36.0dip</dimen>
+    <dimen name="button_height">36.0dip</dimen>
+    <dimen name="header_height">52.0dip</dimen>
+    <dimen name="divider_height">2.0dip</dimen>
+    <dimen name="drop_shadow_height">8.0dip</dimen>
+    <dimen name="small_padding">3.0dip</dimen>
+    <dimen name="large_padding">13.0dip</dimen>
+    <dimen name="header_padding">5.0dip</dimen>
+    <dimen name="footer_padding">8.0dip</dimen>
+    <dimen name="gallery_padding">10.0dip</dimen>
+    <dimen name="camera_padding">8.0dip</dimen>
+    <dimen name="mini_preview_padding">6.0dip</dimen>
+</resources>

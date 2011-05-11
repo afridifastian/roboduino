@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <integer name="_disUnlic">-1</integer>
+    <integer name="_disMarket">0</integer>
+    <integer name="_disSlideMe">1</integer>
+    <integer name="_disAmazon">2</integer>
+    <integer name="_disAndroidPIT">3</integer>
+    <integer name="_disTrial">4</integer>
+    <integer name="_volumeDef">8</integer>
+    <integer name="_volumeMax">10</integer>
+    <integer name="_volumeOffset">0</integer>
+    <integer name="_lullabyVolumeDef">8</integer>
+    <integer name="_lullabyVolumeMax">10</integer>
+    <integer name="_lullabyVolumeOffset">0</integer>
+    <integer name="_captureIntervalDef">5</integer>
+    <integer name="_captureIntervalMax">60</integer>
+    <integer name="_captureIntervalOffset">0</integer>
+    <integer name="_screenBrightnessTimeoutDef">0</integer>
+    <integer name="_screenBrightnessTimeoutMax">60</integer>
+    <integer name="_screenBrightnessTimeoutOffset">0</integer>
+    <integer name="_startCapturingDelayDef">8</integer>
+    <integer name="_startCapturingDelayMax">30</integer>
+    <integer name="_startCapturingDelayOffset">0</integer>
+    <integer name="_videoRecLengthDef">15</integer>
+    <integer name="_videoRecLengthOffset">5</integer>
+    <integer name="_videoRecLengthMin">5</integer>
+    <integer name="_videoRecLengthMax">600</integer>
+    <item type="integer" name="_disChannel">@integer/_disMarket</item>
+    <item type="integer" name="_sscProduct">@integer/_sscLiveStream</item>
+    <integer name="_sscSpyCamDemo">0</integer>
+    <integer name="_sscSpyCam">1</integer>
+    <integer name="_sscSpyCamDisguise">2</integer>
+    <integer name="_sscLiveStreamDemo">3</integer>
+    <integer name="_sscLiveStream">4</integer>
+    <integer name="_sscRemoteControlDemo">5</integer>
+    <integer name="_sscRemoteControl">6</integer>
+    <integer name="_sscGroovyCamDemo">7</integer>
+    <integer name="_sscGroovyCam">8</integer>
+    <integer name="_sscBabyCamDemo">9</integer>
+    <integer name="_sscBabyCam">10</integer>
+</resources>

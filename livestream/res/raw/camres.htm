@@ -1,0 +1,32 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE>SECuRET</TITLE>
+<META content="text/html; charset=iso-8859-1" http-equiv=Content-Type>
+<SCRIPT LANGUAGE=JavaScript1.2>
+<!--
+function newsize()
+{
+myWidth = document.body.clientWidth;
+myHeight = document.body.clientHeight;
+myWidth=(8*Math.floor(myWidth/8));myHeight=(8*Math.floor(myHeight/8));
+if(myWidth<104)myWidth=104;if(myHeight<104)myHeight=104;
+if(myWidth>992)myWidth=992;if(myHeight>992)myHeight=992;
+status=myWidth+" "+myHeight;
+exf.setDim(myWidth,myHeight);
+}
+window.onresize = newsize;
+// -->
+</SCRIPT>
+</HEAD>
+<BODY leftMargin=0 rightMargin=0 topMargin=0 bottomMargin=0 bgcolor=white onLoad=newsize();>
+<APPLET id="exf"
+    code="camres05"
+	archive="camres05.jar"
+    name="camres05"
+    width="640"
+    height="480"
+>
+</APPLET>
+</BODY>
+</HTML>
