@@ -45,8 +45,8 @@ public class ControllerActivity extends TabActivity {
 		// 获取设备地址
 		SharedPreferences prefs = PreferenceManager
 				.getDefaultSharedPreferences(this);
-		deviceAddress = prefs.getString(BlueToothConstant.PREF_DEVICE_ADDRESS,
-				BlueToothConstant.DEFAULT_DEVICE_ADDRESS);
+		deviceAddress = prefs.getString(Constant.PREF_DEVICE_ADDRESS,
+				Constant.DEFAULT_DEVICE_ADDRESS);
 
 		display = (TextView) this.findViewById(R.id.display_windows);
 		layout = (LinearLayout) findViewById(R.id.tab1_layout);
