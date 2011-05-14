@@ -4,75 +4,77 @@
   Released into the public domain.
 */
 
-#include "MyduionMotor.h"
+#include "MyduinoMotor.h"
 #include <WProgram.h>
 
-MyduinoMotor::MyduinoMotor(){
+MyduinoMotorClass MyduinoMotor;
+
+MyduinoMotorClass::MyduinoMotorClass(){
 // default set pin mode
-	this.E1=6;
-	this.M1=7;
-	this.E2=5;
-	this.M2=4;
+	E1 = 6;
+	M1 = 7;
+	E2 = 5;
+	M2 = 4;
 }
 
-MyduinoMotor::MyduinoMotor(MotoPin pin){
+void MyduinoMotorClass::MyduinoMotorPrePin(int8_t mE1, int8_t mM1, int8_t mE2, int8_t mM2){
 //default pin change if input parm
-	this.E1=pin.E1;
-	this.M1=pin.M1;
-	this.E2=pin.E2;
-	this.M2=pin.M2;
+	E1 = mE1;
+	M1 = mM1;
+	E2 = mE2;
+	M2 = mM2;
 }
 
-MyduinoMotor::mapPin(void){
-	pinMode(M1,OUTPUT);
-	pinMode(M2,OUTPUT);
+void MyduinoMotorClass::mapPin(){
+	pinMode(M1, OUTPUT);
+	pinMode(M2, OUTPUT);
 }
 
-void MyduinoMotor::start(bool m1Dir, int8_t m1Speed, bool m2Dir, int8_t m2Speed){
-//Dir = 1, ahead  
+void MyduinoMotorClass::start(bool m1Dir, bool m2Dir, int8_t m1Speed, int8_t m2Speed){
+//Dir = 1, front  
 //Dir = 0, back
 //0 < m1Speed < 255
 //0 < m2Speed < 255
 
-	if(m1Dir ==0 || m1Dir==1)
-		this.mDirection_M1 = m1Dir;
-	if(m2Dir ==0 || m2Dir==1)
-		this.mDirection_M2 = m2Dir;
-	if(m1Speed < 0) this.mSpeed_M1 = 0;
-		else if(m1Speed > 255) this.mSpeed_M1= 255;
-		else this.mSpeed_M1 = m1Speed;
-	if (m2Speed < 0) this.mSpeed_M2 = 0;
-		else if(m2Speed > 255) this.mSpeed_M2 = 255;
-		else this.mSpeed_M2 = m2Speed;
+	if(m1Dir == 0 || m1Dir == 1)
+		mDirection_M1 = m1Dir;
+	if(m2Dir == 0 || m2Dir == 1)
+		mDirection_M2 = m2Dir;
+	if(m1Speed < 0) mSpeed_M1 = 0;
+		else if(m1Speed > 255) mSpeed_M1= 255;
+		else mSpeed_M1 = m1Speed;
+	if (m2Speed < 0) mSpeed_M2 = 0;
+		else if(m2Speed > 255) mSpeed_M2 = 255;
+		else mSpeed_M2 = m2Speed;
 	
-	digitalWrite(M1, this.mDirection_M1);
-	digitalWrite(M2, this.mDirection_M2);
+	digitalWrite(M1, mDirection_M1);
+	digitalWrite(M2, mDirection_M2);
 
-	analogWrite(E1, this.mSpeed_M1);
-	analogWrite(E2, this.mSpeed_M2);
+	analogWrite(E1, mSpeed_M1);
+	analogWrite(E2, mSpeed_M2);
 	
 }
 
-void MyduinoMotor::stop(void){
-	this.mSpeed_M1 = 0;
-	this.mSpeed_M2 = 0;
+void MyduinoMotorClass::stop(){
+	mSpeed_M1 = 0;
+	mSpeed_M2 = 0;
 	
-	analogWrite(E1, this.mSpeed_M1);
-	analogWrite(E2, this.mSpeed_M2);
+	analogWrite(E1, mSpeed_M1);
+	analogWrite(E2, mSpeed_M2);
 }
 
-bool MyduinoMotor::readDirection_M2(void)const{
-	return this.mDirection_M1;
+bool MyduinoMotorClass::readDirection_M1()const{
+	return mDirection_M1;
 }
 
-bool MyduinoMotor::readDirection_M2(void)const{
-	return this.mDirection_M2;
+bool MyduinoMotorClass::readDirection_M2()const{
+	return mDirection_M2;
 }
 
-int8_t MyduinoMotor::readSpeed_M1(void)const{
-	return this.mSpeed_M1;
+int8_t MyduinoMotorClass::readSpeed_M1()const{
+	return mSpeed_M1;
 }
 
-int8_t MyduinoMotor::readSpeed_M2(void)const{
-	return this.mSpeed_M2;
+int8_t MyduinoMotorClass::readSpeed_M2()const{
+	return mSpeed_M2;
 }

@@ -7,34 +7,26 @@
 #ifndef MY_DUINO_MOTOR_H
 #define MY_DUINO_MOTOR_H
 
-include <inttypes.h>
+#include <inttypes.h>
 
-class MyduinoMotor{
+class MyduinoMotorClass{
 
 	public:
 
-		typedef struct tMotorPin{
-			int8_t E1;
-			int8_t M1;
-			int8_t E2;
-			int8_t M2;
-		} MotorPin;
-				
-		MyduinoMotor();
-		MyduinoMotor(MotorPin motor);
-
-		void mapPin(void);
+		MyduinoMotorClass();
 		
-		bool readDirection_M2(void)const;
-		bool readDirection_M2(void)const;
+		void MyduinoMotorPrePin(int8_t mE1, int8_t mM1, int8_t mE2, int8_t mM2);
 
-		int8_t readSpeed_M1(void)const;
-		int8_t readSpeed_M2(void)const;
+		void mapPin();
+		
+		void start(bool m1Dir, bool m2Dir, int8_t m1Speed, int8_t m2Speed);
+		void stop();
+		
+		bool readDirection_M1()const;
+		bool readDirection_M2()const;
 
-		
-		void start(bool m1dir, int8_t m1speed, bool m2dir, int8_t m2Speed);
-		void stop(void);
-		
+		int8_t readSpeed_M1()const;
+		int8_t readSpeed_M2()const;
 		
 	private:
 
@@ -49,7 +41,8 @@ class MyduinoMotor{
 		bool mDirection_M1;
 		bool mDirection_M2;
 
+};
 
-}
+extern MyduinoMotorClass MyduinoMotor;
 
 #endif
