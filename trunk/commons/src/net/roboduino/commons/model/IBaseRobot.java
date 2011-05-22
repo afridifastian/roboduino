@@ -2,12 +2,9 @@ package net.roboduino.commons.model;
 
 public interface IBaseRobot {
 
-	public abstract void speedUp();
+	public void changeSpeed(byte leftIncrement, byte rightIncrement);
 
-	public abstract void speedDown();
+	public void setSpeed(short left, short right);
 
-	public abstract void turnLeft();
-
-	public abstract void turnRight();
-	public abstract String stop();
+	public void stop();
 }

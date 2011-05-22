@@ -68,10 +68,9 @@ public class TCPClient {
 	}
 
 	/** 发送消息 */
-	public static String sendMsg(byte cmdType, byte[] content) {
+	public static void sendMsg(byte cmdType, byte[] content) {
 		BaseMsg msg = new BaseMsg(cmdType, content);
 		sendMsg(msg);
-		return msg.toString();
 	}
 
 	public static void sendMsg(BaseMsg msg) {

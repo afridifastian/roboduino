@@ -16,11 +16,15 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnKeyListener;
+import android.view.View.OnTouchListener;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -63,7 +67,7 @@ public class ControllerActivity extends TabActivity {
 		// in order to receive broadcasted intents we need to register our
 		// receiver
 		logger.info("Agent start....");
-		display.setText("Address:" + TCPClient.getLocalIpAddress());
+		display.setText("Address:" + TCPClient.getLocalIpAddress()+"\n");
 		// Create our Preview view and set it as the content of our activity.
 		// preview = new Preview(this);
 		robot=new Robot();
@@ -118,19 +122,7 @@ public class ControllerActivity extends TabActivity {
 		UDPClient.disconnect();
 	}
 
-	/** 创建控制台 */
-	private void buildDrive() {
-		ImageButton upBtn = (ImageButton) this.findViewById(R.id.up);
-		upBtn.setOnClickListener(driveListener);
-		ImageButton downBtn = (ImageButton) this.findViewById(R.id.down);
-		downBtn.setOnClickListener(driveListener);
-		ImageButton leftBtn = (ImageButton) this.findViewById(R.id.left);
-		leftBtn.setOnClickListener(driveListener);
-		ImageButton rightBtn = (ImageButton) this.findViewById(R.id.right);
-		rightBtn.setOnClickListener(driveListener);
-		ImageButton stopBtn = (ImageButton) this.findViewById(R.id.stop);
-		stopBtn.setOnClickListener(driveListener);
-	}
+
 
 	/** 创建tab list界面 */
 	private void buildTabView() {
@@ -174,50 +166,141 @@ public class ControllerActivity extends TabActivity {
 
 	};
 
+	/** 创建控制台 */
+	private void buildDrive() {
+		ImageButton upBtn = (ImageButton) this.findViewById(R.id.up);
+		 upBtn.setOnTouchListener(onTouchListener);
+		ImageButton downBtn = (ImageButton) this.findViewById(R.id.down);
+		downBtn.setOnTouchListener(onTouchListener);
+		ImageButton leftBtn = (ImageButton) this.findViewById(R.id.left);
+		leftBtn.setOnTouchListener(onTouchListener);
+		leftBtn.setOnClickListener(driveClickListener);
+		ImageButton rightBtn = (ImageButton) this.findViewById(R.id.right);
+		rightBtn.setOnTouchListener(onTouchListener);
+		rightBtn.setOnClickListener(driveClickListener);
+		ImageButton stopBtn = (ImageButton) this.findViewById(R.id.stop);
+		stopBtn.setOnClickListener(driveClickListener);
+	}
+
+	private OnTouchListener onTouchListener = new OnTouchListener() {
+
+		public boolean onTouch(View view, MotionEvent event) {
+			switch (event.getAction()) {
+			case MotionEvent.ACTION_MOVE: {
+				dispatchMsg(view.getId());
+				break;
+			}
+			default:
+				break;
+			}
+			return false;
+		}
+	};
+
 	/** 消息分发 */
 	private void dispatchMsg(int id) {
 		String msg = "no msg";
 		switch (id) {
+
 		case R.id.up: {
-			msg =robot.changeSpeed((byte)0x10, (byte)0x10);
-			//msg = CommandUtil.driveMotorS(this, (byte) 0xff, (byte) 0xff);
+			robot.changeSpeed((byte) 0x01, (byte) 0x01);
+			// msg = CommandUtil.driveMotorS(this, (byte) 0xff, (byte) 0xff);
 			break;
 		}
 
 		case R.id.down: {
-			msg =robot.changeSpeed((byte)(-0x10), (byte)(-0x10));
-			//msg = CommandUtil.driveMotorS(this, (byte) 0x00, (byte) 0x00);
+			robot.changeSpeed((byte) (-0x01), (byte) (-0x01));
+			// msg = CommandUtil.driveMotorS(this, (byte) 0x00, (byte) 0x00);
 			break;
 		}
 
 		case R.id.left: {
-			msg =robot.changeSpeed((byte)(-0x10), (byte)(0x10));
-			//msg = CommandUtil.driveMotorS(this, (byte) 0x00, (byte) 0xff);
+			//robot.stop();
+			robot.changeSpeed((byte) (-0x01), (byte) (0x01));
+			// msg = CommandUtil.driveMotorS(this, (byte) 0x00, (byte) 0xff);
 			break;
 		}
 
 		case R.id.right: {
-			msg =robot.changeSpeed((byte)(0x10), (byte)(-0x10));
-			//msg = CommandUtil.driveMotorS(this, (byte) 0xff, (byte) 0x00);
+			//robot.stop();
+			robot.changeSpeed((byte) (0x01), (byte) (-0x01));
+			// msg = CommandUtil.driveMotorS(this, (byte) 0xff, (byte) 0x00);
 			break;
 		}
 
 		case R.id.stop: {
-			msg =robot.stop();
-			//msg = CommandUtil.driveMotorS(this, (byte) 0x80, (byte) 0x80);
+			robot.stop();
+			// msg = CommandUtil.driveMotorS(this, (byte) 0x80, (byte) 0x80);
 			break;
 		}
 
 		default:
 			break;
+
 		}
-		display.append("Me:" + msg + "\n");
+		msg = "left:" + robot.getLeftSpeed() + " Right:"
+				+ robot.getRightSpeed();
+		display.append("Robot Speed:" + msg + "\n");
 		// 投递一个消息进行滚动
 		handler.post(scrollToBottom);
 		// Toast.makeText(getApplicationContext(), msg,
 		// Toast.LENGTH_SHORT).show();
 
 	}
+
+
+
+	private OnKeyListener driveKeyListener = new OnKeyListener() {
+
+		public boolean onKey(View view, int keyCode, KeyEvent event) {
+			switch (event.getAction()) {
+			case KeyEvent.ACTION_DOWN: {
+				switch (keyCode) {
+				case R.id.left:
+				case R.id.right: {
+					robot.stop();
+				}
+					break;
+				}
+				display.append("down");
+			}
+				break;
+			case KeyEvent.ACTION_UP: {
+				switch (keyCode) {
+				case R.id.up:
+				case R.id.down:
+					// robot.setSpeed((byte) 0x10, (byte) 0x10);
+					break;
+				case R.id.left:
+				case R.id.right: {
+					robot.stop();
+				}
+					break;
+				}
+				display.append("up");
+			}
+				break;
+			}
+			return false;
+		}
+
+	};
+
+	private OnClickListener driveClickListener = new OnClickListener() {
+
+		public void onClick(View view) {
+			switch (view.getId()) {
+			case R.id.left:
+			case R.id.right:
+			case R.id.stop:{
+				robot.stop();
+			}
+				break;
+			}
+			display.append("stop\n");
+			handler.post(scrollToBottom);
+		}
+	};
 
 	private Thread scrollToBottom = new Thread() {
 		@Override
@@ -227,13 +310,6 @@ public class ControllerActivity extends TabActivity {
 			if (off > 0) {
 				scrollView.scrollTo(0, off);
 			}
-		}
-	};
-
-	// 发送按钮
-	private OnClickListener driveListener = new OnClickListener() {
-		public void onClick(View v) {
-			dispatchMsg(v.getId());
 		}
 	};
 
