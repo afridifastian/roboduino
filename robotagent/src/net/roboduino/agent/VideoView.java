@@ -115,8 +115,8 @@ public class VideoView extends SurfaceView implements SurfaceHolder.Callback {
 		/* 设置Preview的尺寸 */
 		this.width = optimalSize.width;
 		this.height = optimalSize.height;
-	//	 parameters.setPreviewFrameRate(3);// 每秒3帧
-		 //parameters.set("jpeg-quality", 85);// 照片质量
+		// parameters.setPreviewFrameRate(3);// 每秒3帧
+		// parameters.set("jpeg-quality", 85);// 照片质量
 		parameters.setPreviewSize(this.width, this.height);
 		// parameters.setPreviewSize(320, 240);
 		// parameters.setPictureSize(320, 240);
@@ -135,20 +135,24 @@ public class VideoView extends SurfaceView implements SurfaceHolder.Callback {
 		public byte[] yuv420sp = null;
 
 		public void onPreviewFrame(byte[] data, Camera camera) {
+			long now = System.currentTimeMillis();
+			if (VideoConstant.TIME + VideoConstant.INTERVAL <= now) {
+				PlanarYUVLuminanceSource source = new PlanarYUVLuminanceSource(
+						data, width, height, 0, 0, VideoConstant.WIDTH,
+						VideoConstant.HEIGHT);
+				yuv420sp = data;
+			//	 logger.info("viedeo datalength:{}", data.length);
+				// IoBuffer buffer = IoBuffer.allocate(499584);
+				IoBuffer buffer = IoBuffer.allocate(VideoConstant.SIZE);
+				// IoBuffer buffer = IoBuffer.allocate(4);
+				buffer.setAutoExpand(true);
+				buffer.put(source.getMatrix());
+				buffer.flip();
+				// 做一个阻塞式队列发送，
+				UDPServer.broadcast(buffer);
+				VideoConstant.TIME = now;
+			}
 
-			PlanarYUVLuminanceSource source = new PlanarYUVLuminanceSource(
-					data, width, height, 0, 0, VideoConstant.WIDTH,
-					VideoConstant.HEIGHT);
-			yuv420sp = data;
-			// logger.info("viedeo datalength:{}", data.length);
-			// IoBuffer buffer = IoBuffer.allocate(499584);
-			IoBuffer buffer = IoBuffer.allocate(VideoConstant.SIZE);
-			// IoBuffer buffer = IoBuffer.allocate(4);
-			buffer.setAutoExpand(true);
-			buffer.put(source.getMatrix());
-			buffer.flip();
-			// 做一个阻塞式队列发送，
-			UDPServer.broadcast(buffer);
 		}
 	}
 }

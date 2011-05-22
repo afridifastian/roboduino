@@ -11,7 +11,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import android.app.Activity;
-import android.app.Application;
 import android.app.TabActivity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -171,26 +170,26 @@ public class AgentActivity extends TabActivity {
 		String msg = "no msg";
 		switch (id) {
 		case R.id.up: {
-			msg = CommandUtil.driveMotorS(this, deviceAddress, (byte) 0xff,
-					(byte) 0xff);
+			msg = CommandUtil.driveMotorS(this, deviceAddress, (byte) 0xbf,
+					(byte) 0xbf);
 			break;
 		}
 
 		case R.id.down: {
-			msg = CommandUtil.driveMotorS(this, deviceAddress, (byte) 0x00,
-					(byte) 0x00);
+			msg = CommandUtil.driveMotorS(this, deviceAddress, (byte) 0x30,
+					(byte) 0x30);
 			break;
 		}
 
 		case R.id.left: {
-			msg = CommandUtil.driveMotorS(this, deviceAddress, (byte) 0x00,
-					(byte) 0xff);
+			msg = CommandUtil.driveMotorS(this, deviceAddress, (byte) 0x30,
+					(byte) 0xbf);
 			break;
 		}
 
 		case R.id.right: {
-			msg = CommandUtil.driveMotorS(this, deviceAddress, (byte) 0xff,
-					(byte) 0x00);
+			msg = CommandUtil.driveMotorS(this, deviceAddress, (byte) 0xbf,
+					(byte) 0x30);
 			break;
 		}
 
@@ -203,6 +202,40 @@ public class AgentActivity extends TabActivity {
 		default:
 			break;
 		}
+//		switch (id) {
+//		case R.id.up: {
+//			msg = CommandUtil.driveMotorS(this, deviceAddress, (byte) 0xff,
+//					(byte) 0xff);
+//			break;
+//		}
+//
+//		case R.id.down: {
+//			msg = CommandUtil.driveMotorS(this, deviceAddress, (byte) 0x00,
+//					(byte) 0x00);
+//			break;
+//		}
+//
+//		case R.id.left: {
+//			msg = CommandUtil.driveMotorS(this, deviceAddress, (byte) 0x00,
+//					(byte) 0xff);
+//			break;
+//		}
+//
+//		case R.id.right: {
+//			msg = CommandUtil.driveMotorS(this, deviceAddress, (byte) 0xff,
+//					(byte) 0x00);
+//			break;
+//		}
+//
+//		case R.id.stop: {
+//			msg = CommandUtil.driveMotorS(this, deviceAddress, (byte) 0x80,
+//					(byte) 0x80);
+//			break;
+//		}
+//
+//		default:
+//			break;
+//		}
 		display.append("Me:" + msg + "\n");
 		// 投递一个消息进行滚动
 		handler.post(scrollToBottom);
