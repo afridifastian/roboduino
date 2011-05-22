@@ -20,11 +20,15 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnKeyListener;
+import android.view.View.OnTouchListener;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -42,6 +46,7 @@ public class AgentActivity extends TabActivity {
 	private String deviceAddress;
 	private LinearLayout layout;
 	private ScrollView scrollView;
+	private Robot robot;
 
 	private Handler handler = new Handler();
 
@@ -85,9 +90,10 @@ public class AgentActivity extends TabActivity {
 		} catch (IOException e) {
 			logger.error(e.getMessage(), e);
 		}
-		display.setText("Address:" + TCPServer.getLocalIpAddress());
+		display.setText("Address:" + TCPServer.getLocalIpAddress() + "\n");
 		// Create our Preview view and set it as the content of our activity.
 		// preview = new Preview(this);
+		robot = new Robot();
 	}
 
 	public void onStart() {
@@ -108,21 +114,6 @@ public class AgentActivity extends TabActivity {
 		TCPServer.stop();
 		UDPServer.stop();
 	}
-
-	/** 创建控制台 */
-	private void buildDrive() {
-		ImageButton upBtn = (ImageButton) this.findViewById(R.id.up);
-		upBtn.setOnClickListener(driveListener);
-		ImageButton downBtn = (ImageButton) this.findViewById(R.id.down);
-		downBtn.setOnClickListener(driveListener);
-		ImageButton leftBtn = (ImageButton) this.findViewById(R.id.left);
-		leftBtn.setOnClickListener(driveListener);
-		ImageButton rightBtn = (ImageButton) this.findViewById(R.id.right);
-		rightBtn.setOnClickListener(driveListener);
-		ImageButton stopBtn = (ImageButton) this.findViewById(R.id.stop);
-		stopBtn.setOnClickListener(driveListener);
-	}
-
 	/** 创建tab list界面 */
 	private void buildTabView() {
 		TabHost tabHost = this.getTabHost();
@@ -155,6 +146,49 @@ public class AgentActivity extends TabActivity {
 		tabHost.setOnTabChangedListener(tabChangeListener);
 	}
 
+	/** 创建控制台 */
+	private void buildDrive() {
+		ImageButton upBtn = (ImageButton) this.findViewById(R.id.up);
+		// upBtn.setOnClickListener(driveClickListener);
+		// upBtn.setLongClickable(longClickable);
+		 upBtn.setOnTouchListener(onTouchListener);
+		//upBtn.setOnKeyListener(driveKeyListener);
+		ImageButton downBtn = (ImageButton) this.findViewById(R.id.down);
+		// downBtn.setOnClickListener(driveClickListener);
+		// downBtn.setOnKeyListener(driveKeyListener);
+		downBtn.setOnTouchListener(onTouchListener);
+		ImageButton leftBtn = (ImageButton) this.findViewById(R.id.left);
+		// leftBtn.setOnClickListener(driveClickListener);
+		// leftBtn.setOnKeyListener(driveKeyListener);
+		leftBtn.setOnTouchListener(onTouchListener);
+		leftBtn.setOnClickListener(driveClickListener);
+		ImageButton rightBtn = (ImageButton) this.findViewById(R.id.right);
+		// rightBtn.setOnClickListener(driveClickListener);
+		// rightBtn.setOnKeyListener(driveKeyListener);
+		rightBtn.setOnTouchListener(onTouchListener);
+		rightBtn.setOnClickListener(driveClickListener);
+		ImageButton stopBtn = (ImageButton) this.findViewById(R.id.stop);
+		stopBtn.setOnClickListener(driveClickListener);
+		// stopBtn.setOnClickListener(driveClickListener);
+		// stopBtn.setOnKeyListener(driveKeyListener);
+	}
+
+	private OnTouchListener onTouchListener = new OnTouchListener() {
+
+		public boolean onTouch(View view, MotionEvent event) {
+			switch (event.getAction()) {
+			case MotionEvent.ACTION_MOVE: {
+				dispatchMsg(view.getId());
+				break;
+			}
+			default:
+				break;
+			}
+			return false;
+		}
+	};
+
+	
 	/** 切换tab */
 	private OnTabChangeListener tabChangeListener = new OnTabChangeListener() {
 
@@ -169,74 +203,46 @@ public class AgentActivity extends TabActivity {
 	private void dispatchMsg(int id) {
 		String msg = "no msg";
 		switch (id) {
+
 		case R.id.up: {
-			msg = CommandUtil.driveMotorS(this, deviceAddress, (byte) 0xbf,
-					(byte) 0xbf);
+			robot.changeSpeed((byte) 0x01, (byte) 0x01);
+			// msg = CommandUtil.driveMotorS(this, (byte) 0xff, (byte) 0xff);
 			break;
 		}
 
 		case R.id.down: {
-			msg = CommandUtil.driveMotorS(this, deviceAddress, (byte) 0x30,
-					(byte) 0x30);
+			robot.changeSpeed((byte) (-0x01), (byte) (-0x01));
+			// msg = CommandUtil.driveMotorS(this, (byte) 0x00, (byte) 0x00);
 			break;
 		}
 
 		case R.id.left: {
-			msg = CommandUtil.driveMotorS(this, deviceAddress, (byte) 0x30,
-					(byte) 0xbf);
+			//robot.stop();
+			robot.changeSpeed((byte) (-0x01), (byte) (0x01));
+			// msg = CommandUtil.driveMotorS(this, (byte) 0x00, (byte) 0xff);
 			break;
 		}
 
 		case R.id.right: {
-			msg = CommandUtil.driveMotorS(this, deviceAddress, (byte) 0xbf,
-					(byte) 0x30);
+			//robot.stop();
+			robot.changeSpeed((byte) (0x01), (byte) (-0x01));
+			// msg = CommandUtil.driveMotorS(this, (byte) 0xff, (byte) 0x00);
 			break;
 		}
 
 		case R.id.stop: {
-			msg = CommandUtil.driveMotorS(this, deviceAddress, (byte) 0x80,
-					(byte) 0x80);
+			robot.stop();
+			// msg = CommandUtil.driveMotorS(this, (byte) 0x80, (byte) 0x80);
 			break;
 		}
 
 		default:
 			break;
+
 		}
-//		switch (id) {
-//		case R.id.up: {
-//			msg = CommandUtil.driveMotorS(this, deviceAddress, (byte) 0xff,
-//					(byte) 0xff);
-//			break;
-//		}
-//
-//		case R.id.down: {
-//			msg = CommandUtil.driveMotorS(this, deviceAddress, (byte) 0x00,
-//					(byte) 0x00);
-//			break;
-//		}
-//
-//		case R.id.left: {
-//			msg = CommandUtil.driveMotorS(this, deviceAddress, (byte) 0x00,
-//					(byte) 0xff);
-//			break;
-//		}
-//
-//		case R.id.right: {
-//			msg = CommandUtil.driveMotorS(this, deviceAddress, (byte) 0xff,
-//					(byte) 0x00);
-//			break;
-//		}
-//
-//		case R.id.stop: {
-//			msg = CommandUtil.driveMotorS(this, deviceAddress, (byte) 0x80,
-//					(byte) 0x80);
-//			break;
-//		}
-//
-//		default:
-//			break;
-//		}
-		display.append("Me:" + msg + "\n");
+		msg = "left:" + robot.getLeftSpeed() + " Right:"
+				+ robot.getRightSpeed();
+		display.append("Robot Speed:" + msg + "\n");
 		// 投递一个消息进行滚动
 		handler.post(scrollToBottom);
 		// Toast.makeText(getApplicationContext(), msg,
@@ -244,6 +250,59 @@ public class AgentActivity extends TabActivity {
 
 	}
 
+
+
+	private OnKeyListener driveKeyListener = new OnKeyListener() {
+
+		public boolean onKey(View view, int keyCode, KeyEvent event) {
+			switch (event.getAction()) {
+			case KeyEvent.ACTION_DOWN: {
+				switch (keyCode) {
+				case R.id.left:
+				case R.id.right: {
+					robot.stop();
+				}
+					break;
+				}
+				display.append("down");
+			}
+				break;
+			case KeyEvent.ACTION_UP: {
+				switch (keyCode) {
+				case R.id.up:
+				case R.id.down:
+					// robot.setSpeed((byte) 0x10, (byte) 0x10);
+					break;
+				case R.id.left:
+				case R.id.right: {
+					robot.stop();
+				}
+					break;
+				}
+				display.append("up");
+			}
+				break;
+			}
+			return false;
+		}
+
+	};
+
+	private OnClickListener driveClickListener = new OnClickListener() {
+
+		public void onClick(View view) {
+			switch (view.getId()) {
+			case R.id.left:
+			case R.id.right:
+			case R.id.stop:{
+				robot.stop();
+			}
+				break;
+			}
+			display.append("stop\n");
+			handler.post(scrollToBottom);
+		}
+	};
 	private Thread scrollToBottom = new Thread() {
 		@Override
 		public void run() {
@@ -254,14 +313,6 @@ public class AgentActivity extends TabActivity {
 			}
 		}
 	};
-
-	// 发送按钮
-	private OnClickListener driveListener = new OnClickListener() {
-		public void onClick(View v) {
-			dispatchMsg(v.getId());
-		}
-	};
-
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
