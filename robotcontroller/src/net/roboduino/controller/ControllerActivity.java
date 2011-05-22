@@ -2,6 +2,7 @@ package net.roboduino.controller;
 
 import net.roboduino.commons.VideoConstant;
 import net.roboduino.controller.socket.TCPClient;
+import net.roboduino.controller.socket.UDPClient;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,6 +38,7 @@ public class ControllerActivity extends TabActivity {
 	private LinearLayout layout;
 	private ScrollView scrollView;
 	private static ImageView imageView;
+	private Robot robot;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -64,6 +66,7 @@ public class ControllerActivity extends TabActivity {
 		display.setText("Address:" + TCPClient.getLocalIpAddress());
 		// Create our Preview view and set it as the content of our activity.
 		// preview = new Preview(this);
+		robot=new Robot();
 	}
 
 	private static Handler handler = new Handler() {
@@ -110,8 +113,9 @@ public class ControllerActivity extends TabActivity {
 
 	public void onDestroy() {
 		super.onDestroy();
-
+		robot.stop();
 		TCPClient.disconnect();
+		UDPClient.disconnect();
 	}
 
 	/** 创建控制台 */
@@ -175,32 +179,32 @@ public class ControllerActivity extends TabActivity {
 		String msg = "no msg";
 		switch (id) {
 		case R.id.up: {
-			msg = CommandUtil.driveMotorS(this, deviceAddress, (byte) 0xff,
-					(byte) 0xff);
+			msg =robot.changeSpeed((byte)0x10, (byte)0x10);
+			//msg = CommandUtil.driveMotorS(this, (byte) 0xff, (byte) 0xff);
 			break;
 		}
 
 		case R.id.down: {
-			msg = CommandUtil.driveMotorS(this, deviceAddress, (byte) 0x00,
-					(byte) 0x00);
+			msg =robot.changeSpeed((byte)(-0x10), (byte)(-0x10));
+			//msg = CommandUtil.driveMotorS(this, (byte) 0x00, (byte) 0x00);
 			break;
 		}
 
 		case R.id.left: {
-			msg = CommandUtil.driveMotorS(this, deviceAddress, (byte) 0x00,
-					(byte) 0xff);
+			msg =robot.changeSpeed((byte)(-0x10), (byte)(0x10));
+			//msg = CommandUtil.driveMotorS(this, (byte) 0x00, (byte) 0xff);
 			break;
 		}
 
 		case R.id.right: {
-			msg = CommandUtil.driveMotorS(this, deviceAddress, (byte) 0xff,
-					(byte) 0x00);
+			msg =robot.changeSpeed((byte)(0x10), (byte)(-0x10));
+			//msg = CommandUtil.driveMotorS(this, (byte) 0xff, (byte) 0x00);
 			break;
 		}
 
 		case R.id.stop: {
-			msg = CommandUtil.driveMotorS(this, deviceAddress, (byte) 0x80,
-					(byte) 0x80);
+			msg =robot.stop();
+			//msg = CommandUtil.driveMotorS(this, (byte) 0x80, (byte) 0x80);
 			break;
 		}
 
