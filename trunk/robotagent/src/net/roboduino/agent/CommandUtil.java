@@ -35,7 +35,7 @@ public class CommandUtil {
 		IoBuffer buffer = IoBuffer.allocate(length);// 指定初始化容量
 		//buffer.setAutoExpand(true);// 为自动扩展容量
 		msg.serialize(buffer);
-	//	logger.info(buffer.getHexDump());//print the hex data
+		//logger.info(buffer.getHexDump());//print the hex data
 		buffer.flip();// 对position和limit进行移动，否则缓冲区的position
 		byte[] bytes = new byte[length];
 		buffer.get(bytes);
