@@ -1,5 +1,6 @@
 package net.roboduino.controller;
 
+import net.roboduino.commons.VideoConstant;
 import net.roboduino.controller.socket.TCPClient;
 
 import org.slf4j.Logger;
@@ -9,8 +10,10 @@ import android.app.Activity;
 import android.app.TabActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,6 +21,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TabHost;
@@ -32,8 +36,7 @@ public class ControllerActivity extends TabActivity {
 	private String deviceAddress;
 	private LinearLayout layout;
 	private ScrollView scrollView;
-
-	private Handler handler = new Handler();
+	private static ImageView imageView;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -49,8 +52,9 @@ public class ControllerActivity extends TabActivity {
 				Constant.DEFAULT_DEVICE_ADDRESS);
 
 		display = (TextView) this.findViewById(R.id.display_windows);
-		layout = (LinearLayout) findViewById(R.id.tab1_layout);
-		scrollView = (ScrollView) findViewById(R.id.tab1);
+		layout = (LinearLayout) this.findViewById(R.id.tab1_layout);
+		scrollView = (ScrollView) this.findViewById(R.id.tab1);
+		imageView = (ImageView) this.findViewById(R.id.tab2);
 		this.buildDrive();
 		this.buildTabView();
 
@@ -60,6 +64,38 @@ public class ControllerActivity extends TabActivity {
 		display.setText("Address:" + TCPClient.getLocalIpAddress());
 		// Create our Preview view and set it as the content of our activity.
 		// preview = new Preview(this);
+	}
+
+	private static Handler handler = new Handler() {
+		public void handleMessage(Message msg) {
+			switch (msg.what) {
+
+			case Constant.MSG_VIEDEO_DATA: { // save the connected
+				byte[] yuvData = msg.getData().getByteArray(
+						Constant.VIEDEO_DATA); // device's name
+				// 显示灰度图
+				// Bitmap bitmap = GraphicsUtil.renderCroppedGreyscaleBitmap(
+				// yuvData, 0, 0, VideoConstant.WIDTH, VideoConstant.HEIGHT);
+				//
+				Bitmap bitmap = GraphicsUtil.renderCroppedGreyscaleBitmap(
+						yuvData, 0, 0, VideoConstant.WIDTH,
+						VideoConstant.HEIGHT);
+
+				imageView.setImageBitmap(bitmap);
+				break;
+			}
+
+			}
+		}
+	};
+
+	public static void refreshVideo(byte[] yuvData) {
+		Message msg = handler.obtainMessage(Constant.MSG_VIEDEO_DATA);
+		Bundle bundle = new Bundle();
+		bundle.putByteArray(Constant.VIEDEO_DATA, yuvData);
+		msg.setData(bundle);
+		handler.sendMessage(msg);
+
 	}
 
 	public void onStart() {

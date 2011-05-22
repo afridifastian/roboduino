@@ -1,6 +1,7 @@
 package net.roboduino.controller;
 
 import net.roboduino.controller.socket.TCPClient;
+import net.roboduino.controller.socket.UDPClient;
 
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -55,7 +56,7 @@ public class PreferencesActivity extends PreferenceActivity {
 					try {
 						TCPClient.connect(addressPreference.getText(), 9600);
 					} catch (InterruptedException e) {
-						logger.error(e.getMessage(),e);
+						logger.error(e.getMessage(), e);
 					}
 					// 处理tcp连接
 				} else {
@@ -66,9 +67,16 @@ public class PreferencesActivity extends PreferenceActivity {
 			} else if (StringUtils.equals(preference.getKey(), "udp_connect")) {
 				if ((Boolean) obj) {
 					preference.setSummary(R.string.connected);
+					UDPClient.init();
+					try {
+						UDPClient.connect(addressPreference.getText(), 9800);
+					} catch (InterruptedException e) {
+						logger.error(e.getMessage(), e);
+					}
 					// 处理udp连接
 				} else {
 					// 处理udp断开
+					UDPClient.disconnect();
 					preference.setSummary(R.string.disconnected);
 				}
 			}

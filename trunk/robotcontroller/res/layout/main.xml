@@ -37,17 +37,21 @@
 				android:layout_width="fill_parent" android:layout_height="wrap_content" />
 			<FrameLayout android:layout_width="fill_parent"
 				android:layout_height="fill_parent" android:id="@android:id/tabcontent">
-				<ScrollView android:id="@+id/tab1"
-					android:layout_width="fill_parent" android:layout_height="fill_parent">
-					<LinearLayout android:id="@+id/tab1_layout" android:orientation="vertical"
-						android:layout_width="fill_parent" android:layout_height="fill_parent">
+				<ScrollView android:id="@+id/tab1" android:layout_width="fill_parent"
+					android:layout_height="fill_parent">
+					<LinearLayout android:id="@+id/tab1_layout"
+						android:orientation="vertical" android:layout_width="fill_parent"
+						android:layout_height="fill_parent">
 						<TextView android:id="@+id/display_windows"
 							android:layout_width="fill_parent" android:layout_height="fill_parent"
 							android:textColor="@color/green">
 						</TextView>
 					</LinearLayout>
 				</ScrollView>
-				<net.roboduino.controller.VideoView android:id="@+id/tab2" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+				<ImageView android:id="@+id/tab2" android:layout_width="fill_parent"
+					android:layout_height="fill_parent"></ImageView>
+				<!--<net.roboduino.controller.VideoView android:id="@+id/tab2" android:layout_width="fill_parent" 
+					android:layout_height="fill_parent" /> -->
 				<TextView android:id="@+id/tab3" android:layout_width="fill_parent"
 					android:layout_height="fill_parent" android:transcriptMode="alwaysScroll"
 					android:textColor="@color/green">
