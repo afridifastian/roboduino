@@ -3,6 +3,10 @@ package net.roboduino.agent;
 import java.io.IOException;
 import java.util.List;
 
+import net.roboduino.agent.socket.UDPServer;
+import net.roboduino.commons.VideoConstant;
+
+import org.apache.mina.core.buffer.IoBuffer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,10 +18,15 @@ import android.util.AttributeSet;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import com.google.zxing.Android.PlanarYUVLuminanceSource;
+
 public class VideoView extends SurfaceView implements SurfaceHolder.Callback {
-	private static final Logger logger = LoggerFactory.getLogger(VideoView.class);
+	private static final Logger logger = LoggerFactory
+			.getLogger(VideoView.class);
 	private SurfaceHolder holder;
 	private Camera camera;
+	private int width;
+	private int height;
 
 	VideoView(Context context) {
 		this(context, (AttributeSet) null);
@@ -30,7 +39,7 @@ public class VideoView extends SurfaceView implements SurfaceHolder.Callback {
 		holder = getHolder();
 		holder.addCallback(this);
 		holder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
-		// this.setKeepScreenOn(true);// 保持屏幕常亮  
+		// this.setKeepScreenOn(true);// 保持屏幕常亮
 	}
 
 	public void surfaceCreated(SurfaceHolder holder) {
@@ -43,7 +52,6 @@ public class VideoView extends SurfaceView implements SurfaceHolder.Callback {
 			camera.release();
 			camera = null;
 			logger.error(e.getMessage(), e);
-			// TODO: add more exception handling logic here
 		}
 	}
 
@@ -51,6 +59,7 @@ public class VideoView extends SurfaceView implements SurfaceHolder.Callback {
 		// Surface will be destroyed when we return, so stop the preview.
 		// Because the CameraDevice object is not a shared resource, it's very
 		// important to release it when the activity is paused.
+		camera.setPreviewCallback(null);
 		camera.stopPreview();
 		camera.release();
 		camera = null;
@@ -97,16 +106,49 @@ public class VideoView extends SurfaceView implements SurfaceHolder.Callback {
 		// the preview.
 		/* 构建Camera.Parameters对相机的参数进行设置 */
 		Camera.Parameters parameters = camera.getParameters();
+		// parameters.setPreviewSize(width, height);
+		// parameters.setJpegQuality(100);// 图像质量
 		/* 设置拍照的图片格式 */
 		parameters.setPictureFormat(PixelFormat.JPEG);
 		List<Size> sizes = parameters.getSupportedPreviewSizes();
 		Size optimalSize = getOptimalPreviewSize(sizes, width, height);
 		/* 设置Preview的尺寸 */
-		parameters.setPreviewSize(optimalSize.width, optimalSize.height);
+		this.width = optimalSize.width;
+		this.height = optimalSize.height;
+	//	 parameters.setPreviewFrameRate(3);// 每秒3帧
+		 //parameters.set("jpeg-quality", 85);// 照片质量
+		parameters.setPreviewSize(this.width, this.height);
+		// parameters.setPreviewSize(320, 240);
+		// parameters.setPictureSize(320, 240);
+		// parameters.setPreviewFrameRate(1);// //帧率30，即一秒钟播放30帧，1/30秒播放一帧
+
+		StreamIt streamIt = new StreamIt();
+		camera.setPreviewCallback(streamIt);// Android的拍照视频预览时就可以截取视频数据。每获得一帧就调用一下接口函数。
 		/* 设置相机采用parameters */
 		camera.setParameters(parameters);
+
 		/* 开始预览 */
 		camera.startPreview();
 	}
 
+	class StreamIt implements Camera.PreviewCallback {
+		public byte[] yuv420sp = null;
+
+		public void onPreviewFrame(byte[] data, Camera camera) {
+
+			PlanarYUVLuminanceSource source = new PlanarYUVLuminanceSource(
+					data, width, height, 0, 0, VideoConstant.WIDTH,
+					VideoConstant.HEIGHT);
+			yuv420sp = data;
+			// logger.info("viedeo datalength:{}", data.length);
+			// IoBuffer buffer = IoBuffer.allocate(499584);
+			IoBuffer buffer = IoBuffer.allocate(VideoConstant.SIZE);
+			// IoBuffer buffer = IoBuffer.allocate(4);
+			buffer.setAutoExpand(true);
+			buffer.put(source.getMatrix());
+			buffer.flip();
+			// 做一个阻塞式队列发送，
+			UDPServer.broadcast(buffer);
+		}
+	}
 }

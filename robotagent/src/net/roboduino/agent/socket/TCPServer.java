@@ -39,7 +39,7 @@ public class TCPServer {
 
 	public static void bind(int port) throws IOException {
 		acceptor.bind(new InetSocketAddress(port));
-		logger.info("The listen port is listening:{}", port);
+		logger.info("The TCP listen port is listening:{}", port);
 	}
 
 	public static void stop() {

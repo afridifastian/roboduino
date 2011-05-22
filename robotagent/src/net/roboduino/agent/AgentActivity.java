@@ -3,6 +3,7 @@ package net.roboduino.agent;
 import java.io.IOException;
 
 import net.roboduino.agent.socket.TCPServer;
+import net.roboduino.agent.socket.UDPServer;
 import net.roboduino.commons.BaseMsg;
 
 import org.apache.commons.lang.ArrayUtils;
@@ -57,7 +58,7 @@ public class AgentActivity extends TabActivity {
 				.getDefaultSharedPreferences(this);
 		deviceAddress = prefs.getString(BlueToothConstant.PREF_DEVICE_ADDRESS,
 				BlueToothConstant.DEVICE_ADDRESS);
-		BlueToothConstant.DEVICE_ADDRESS=deviceAddress;
+		BlueToothConstant.DEVICE_ADDRESS = deviceAddress;
 		display = (TextView) this.findViewById(R.id.display_windows);
 		layout = (LinearLayout) findViewById(R.id.tab1_layout);
 		scrollView = (ScrollView) findViewById(R.id.tab1);
@@ -78,7 +79,14 @@ public class AgentActivity extends TabActivity {
 		} catch (IOException e) {
 			logger.error(e.getMessage(), e);
 		}
-		display.setText("Address:"+TCPServer.getLocalIpAddress());
+		logger.info("Agent UDP server start....");
+		UDPServer.init();
+		try {
+			UDPServer.bind(9800);
+		} catch (IOException e) {
+			logger.error(e.getMessage(), e);
+		}
+		display.setText("Address:" + TCPServer.getLocalIpAddress());
 		// Create our Preview view and set it as the content of our activity.
 		// preview = new Preview(this);
 	}
@@ -99,6 +107,7 @@ public class AgentActivity extends TabActivity {
 		// do never forget to unregister a registered receiver
 		this.unregisterReceiver(arduinoReceiver);
 		TCPServer.stop();
+		UDPServer.stop();
 	}
 
 	/** 创建控制台 */
